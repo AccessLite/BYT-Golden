@@ -11,6 +11,12 @@
 		14CFEBFF1E3431F700BD46CF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14CFEBFC1E3431F700BD46CF /* AppDelegate.swift */; };
 		14CFEC001E3431F700BD46CF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 14CFEBFD1E3431F700BD46CF /* Assets.xcassets */; };
 		14CFEC011E3431F700BD46CF /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 14CFEBFE1E3431F700BD46CF /* Info.plist */; };
+		14CFEC0A1E34346F00BD46CF /* FoaasProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14CFEC091E34346F00BD46CF /* FoaasProtocols.swift */; };
+		14CFEC0E1E3435BE00BD46CF /* FoaasBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14CFEC0D1E3435BE00BD46CF /* FoaasBuilder.swift */; };
+		14CFEC131E34363300BD46CF /* Foaas.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14CFEC0F1E34363300BD46CF /* Foaas.swift */; };
+		14CFEC141E34363300BD46CF /* FoaasField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14CFEC101E34363300BD46CF /* FoaasField.swift */; };
+		14CFEC151E34363300BD46CF /* FoaasOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14CFEC111E34363300BD46CF /* FoaasOperation.swift */; };
+		14CFEC161E34363300BD46CF /* FoaasTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14CFEC121E34363300BD46CF /* FoaasTemplate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -19,6 +25,12 @@
 		14CFEBFC1E3431F700BD46CF /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = "Supporting Files/AppDelegate.swift"; sourceTree = "<group>"; };
 		14CFEBFD1E3431F700BD46CF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = "Supporting Files/Assets.xcassets"; sourceTree = "<group>"; };
 		14CFEBFE1E3431F700BD46CF /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = "Supporting Files/Info.plist"; sourceTree = "<group>"; };
+		14CFEC091E34346F00BD46CF /* FoaasProtocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FoaasProtocols.swift; path = Utility/FoaasProtocols.swift; sourceTree = "<group>"; };
+		14CFEC0D1E3435BE00BD46CF /* FoaasBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FoaasBuilder.swift; path = Utility/FoaasBuilder.swift; sourceTree = "<group>"; };
+		14CFEC0F1E34363300BD46CF /* Foaas.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Foaas.swift; path = Models/Foaas.swift; sourceTree = "<group>"; };
+		14CFEC101E34363300BD46CF /* FoaasField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FoaasField.swift; path = Models/FoaasField.swift; sourceTree = "<group>"; };
+		14CFEC111E34363300BD46CF /* FoaasOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FoaasOperation.swift; path = Models/FoaasOperation.swift; sourceTree = "<group>"; };
+		14CFEC121E34363300BD46CF /* FoaasTemplate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FoaasTemplate.swift; path = Models/FoaasTemplate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,6 +63,11 @@
 		14CFEBE81E3430C600BD46CF /* BYT */ = {
 			isa = PBXGroup;
 			children = (
+				14CFEC041E3432C700BD46CF /* Managers */,
+				14CFEC031E3432BF00BD46CF /* Models */,
+				14CFEC061E3432E300BD46CF /* Utility */,
+				14CFEC021E3432B000BD46CF /* Views */,
+				14CFEC051E3432D100BD46CF /* View Controllers */,
 				14CFEBFB1E34311000BD46CF /* Supporting Files */,
 			);
 			path = BYT;
@@ -65,6 +82,47 @@
 				14CFEBF21E3430C600BD46CF /* LaunchScreen.storyboard */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		14CFEC021E3432B000BD46CF /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		14CFEC031E3432BF00BD46CF /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				14CFEC0F1E34363300BD46CF /* Foaas.swift */,
+				14CFEC101E34363300BD46CF /* FoaasField.swift */,
+				14CFEC111E34363300BD46CF /* FoaasOperation.swift */,
+				14CFEC121E34363300BD46CF /* FoaasTemplate.swift */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+		14CFEC041E3432C700BD46CF /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Managers;
+			sourceTree = "<group>";
+		};
+		14CFEC051E3432D100BD46CF /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "View Controllers";
+			sourceTree = "<group>";
+		};
+		14CFEC061E3432E300BD46CF /* Utility */ = {
+			isa = PBXGroup;
+			children = (
+				14CFEC0D1E3435BE00BD46CF /* FoaasBuilder.swift */,
+				14CFEC091E34346F00BD46CF /* FoaasProtocols.swift */,
+			);
+			name = Utility;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -139,6 +197,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				14CFEC151E34363300BD46CF /* FoaasOperation.swift in Sources */,
+				14CFEC161E34363300BD46CF /* FoaasTemplate.swift in Sources */,
+				14CFEC131E34363300BD46CF /* Foaas.swift in Sources */,
+				14CFEC141E34363300BD46CF /* FoaasField.swift in Sources */,
+				14CFEC0E1E3435BE00BD46CF /* FoaasBuilder.swift in Sources */,
+				14CFEC0A1E34346F00BD46CF /* FoaasProtocols.swift in Sources */,
 				14CFEBFF1E3431F700BD46CF /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -252,6 +316,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = "$(SRCROOT)/BYT/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -265,6 +331,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = "$(SRCROOT)/BYT/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
