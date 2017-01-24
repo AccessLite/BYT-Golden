@@ -122,11 +122,13 @@ class FoaasPrevewViewController: UIViewController, UITextFieldDelegate {
         return
       }
       
-      DispatchQueue.main.async {
+      self.foaasPreviewView.updateLabel(text: validFoaas.message + "\n" + validFoaas.subtitle)
+      
+//      DispatchQueue.main.async {
         // TODO update text, update textfield size
 //        self.previewTextView.text = validFoaas.message + "\n" + validFoaas.subtitle
 //        self.updateTextFieldHeight(animated: true)
-      }
+//      }
     })
   }
   

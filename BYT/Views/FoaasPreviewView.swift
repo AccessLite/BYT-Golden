@@ -15,6 +15,7 @@ class FoaasPreviewView: UIView {
   private var scrollviewBottomConstraint: NSLayoutConstraint? = nil
   private var previewTextViewHeightConstraint: NSLayoutConstraint? = nil
   private var slidingTextFieldBottomConstraint: NSLayoutConstraint? = nil
+  private var scrollViewHeightAnchor: (min: NSLayoutConstraint, max:NSLayoutConstraint)? = nil
   
   override init(frame: CGRect) {
     super.init(frame: frame)
@@ -36,6 +37,13 @@ class FoaasPreviewView: UIView {
     
     scrollviewBottomConstraint = scrollView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
     previewTextViewHeightConstraint = previewTextView.heightAnchor.constraint(equalToConstant: 200.0)
+    
+    let scrollMin = scrollView.heightAnchor.constraint(equalTo: self.heightAnchor)
+    let scrollMax = scrollView.heightAnchor.constraint(lessThanOrEqualTo: self.heightAnchor)
+    scrollMin.priority = 750.0
+    scrollMax.priority = 1000.0
+    scrollViewHeightAnchor = (scrollMin, scrollMax)
+    
     let _ = [
       // preview label
       previewLabel.leadingAnchor.constraint(equalTo: self.scrollView.leadingAnchor, constant: 16.0),
@@ -47,7 +55,9 @@ class FoaasPreviewView: UIView {
       scrollView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
       scrollviewBottomConstraint!,
       scrollView.widthAnchor.constraint(equalTo: self.widthAnchor),
-      scrollView.heightAnchor.constraint(equalTo: self.heightAnchor),
+//      scrollView.heightAnchor.constraint(equalTo: self.heightAnchor),
+      scrollViewHeightAnchor!.min,
+      scrollViewHeightAnchor!.max,
       
       // preview text view
       previewTextView.topAnchor.constraint(equalTo: previewLabel.bottomAnchor, constant: 8.0),
@@ -125,6 +135,23 @@ class FoaasPreviewView: UIView {
     })
   }
   
+  private func updateTextViewHeightClosure(animated: Bool = true) -> ((Bool) -> Void) {
+    return { animated in
+      let textContainterInsets = self.previewTextView.textContainerInset
+      let usedRect = self.previewTextView.layoutManager.usedRect(for: self.previewTextView.textContainer)
+      
+      self.previewTextViewHeightConstraint?.constant = usedRect.size.height + textContainterInsets.top + textContainterInsets.bottom
+      // TODO: ensure that after typing, if additional lines are added that the textfield expands to accomodate this as well
+      //    self.previewTextView.textContainer.heightTracksTextView = true
+      
+      if !animated { return }
+      UIView.animate(withDuration: 0.001, animations: {
+        self.previewTextView.layoutIfNeeded()
+      })
+
+    }
+  }
+  
   
   // MARK: - Keyboard Notification
   private func registerForNotifications() {
@@ -160,6 +187,15 @@ class FoaasPreviewView: UIView {
   }
   
   
+  // MARK: - Updating Labels
+  internal func updateLabel(text: String) {
+    DispatchQueue.main.async {
+      self.previewTextView.text = text
+      self.updateTextViewdHeight(animated: true)
+    }
+  }
+  
+  
   // MARK: - Lazy Inits
   internal lazy var previewLabel: UILabel = {
     let label: UILabel = UILabel()
@@ -177,6 +213,7 @@ class FoaasPreviewView: UIView {
   internal lazy var scrollView: UIScrollView = {
     let scroll: UIScrollView = UIScrollView()
     scroll.keyboardDismissMode = .onDrag
+    scroll.alwaysBounceVertical = true
     return scroll
   }()
   
