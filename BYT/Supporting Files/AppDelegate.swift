@@ -15,7 +15,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-    // Override point for customization after application launch.
+    
+    let navigationVC = FoaasNavigationController(rootViewController: FoaasViewController())
+    self.window = UIWindow(frame: UIScreen.main.bounds)
+    self.window?.rootViewController = navigationVC
+    self.window?.makeKeyAndVisible()
+    
+    FoaasDataManager.shared.requestOperations { (operations: [FoaasOperation]?) in
+      if operations != nil {
+        print("Loaded operations")
+        
+        for op in operations! {
+          let builder = FoaasPathBuilder(operation: op)
+          
+          builder.update(key: "from", value: "From Cat")
+          builder.update(key: "name", value: "Name Cat")
+          print(builder.build())
+        }
+      }
+    }
+    
     return true
   }
 
