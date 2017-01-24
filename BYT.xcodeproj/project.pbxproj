@@ -25,6 +25,7 @@
 		14CFEC481E37088A00BD46CF /* FoaasPreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14CFEC471E37088A00BD46CF /* FoaasPreviewViewController.swift */; };
 		14CFEC4A1E3708C300BD46CF /* FoaasTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14CFEC491E3708C300BD46CF /* FoaasTextField.swift */; };
 		14CFEC4C1E3709A700BD46CF /* FoaasNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14CFEC4B1E3709A700BD46CF /* FoaasNavigationController.swift */; };
+		14CFEC4E1E37E86700BD46CF /* FoaasPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14CFEC4D1E37E86700BD46CF /* FoaasPreviewView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -48,6 +49,7 @@
 		14CFEC471E37088A00BD46CF /* FoaasPreviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FoaasPreviewViewController.swift; path = "View Controllers/FoaasPreviewViewController.swift"; sourceTree = "<group>"; };
 		14CFEC491E3708C300BD46CF /* FoaasTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FoaasTextField.swift; path = Views/FoaasTextField.swift; sourceTree = "<group>"; };
 		14CFEC4B1E3709A700BD46CF /* FoaasNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FoaasNavigationController.swift; path = "View Controllers/FoaasNavigationController.swift"; sourceTree = "<group>"; };
+		14CFEC4D1E37E86700BD46CF /* FoaasPreviewView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FoaasPreviewView.swift; path = Views/FoaasPreviewView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,6 +109,7 @@
 				14CFEC411E3705E800BD46CF /* FoaasView.swift */,
 				14CFEC451E37083400BD46CF /* FoaasOperationTableViewCell.swift */,
 				14CFEC491E3708C300BD46CF /* FoaasTextField.swift */,
+				14CFEC4D1E37E86700BD46CF /* FoaasPreviewView.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -237,6 +240,7 @@
 				14CFEC4A1E3708C300BD46CF /* FoaasTextField.swift in Sources */,
 				14CFEBFF1E3431F700BD46CF /* AppDelegate.swift in Sources */,
 				14CFEC481E37088A00BD46CF /* FoaasPreviewViewController.swift in Sources */,
+				14CFEC4E1E37E86700BD46CF /* FoaasPreviewView.swift in Sources */,
 				14CFEC191E34394D00BD46CF /* FoaasAPIManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

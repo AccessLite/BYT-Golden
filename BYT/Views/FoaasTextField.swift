@@ -17,6 +17,7 @@ class FoaasTextField: UIView, UITextFieldDelegate {
   internal final var textField: UITextField!
   internal final var textLabel: UILabel!
   private var textLabelPlaceholder: String!
+  internal var identifier: String = ""
   
   let largeLabelFont = UIFont.systemFont(ofSize: 24.0)
   let smallLabelFont = UIFont.systemFont(ofSize: 12.0)
