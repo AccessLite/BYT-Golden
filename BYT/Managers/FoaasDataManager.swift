@@ -12,7 +12,8 @@ internal class FoaasDataManager {
   private static let operationsKey: String = "FoaasOperationsKey"
   private static let defaults = UserDefaults.standard
   internal private(set) var operations: [FoaasOperation]?
-  
+    
+  static let foaasURL = URL(string: "http://www.foaas.com/awesome/Someone")
   
   // MARK: Singleton
   internal static let shared: FoaasDataManager = FoaasDataManager()
@@ -79,5 +80,29 @@ internal class FoaasDataManager {
     FoaasDataManager.defaults.removeObject(forKey: FoaasDataManager.operationsKey)
     self.operations = nil
   }
+    
+    internal func requestFoaas(url: URL, _ operations: @escaping (Foaas?) -> Void) {
+        FoaasAPIManager.getFoaas(url: url) { (foaas: Foaas?) in
+            operations(foaas)
+        }
+    }
+    
+    internal func requestData(endpoint: String, _ operations: @escaping (Data?) -> Void) {
+        FoaasAPIManager.getData(endpoint: endpoint) { (data: Data?) in
+            operations(data)
+        }
+    }
+    
+    internal func requestColorSchemeData(endpoint: String, _ operations: @escaping (Data?) -> Void) {
+        FoaasAPIManager.getData(endpoint: endpoint) { (data: Data?) in
+            operations(data)
+        }
+    }
+    
+    internal func requestVersionData(endpoint: String, _ operations: @escaping (Data?) -> Void) {
+        FoaasAPIManager.getData(endpoint: endpoint) { (data: Data?) in
+            operations(data)
+        }
+    }
   
 }

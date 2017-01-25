@@ -38,65 +38,10 @@ class FoaasPrevewViewController: UIViewController, UITextFieldDelegate {
       foaasPreviewView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: 0.0),
       foaasPreviewView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0.0),
       ].map { $0.isActive = true }
-    
-  }
-  
-  
-  // TODO: test if working in preview view
-  // MARK: - Keyboard Notification
-//  private func registerForNotifications() {
-//    NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidAppear(notification:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-//    
-//    NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillDisappear(notification:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
-//  }
-//  
-//  deinit {
-//    NotificationCenter.default.removeObserver(self)
-//  }
-//  
-//  internal func keyboardDidAppear(notification: Notification) {
-//    self.shouldShowKeyboard(show: true, notification: notification, completion: nil)
-//  }
-//  
-//  internal func keyboardWillDisappear(notification: Notification) {
-//    self.shouldShowKeyboard(show: false, notification: notification, completion: nil)
-//  }
-//  
-//  private func shouldShowKeyboard(show: Bool, notification: Notification, completion: ((Bool) -> Void)? ) {
-//    if let keyboardFrame = notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? CGRect,
-//      let animationNumber = notification.userInfo?[UIKeyboardAnimationCurveUserInfoKey] as? NSNumber,
-//      let animationDuration = notification.userInfo?[UIKeyboardAnimationDurationUserInfoKey] as? TimeInterval {
-//      let animationOption = UIViewAnimationOptions(rawValue: animationNumber.uintValue)
-//      
-//      scrollViewBottomConstraint.constant = keyboardFrame.size.height * (show ? 1 : -1)
-//      UIView.animate(withDuration: animationDuration, delay: 0.0, options: animationOption, animations: {
-//        self.view.layoutIfNeeded()
-//      }, completion: completion)
-//      
-//    }
-//  }
-  
-  
-  // TODO: make sure working in previewView
-  private func updateTextFieldHeight(animated: Bool) {
-//    let textContainterInsets = self.previewTextView.textContainerInset
-//    let usedRect = self.previewTextView.layoutManager.usedRect(for: self.previewTextView.textContainer)
-//    
-//    self.previewTextViewHeightConstraint.constant = usedRect.size.height + textContainterInsets.top + textContainterInsets.bottom
-//    // TODO: ensure that after typing, if additional lines are added that the textfield expands to accomodate this as well
-//    //    self.previewTextView.textContainer.heightTracksTextView = true
-//    
-//    if !animated { return }
-//    UIView.animate(withDuration: 0.2, animations: {
-//      self.view.layoutIfNeeded()
-//    })
   }
   
   
   // MARK: - Actions
-  @IBAction func didPressDone(_ sender: UIBarButtonItem) {
-    self.dismiss(animated: true, completion: nil)
-  }
   
   
   // MARK: - Other
@@ -123,12 +68,6 @@ class FoaasPrevewViewController: UIViewController, UITextFieldDelegate {
       }
       
       self.foaasPreviewView.updateLabel(text: validFoaas.message + "\n" + validFoaas.subtitle)
-      
-//      DispatchQueue.main.async {
-        // TODO update text, update textfield size
-//        self.previewTextView.text = validFoaas.message + "\n" + validFoaas.subtitle
-//        self.updateTextFieldHeight(animated: true)
-//      }
     })
   }
   
