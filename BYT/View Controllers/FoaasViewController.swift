@@ -41,14 +41,16 @@ class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenu
         self.foaasSettingsMenuView.translatesAutoresizingMaskIntoConstraints = false
         let _ = [
             // foaasSettingMenuView
-            foaasSettingsMenuView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
+            foaasSettingsMenuView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 100),
             foaasSettingsMenuView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
             foaasSettingsMenuView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
             foaasSettingsMenuView.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.333),
             
             // foaasView
-            foaasView.topAnchor.constraint(equalTo: self.view.topAnchor),
-            foaasView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
+            foaasView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor, constant: 0),
+            foaasView.heightAnchor.constraint(equalTo: self.view.heightAnchor),
+//            foaasView.topAnchor.constraint(equalTo: self.view.topAnchor),
+//            foaasView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
             foaasView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
             foaasView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor)
             ].map{ $0.isActive = true }
@@ -56,8 +58,8 @@ class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenu
     
     private func setupViewHierarchy() {
         self.view.backgroundColor = .white
-        self.view.addSubview(foaasView)
         self.view.addSubview(foaasSettingsMenuView)
+        self.view.addSubview(foaasView)
     }
     
     private func addGesturesAndActions() {
@@ -137,9 +139,11 @@ class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenu
     internal func toggleMenu(sender: UISwipeGestureRecognizer) {
         switch sender.direction {
         case UISwipeGestureRecognizerDirection.up:
+            print("UP")
             animateMenu(show: true, duration: 0.35, dampening: 0.7, springVelocity: 0.6)
             
         case UISwipeGestureRecognizerDirection.down:
+            print("DOWN")
             animateMenu(show: false, duration: 0.1)
             
         default: print("Not interested")
@@ -150,9 +154,35 @@ class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenu
         // ignore toggle request if already in proper position
         switch show {
         case true:
-            if self.foaasView.frame.origin.y != 0 { return }
+            if self.foaasView.frame.origin.y == 0 {
+                
+                // you want to "show" the settings menu AND the frame of the foaasView.origin isn't 0
+                print("now show settings")
+                self.foaasView.removeConstraints(self.foaasView.constraints)
+                UIView.animate(withDuration: duration, delay: 0, options: .curveEaseOut, animations: {
+                    
+                    let _ = [
+                       
+                        
+                        // foaasView
+                        self.foaasView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor, constant: -200),
+                        self.foaasView.heightAnchor.constraint(equalTo: self.view.heightAnchor),
+                        //            foaasView.topAnchor.constraint(equalTo: self.view.topAnchor),
+                        //            foaasView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
+                        self.foaasView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+                        self.foaasView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor)
+                        ].map{ $0.isActive = true }
+
+                    self.view.layoutIfNeeded()
+                }, completion: nil)
+                
+            }
         case false:
-            if self.foaasView.frame.origin.y == 0 { return }
+            if self.foaasView.frame.origin.y != 0 {
+                print("now go up")
+
+            
+            }
         }
         
         let multiplier: CGFloat = show ? -1 : 1
