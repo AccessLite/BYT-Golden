@@ -8,7 +8,7 @@
 
 import UIKit
 
-
+// TODO: implement delegation for textfields, make delegate protocol for use in view controller
 class FoaasPreviewView: UIView {
   internal private(set) var slidingTextFields: [FoaasTextField] = []
   
@@ -16,13 +16,15 @@ class FoaasPreviewView: UIView {
   private var previewTextViewHeightConstraint: NSLayoutConstraint? = nil
   private var slidingTextFieldBottomConstraint: NSLayoutConstraint? = nil
   
+  
+  // -------------------------------------
+  // MARK: Initializer
   override init(frame: CGRect) {
     super.init(frame: frame)
     registerForNotifications()
     
     setupViewHierarchy()
     configureConstraints()
-    
   }
   
   required init?(coder aDecoder: NSCoder) {
@@ -30,10 +32,14 @@ class FoaasPreviewView: UIView {
   }
   
   
+  // -------------------------------------
   // MARK: - Config
   private func configureConstraints() {
     stripAutoResizingMasks(self, scrollView, contentContainerView, previewTextView, previewLabel)
     
+    // we need to keep a reference to both these constraints because they will be changing later. the scrollViewBottomConstraint
+    // update with the keyboard show/hiding. and the previewTextViewHeightConstraint changes with the length of the 
+    // foaas operation preview text
     scrollviewBottomConstraint = scrollView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 0.0)
     previewTextViewHeightConstraint = previewTextView.heightAnchor.constraint(equalToConstant: 0.0)
   
@@ -61,7 +67,6 @@ class FoaasPreviewView: UIView {
       previewTextViewHeightConstraint!,
       
       ].activate()
-    
   }
   
   private func setupViewHierarchy() {
@@ -76,7 +81,14 @@ class FoaasPreviewView: UIView {
   }
   
   
+  // -------------------------------------
   // MARK: - FoaasTextFields
+  
+  /// Creates the same number of `FoaasTextFields` as the `.count` of the `keys` parameter. Each `FoaasTextField` is given
+  /// an identifier `String` with the same value as the key at that index. Each `FoaasTextField` created is added to the 
+  /// `contentContainerView` and given constraints. 
+  /// - Parameters:
+  ///   - keys: The keys to be used to generate `FoaasTextField`
   internal func createTextFields(for keys: [String]) {
     for key in keys {
       let newSlidingTextField = FoaasTextField(placeHolderText: key)
@@ -88,6 +100,7 @@ class FoaasPreviewView: UIView {
     arrangeSlidingTextFields()
   }
   
+  /// This dynamically lays out as many `FoaasTextField` as needed, based on the contents of `self.slidingTextFields`
   private func arrangeSlidingTextFields() {
     guard self.slidingTextFields.count != 0 else { return }
     
@@ -100,11 +113,18 @@ class FoaasPreviewView: UIView {
         textField.topAnchor.constraint(equalTo: previewTextView.bottomAnchor, constant: 8.0).isActive = true
         textField.leadingAnchor.constraint(equalTo: previewTextView.leadingAnchor).isActive = true
         textField.widthAnchor.constraint(equalTo: previewTextView.widthAnchor).isActive = true
-        
+        if slidingTextFields.count == 1 {
+          // if there is only 1 textfield, we need to fallthrough to the "last" textfield case
+          fallthrough
+        }
+
       // last view needs to be pinned to the bottom, in addition to all of the other constraints
       case slidingTextFields.count - 1:
         textField.bottomAnchor.constraint(equalTo: contentContainerView.bottomAnchor, constant: -16.0).isActive = true
-        fallthrough
+        if slidingTextFields.count > 1 {
+          // we only have to fallthrough for more constraints if this is textField #1 or greater AND it's the last one
+          fallthrough
+        }
         
       // middle views need to be pinned to prior view
       default:
@@ -116,22 +136,9 @@ class FoaasPreviewView: UIView {
       priorTextField = textField
     }
   }
+
   
-  private func updateTextViewdHeight(animated: Bool) {
-    let textContainterInsets = self.previewTextView.textContainerInset
-    let usedRect = self.previewTextView.layoutManager.usedRect(for: self.previewTextView.textContainer)
-    
-    self.previewTextViewHeightConstraint?.constant = usedRect.size.height + textContainterInsets.top + textContainterInsets.bottom
-    // TODO: ensure that after typing, if additional lines are added that the textfield expands to accomodate this as well
-    //    self.previewTextView.textContainer.heightTracksTextView = true
-    
-    if !animated { return }
-    UIView.animate(withDuration: 0.2, animations: {
-      self.layoutIfNeeded()
-    })
-  }
-  
-  
+  // -------------------------------------
   // MARK: - Keyboard Notification
   private func registerForNotifications() {
     NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidAppear(notification:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
@@ -165,12 +172,27 @@ class FoaasPreviewView: UIView {
   }
   
   
-  // MARK: - Updating Labels
+  // MARK: - Updating Text
   internal func updateLabel(text: String) {
     DispatchQueue.main.async {
       self.previewTextView.text = text
       self.updateTextViewdHeight(animated: true)
     }
+  }
+  
+  /// See https://medium.com/@louistur/dynamic-sizing-of-uitextview-with-autolayout-6dbcfa8e5e2d#.rhnheioqn for details
+  private func updateTextViewdHeight(animated: Bool) {
+    let textContainterInsets = self.previewTextView.textContainerInset
+    let usedRect = self.previewTextView.layoutManager.usedRect(for: self.previewTextView.textContainer)
+    
+    self.previewTextViewHeightConstraint?.constant = usedRect.size.height + textContainterInsets.top + textContainterInsets.bottom
+    // TODO: ensure that after typing, if additional lines are added that the textfield expands to accomodate this as well
+    //    self.previewTextView.textContainer.heightTracksTextView = true
+    
+    if !animated { return }
+    UIView.animate(withDuration: 0.2, animations: {
+      self.layoutIfNeeded()
+    })
   }
   
   
@@ -185,13 +207,14 @@ class FoaasPreviewView: UIView {
   internal lazy var previewTextView: UITextView = {
     let textView: UITextView = UITextView()
     textView.font = UIFont.systemFont(ofSize: 32.0)
+    textView.isEditable = false
     return textView
   }()
   
   internal lazy var scrollView: UIScrollView = {
     let scroll: UIScrollView = UIScrollView()
-//    scroll.keyboardDismissMode = .onDrag
-//    scroll.alwaysBounceVertical = true
+    scroll.keyboardDismissMode = .onDrag
+    scroll.alwaysBounceVertical = true
     return scroll
   }()
   
