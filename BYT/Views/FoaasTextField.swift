@@ -12,6 +12,7 @@ enum SlideDirection {
   case up, down
 }
 
+// TODO: create helper function to locate textfield w/ identifier
 class FoaasTextField: UIView, UITextFieldDelegate {
 
   internal final var textField: UITextField!
