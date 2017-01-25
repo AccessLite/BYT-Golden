@@ -19,6 +19,21 @@ protocol DataConvertible {
   func toData() throws -> Data
 }
 
+protocol FoaasSettingMenuDelegate {
+    func colorSwitcherScrollViewScrolled(color: UIColor)
+    func profanitfySwitchChanged()
+    func twitterButtonTapped()
+    func facebookButtonTapped()
+    func camerarollButtonTapped()
+    func shareButtonTapped()
+    var filterIsOn: Bool { get set }
+    func uploadData()
+}
+
+protocol ColorSchemeDelegate {
+    func colorSchemeDidChange(color: ColorScheme)
+}
+
 func stripAutoResizingMasks(_ views: [UIView]) {
   let _ = views.map{ $0.translatesAutoresizingMaskIntoConstraints = false }
 }
@@ -38,3 +53,4 @@ extension UIView {
     views.forEach{ self.addSubview($0) }
   }
 }
+

@@ -26,9 +26,10 @@ class FoaasView: UIView {
   internal func setupViewHierarchy() {
     self.addSubview(resizingView)
     self.addSubview(addButton)
-    resizingView.addSubview(textField)
+    resizingView.addSubview(self.mainTextLabel)
+    resizingView.addSubview(self.subtitleTextLabel)
     
-    stripAutoResizingMasks(self, resizingView, textField, addButton)
+    stripAutoResizingMasks(self, resizingView, mainTextLabel, subtitleTextLabel , addButton)
     self.backgroundColor = .yellow
     
     self.addButton.addTarget(self, action: #selector(didTapButton(sender:)), for: .touchDown)
@@ -42,9 +43,17 @@ class FoaasView: UIView {
       resizingView.bottomAnchor.constraint(equalTo: addButton.topAnchor, constant: -48.0)
     ]
     
-    let fieldConstraints = [
-      textField.leadingAnchor.constraint(equalTo: resizingView.leadingAnchor),
-      textField.topAnchor.constraint(equalTo: resizingView.topAnchor),
+    let labelConstraints = [
+      mainTextLabel.leadingAnchor.constraint(equalTo: resizingView.leadingAnchor, constant: 16.0),
+      mainTextLabel.topAnchor.constraint(equalTo: resizingView.topAnchor, constant: 16.0),
+      mainTextLabel.trailingAnchor.constraint(equalTo: resizingView.trailingAnchor, constant: -16.0),
+      mainTextLabel.heightAnchor.constraint(equalTo: resizingView.heightAnchor, multiplier: 0.8),
+      
+      subtitleTextLabel.leadingAnchor.constraint(equalTo: resizingView.leadingAnchor, constant: 16.0),
+      subtitleTextLabel.trailingAnchor.constraint(equalTo: resizingView.trailingAnchor, constant: -16.0),
+      subtitleTextLabel.topAnchor.constraint(equalTo: self.mainTextLabel.bottomAnchor, constant: 16.0),
+      subtitleTextLabel.bottomAnchor.constraint(equalTo: resizingView.bottomAnchor, constant: -16.0),
+      subtitleTextLabel.heightAnchor.constraint(equalTo: resizingView.heightAnchor, multiplier: 0.2)
       ]
     
     let buttonConstraints = [
@@ -54,7 +63,7 @@ class FoaasView: UIView {
       addButton.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -48.0)
     ]
     
-    let _ = [resizingViewConstraints, fieldConstraints, buttonConstraints].map{ $0.map{ $0.isActive = true } }
+    let _ = [resizingViewConstraints, labelConstraints, buttonConstraints].map{ $0.map{ $0.isActive = true } }
   }
   
   override func layoutSubviews() {
@@ -64,7 +73,6 @@ class FoaasView: UIView {
   
   required init?(coder aDecoder: NSCoder) {
     super.init(coder: aDecoder)
-    
   }
   
   
@@ -82,24 +90,37 @@ class FoaasView: UIView {
     self.delegate?.didTapActionButton()
   }
   
-  
   // MARK: - Lazy Inits
   internal lazy var resizingView: UIView = {
     let view: UIView = UIView()
-    view.backgroundColor = .red
+    view.backgroundColor = .clear
     return view
   }()
   
-  // TODO: fix this textfield to properly expand/shrink
-  internal lazy var textField: UITextField = {
-    let textField = UITextField(frame: CGRect.zero)
-    textField.font = UIFont.systemFont(ofSize: 64.0)
-    textField.textColor = .black
-    textField.textAlignment = .left
-    textField.isUserInteractionEnabled = false
-    textField.text = "Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda."
-    return textField
-  }()
+  // TODO: fix this label to properly expand/shrink
+    internal lazy var mainTextLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Main Text Label"
+        label.font = UIFont(name: label.font.fontName, size: 56)
+        label.textColor = UIColor.white
+        label.textAlignment = .left
+        label.adjustsFontSizeToFitWidth = true
+        label.minimumScaleFactor = 0.25
+        label.numberOfLines = 0
+        return label
+    }()
+    
+    internal lazy var subtitleTextLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Subtitle Text Label"
+        label.font = UIFont(name: label.font.fontName, size: 34)
+        label.textColor = UIColor.white
+        label.textAlignment = .right
+        label.adjustsFontSizeToFitWidth = true
+        label.minimumScaleFactor = 0.25
+        label.numberOfLines = 0
+        return label
+    }()
   
   internal lazy var addButton: UIButton = {
     let button: UIButton = UIButton(type: .custom)
