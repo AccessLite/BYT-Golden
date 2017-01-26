@@ -14,10 +14,7 @@ class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenu
     let foaasView: FoaasView = FoaasView(frame: CGRect.zero)
     let foaasSettingsMenuView: FoaasSettingsMenuView = FoaasSettingsMenuView(frame: CGRect.zero)
     
-    
-    
     // MARK: - Constraints
-    
     var settingsMenuBottomConstraint: NSLayoutConstraint? = nil
     var foaasBottomConstraint: NSLayoutConstraint? = nil
     
@@ -39,10 +36,8 @@ class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenu
         configureConstraints()
         addGesturesAndActions()
         registerForNotifications()
-        
+        addFoaasViewShadow()
         makeRequest()
-        
-        
     }
     
     // MARK: - Setup
@@ -65,22 +60,23 @@ class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenu
             foaasView.heightAnchor.constraint(equalTo: self.view.heightAnchor),
             foaasBottomConstraint!,
             ].activate()
-        
-        // settings button
-//        settingsMenuButton.translatesAutoresizingMaskIntoConstraints = false
-//        
-//        [settingsMenuButton.bottomAnchor.constraint(equalTo: foaasView.bottomAnchor, constant: -10),
-//         settingsMenuButton.centerXAnchor.constraint(equalTo: foaasView.centerXAnchor),
-//        ].activate()
-    }
+        }
     
     private func setupViewHierarchy() {
         self.view.backgroundColor = .white
         self.view.addSubview(foaasSettingsMenuView)
         self.view.addSubview(foaasView)
-//        self.view.addSubview(settingsMenuButton)
     }
     
+    // MARK: - FoaasView Shadow
+    func addFoaasViewShadow() {
+        self.foaasView.layer.shadowColor = UIColor.black.cgColor
+        self.foaasView.layer.shadowOpacity = 0.8
+        self.foaasView.layer.shadowOffset = CGSize.zero
+        self.foaasView.layer.shadowRadius = 8
+    }
+    
+    // MARK: - Gesture Actions
     private func addGesturesAndActions() {
         let swipeUpGesture = UISwipeGestureRecognizer(target: self, action: #selector(toggleSettingsMenu(sender:)))
         swipeUpGesture.direction = .up
@@ -98,9 +94,13 @@ class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenu
         notificationCenter.addObserver(self, selector: #selector(updateFoaas(sender:)), name: Notification.Name(rawValue: "FoaasObjectDidUpdate"), object: nil)
     }
     
+    
+    
     internal func updateFoaas(sender: Any) {
         // TODO
     }
+    
+    
     
     
     // MARK: - Updating Foaas
