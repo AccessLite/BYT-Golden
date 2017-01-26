@@ -14,6 +14,8 @@ class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenu
     let foaasView: FoaasView = FoaasView(frame: CGRect.zero)
     let foaasSettingsMenuView: FoaasSettingsMenuView = FoaasSettingsMenuView(frame: CGRect.zero)
     
+    
+    
     // MARK: - Constraints
     
     var settingsMenuBottomConstraint: NSLayoutConstraint? = nil
@@ -39,6 +41,8 @@ class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenu
         registerForNotifications()
         
         makeRequest()
+        
+        
     }
     
     // MARK: - Setup
@@ -51,25 +55,30 @@ class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenu
         
             [
             // foaasSettingMenuView
-            
             foaasSettingsMenuView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
             foaasSettingsMenuView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
             foaasSettingsMenuView.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.333),
             settingsMenuBottomConstraint!,
-            
             // foaasView
-            
             foaasView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
             foaasView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
             foaasView.heightAnchor.constraint(equalTo: self.view.heightAnchor),
             foaasBottomConstraint!,
             ].activate()
+        
+        // settings button
+//        settingsMenuButton.translatesAutoresizingMaskIntoConstraints = false
+//        
+//        [settingsMenuButton.bottomAnchor.constraint(equalTo: foaasView.bottomAnchor, constant: -10),
+//         settingsMenuButton.centerXAnchor.constraint(equalTo: foaasView.centerXAnchor),
+//        ].activate()
     }
     
     private func setupViewHierarchy() {
         self.view.backgroundColor = .white
         self.view.addSubview(foaasSettingsMenuView)
         self.view.addSubview(foaasView)
+//        self.view.addSubview(settingsMenuButton)
     }
     
     private func addGesturesAndActions() {
@@ -144,71 +153,33 @@ class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenu
         navVC.pushViewController(dtvc, animated: true)
     }
     
+    func didTapSettingsButton() {
+        if self.foaasView.frame.origin.y == 0 {
+            animateSettingsMenu(show: true, duration: 0.8, dampening: 0.7, springVelocity: 7)
+        } else {
+            animateSettingsMenu(show: false, duration: 0.1)
+        }
+    }
+    
     
     // MARK: - Animating Menu
     internal func toggleSettingsMenu(sender: UISwipeGestureRecognizer) {
         switch sender.direction {
-        case UISwipeGestureRecognizerDirection.up:
-            print("UP")
-            animateMenu(show: true, duration: 0.5, dampening: 0.7, springVelocity: 7)
-            
-        case UISwipeGestureRecognizerDirection.down:
-            print("DOWN")
-            animateMenu(show: false, duration: 0.1)
-            
+        case UISwipeGestureRecognizerDirection.up where self.foaasView.frame.origin.y == 0:
+            animateSettingsMenu(show: true, duration: 0.8, dampening: 0.7, springVelocity: 7)
+        case UISwipeGestureRecognizerDirection.down where self.foaasView.frame.origin.y != 0:
+            animateSettingsMenu(show: false, duration: 0.1)
         default: print("Not interested")
         }
     }
     
-    private func animateMenu(show: Bool, duration: TimeInterval, dampening: CGFloat = 0.005, springVelocity: CGFloat = 0.005) {
-        // ignore toggle request if already in proper position
-        switch show {
-        case true:
-            if self.foaasView.frame.origin.y == 0 {
-                // you want to "show" the settings menu AND the frame of the foaasView.origin isn't 0
-                print("now show settings")
-                self.foaasBottomConstraint?.constant = -(self.foaasSettingsMenuView.frame.height)
-                self.settingsMenuBottomConstraint?.constant = 0
-                UIView.animate(withDuration: duration, delay: 0, options: .curveEaseOut, animations: {
-                    self.view.layoutIfNeeded()
-                }, completion: nil)
-                
-            }
-        case false:
-            if self.foaasView.frame.origin.y != 0 {
-                print("now go up")
-                self.foaasBottomConstraint?.constant = 0
-                self.settingsMenuBottomConstraint?.constant = 100
-                UIView.animate(withDuration: duration, delay: 0, options: .curveEaseOut, animations: {
-                    self.view.layoutIfNeeded()
-                }, completion: nil)
-
-            
-            }
-        }
-        
-        /*
- private func shouldShowKeyboard(show: Bool, notification: Notification, completion: ((Bool) -> Void)? ) {
- -//    if let keyboardFrame = notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? CGRect,
- -//      let animationNumber = notification.userInfo?[UIKeyboardAnimationCurveUserInfoKey] as? NSNumber,
- -//      let animationDuration = notification.userInfo?[UIKeyboardAnimationDurationUserInfoKey] as? TimeInterval {
- -//      let animationOption = UIViewAnimationOptions(rawValue: animationNumber.uintValue)
- -//
- -//      scrollViewBottomConstraint.constant = keyboardFrame.size.height * (show ? 1 : -1)
- -//      UIView.animate(withDuration: animationDuration, delay: 0.0, options: animationOption, animations: {
- -//        self.view.layoutIfNeeded()
- -//      }, completion: completion)
- -//
- -//    }
- -//  }
- */
-        
-        
-        // TODO: Adjust and update this animation
-        //    let newFrame = originalFrame.offsetBy(dx: 0.0, dy: self.foaasSettingsView.frame.size.height * multiplier)
-        //    UIView.animate(withDuration: duration, delay: 0.0, usingSpringWithDamping: dampening, initialSpringVelocity: springVelocity, options: [], animations: {
-        //      self.foaasView.frame = newFrame
-        //    }, completion: nil)
+    private func animateSettingsMenu(show: Bool, duration: TimeInterval, dampening: CGFloat = 0.005, springVelocity: CGFloat = 0.005) {
+        self.settingsMenuBottomConstraint?.constant = show ? 0.0 : 100.0
+        self.foaasBottomConstraint?.constant = show ? -(self.foaasSettingsMenuView.frame.height) : 0
+        self.foaasView.settingsMenuButton.transform = show ? CGAffineTransform(rotationAngle: CGFloat.pi) : CGAffineTransform.identity
+        UIView.animate(withDuration: duration, delay: 0.0, usingSpringWithDamping: dampening, initialSpringVelocity: springVelocity, options: .curveEaseOut, animations: {
+            self.view.layoutIfNeeded()
+        }, completion: nil)
     }
     
     
