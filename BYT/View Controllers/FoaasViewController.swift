@@ -203,8 +203,6 @@ class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenu
  -//  }
  */
         
-        let multiplier: CGFloat = show ? -1 : 1
-        let originalFrame = self.foaasView.frame
         
         // TODO: Adjust and update this animation
         //    let newFrame = originalFrame.offsetBy(dx: 0.0, dy: self.foaasSettingsView.frame.size.height * multiplier)
