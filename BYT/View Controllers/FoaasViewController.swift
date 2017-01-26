@@ -56,8 +56,8 @@ class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenu
     
     private func setupViewHierarchy() {
         self.view.backgroundColor = .white
-        self.view.addSubview(foaasView)
         self.view.addSubview(foaasSettingsMenuView)
+        self.view.addSubview(foaasView)
     }
     
     private func addGesturesAndActions() {
@@ -155,8 +155,8 @@ class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenu
             if self.foaasView.frame.origin.y == 0 { return }
         }
         
-        let multiplier: CGFloat = show ? -1 : 1
-        let originalFrame = self.foaasView.frame
+      //let multiplier: CGFloat = show ? -1 : 1
+      //let originalFrame = self.foaasView.frame
         
         // TODO: Adjust and update this animation
         //    let newFrame = originalFrame.offsetBy(dx: 0.0, dy: self.foaasSettingsView.frame.size.height * multiplier)
