@@ -150,7 +150,7 @@ class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenu
         switch sender.direction {
         case UISwipeGestureRecognizerDirection.up:
             print("UP")
-            animateMenu(show: true, duration: 0.35, dampening: 0.7, springVelocity: 0.6)
+            animateMenu(show: true, duration: 0.5, dampening: 0.7, springVelocity: 7)
             
         case UISwipeGestureRecognizerDirection.down:
             print("DOWN")
