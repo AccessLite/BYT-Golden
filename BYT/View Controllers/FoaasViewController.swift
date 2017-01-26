@@ -14,6 +14,11 @@ class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenu
     let foaasView: FoaasView = FoaasView(frame: CGRect.zero)
     let foaasSettingsMenuView: FoaasSettingsMenuView = FoaasSettingsMenuView(frame: CGRect.zero)
     
+    // MARK: - Constraints
+    
+    var settingsMenuBottomConstraint: NSLayoutConstraint? = nil
+    var foaasBottomConstraint: NSLayoutConstraint? = nil
+    
     // MARK: - Models
     var foaas: Foaas?
     var colorScheme = [ColorScheme]()
@@ -38,22 +43,27 @@ class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenu
     
     // MARK: - Setup
     private func configureConstraints() {
+        self.foaasView.translatesAutoresizingMaskIntoConstraints = false
         self.foaasSettingsMenuView.translatesAutoresizingMaskIntoConstraints = false
-        let _ = [
+        
+        self.settingsMenuBottomConstraint = foaasSettingsMenuView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 100)
+        self.foaasBottomConstraint = foaasView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0)
+        
+            [
             // foaasSettingMenuView
-            foaasSettingsMenuView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 100),
+            
             foaasSettingsMenuView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
             foaasSettingsMenuView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
             foaasSettingsMenuView.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.333),
+            settingsMenuBottomConstraint!,
             
             // foaasView
-            foaasView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor, constant: 0),
-            foaasView.heightAnchor.constraint(equalTo: self.view.heightAnchor),
-//            foaasView.topAnchor.constraint(equalTo: self.view.topAnchor),
-//            foaasView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
+            
             foaasView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-            foaasView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor)
-            ].map{ $0.isActive = true }
+            foaasView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+            foaasView.heightAnchor.constraint(equalTo: self.view.heightAnchor),
+            foaasBottomConstraint!,
+            ].activate()
     }
     
     private func setupViewHierarchy() {
@@ -63,11 +73,11 @@ class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenu
     }
     
     private func addGesturesAndActions() {
-        let swipeUpGesture = UISwipeGestureRecognizer(target: self, action: #selector(toggleMenu(sender:)))
+        let swipeUpGesture = UISwipeGestureRecognizer(target: self, action: #selector(toggleSettingsMenu(sender:)))
         swipeUpGesture.direction = .up
         foaasView.addGestureRecognizer(swipeUpGesture)
         
-        let swipeDownGesture = UISwipeGestureRecognizer(target: self, action: #selector(toggleMenu(sender:)))
+        let swipeDownGesture = UISwipeGestureRecognizer(target: self, action: #selector(toggleSettingsMenu(sender:)))
         swipeDownGesture.direction = .down
         foaasView.addGestureRecognizer(swipeDownGesture)
     }
@@ -136,7 +146,7 @@ class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenu
     
     
     // MARK: - Animating Menu
-    internal func toggleMenu(sender: UISwipeGestureRecognizer) {
+    internal func toggleSettingsMenu(sender: UISwipeGestureRecognizer) {
         switch sender.direction {
         case UISwipeGestureRecognizerDirection.up:
             print("UP")
@@ -155,24 +165,11 @@ class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenu
         switch show {
         case true:
             if self.foaasView.frame.origin.y == 0 {
-                
                 // you want to "show" the settings menu AND the frame of the foaasView.origin isn't 0
                 print("now show settings")
-                self.foaasView.removeConstraints(self.foaasView.constraints)
+                self.foaasBottomConstraint?.constant = -(self.foaasSettingsMenuView.frame.height)
+                self.settingsMenuBottomConstraint?.constant = 0
                 UIView.animate(withDuration: duration, delay: 0, options: .curveEaseOut, animations: {
-                    
-                    let _ = [
-                       
-                        
-                        // foaasView
-                        self.foaasView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor, constant: -200),
-                        self.foaasView.heightAnchor.constraint(equalTo: self.view.heightAnchor),
-                        //            foaasView.topAnchor.constraint(equalTo: self.view.topAnchor),
-                        //            foaasView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
-                        self.foaasView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-                        self.foaasView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor)
-                        ].map{ $0.isActive = true }
-
                     self.view.layoutIfNeeded()
                 }, completion: nil)
                 
@@ -180,10 +177,31 @@ class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenu
         case false:
             if self.foaasView.frame.origin.y != 0 {
                 print("now go up")
+                self.foaasBottomConstraint?.constant = 0
+                self.settingsMenuBottomConstraint?.constant = 100
+                UIView.animate(withDuration: duration, delay: 0, options: .curveEaseOut, animations: {
+                    self.view.layoutIfNeeded()
+                }, completion: nil)
 
             
             }
         }
+        
+        /*
+ private func shouldShowKeyboard(show: Bool, notification: Notification, completion: ((Bool) -> Void)? ) {
+ -//    if let keyboardFrame = notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? CGRect,
+ -//      let animationNumber = notification.userInfo?[UIKeyboardAnimationCurveUserInfoKey] as? NSNumber,
+ -//      let animationDuration = notification.userInfo?[UIKeyboardAnimationDurationUserInfoKey] as? TimeInterval {
+ -//      let animationOption = UIViewAnimationOptions(rawValue: animationNumber.uintValue)
+ -//
+ -//      scrollViewBottomConstraint.constant = keyboardFrame.size.height * (show ? 1 : -1)
+ -//      UIView.animate(withDuration: animationDuration, delay: 0.0, options: animationOption, animations: {
+ -//        self.view.layoutIfNeeded()
+ -//      }, completion: completion)
+ -//
+ -//    }
+ -//  }
+ */
         
         let multiplier: CGFloat = show ? -1 : 1
         let originalFrame = self.foaasView.frame
