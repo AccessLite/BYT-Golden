@@ -15,7 +15,8 @@ protocol FoaasViewDelegate: class {
 
 class FoaasView: UIView {
     internal var delegate: FoaasViewDelegate?
-    
+  
+  
     // MARK: - Setup
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -38,7 +39,7 @@ class FoaasView: UIView {
         subtitleTextLabel.accessibilityIdentifier = "subtitleTextLabel"
         
         stripAutoResizingMasks(self, resizingView, mainTextLabel, subtitleTextLabel , addButton, settingsMenuButton)
-        self.backgroundColor = .yellow
+        self.backgroundColor = .purple
         self.settingsMenuButton.addTarget(self, action: #selector(didTapSettingsButton), for: .touchUpInside)
         self.addButton.addTarget(self, action: #selector(didTapButton(sender:)), for: .touchDown)
     }
@@ -103,7 +104,8 @@ class FoaasView: UIView {
     internal func didTapSettingsButton() {
         self.delegate?.didTapSettingsButton()
     }
-    
+  
+  
     // MARK: - Lazy Inits
     internal lazy var resizingView: UIView = {
         let view: UIView = UIView()
