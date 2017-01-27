@@ -179,7 +179,7 @@ class FoaasPreviewView: UIView {
   
   
   // MARK: - Updating Text
-  internal func updatehe(text: String) {
+  internal func updateLabel(text: String) {
     DispatchQueue.main.async {
       self.previewTextView.text = text
       self.updateTextViewdHeight(animated: true)
