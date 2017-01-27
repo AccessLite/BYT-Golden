@@ -78,6 +78,10 @@ class FoaasPreviewView: UIView {
     scrollView.addSubview(contentContainerView)
     contentContainerView.addSubview(previewLabel)
     contentContainerView.addSubview(previewTextView)
+    scrollView.accessibilityIdentifier = "ScrollView"
+    contentContainerView.accessibilityIdentifier = "ContentContainerView"
+    previewLabel.accessibilityIdentifier = "PreviewLabel"
+    previewTextView.accessibilityIdentifier = "PreviewTextView"
   }
   
   

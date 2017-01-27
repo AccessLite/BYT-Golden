@@ -31,6 +31,12 @@ class FoaasView: UIView {
         resizingView.addSubview(self.mainTextLabel)
         resizingView.addSubview(self.subtitleTextLabel)
         
+        resizingView.accessibilityIdentifier = "resizingView"
+        addButton.accessibilityIdentifier = "addButton"
+        settingsMenuButton.accessibilityIdentifier = "settingsMenuButton"
+        mainTextLabel.accessibilityIdentifier = "mainTextLabel"
+        subtitleTextLabel.accessibilityIdentifier = "subtitleTextLabel"
+        
         stripAutoResizingMasks(self, resizingView, mainTextLabel, subtitleTextLabel , addButton, settingsMenuButton)
         self.backgroundColor = .yellow
         self.settingsMenuButton.addTarget(self, action: #selector(didTapSettingsButton), for: .touchUpInside)
@@ -55,7 +61,6 @@ class FoaasView: UIView {
             subtitleTextLabel.trailingAnchor.constraint(equalTo: resizingView.trailingAnchor, constant: -16.0),
             subtitleTextLabel.topAnchor.constraint(equalTo: self.mainTextLabel.bottomAnchor, constant: 16.0),
             subtitleTextLabel.bottomAnchor.constraint(equalTo: resizingView.bottomAnchor, constant: -16.0),
-            subtitleTextLabel.heightAnchor.constraint(equalTo: resizingView.heightAnchor, multiplier: 0.2)
         ]
         
         let buttonConstraints = [
