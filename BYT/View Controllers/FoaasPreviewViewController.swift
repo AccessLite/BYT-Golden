@@ -22,6 +22,7 @@ class FoaasPrevewViewController: UIViewController, FoaasTextFieldDelegate {
     self.configureConstraints()
     
     self.foaasPreviewView.createTextFields(for: self.pathBuilder!.allKeys())
+    self.foaasPreviewView.setTextFieldsDelegate(self)
   }
   
   
@@ -72,7 +73,7 @@ class FoaasPrevewViewController: UIViewController, FoaasTextFieldDelegate {
   }
   
   
-  // TODO: needs live updating 
+  // TODO: needs live updating
   // MARK: - UITextField Delegate
   func foaasTextField(_ textField: FoaasTextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
 //    textField.identifier == key

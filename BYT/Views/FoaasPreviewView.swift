@@ -137,6 +137,12 @@ class FoaasPreviewView: UIView {
     }
   }
 
+  internal func setTextFieldsDelegate(_ delegate: FoaasTextFieldDelegate) {
+    slidingTextFields.forEach { (textField) in
+      textField.foaasTextFieldDelegate = delegate
+    }
+  }
+  
   
   // -------------------------------------
   // MARK: - Keyboard Notification
