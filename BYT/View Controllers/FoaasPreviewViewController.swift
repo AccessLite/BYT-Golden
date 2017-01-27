@@ -8,7 +8,7 @@
 
 import UIKit
 
-class FoaasPrevewViewController: UIViewController, UITextFieldDelegate {
+class FoaasPrevewViewController: UIViewController, FoaasTextFieldDelegate {
   
   internal private(set) var operation: FoaasOperation?
   private var pathBuilder: FoaasPathBuilder?
@@ -22,6 +22,7 @@ class FoaasPrevewViewController: UIViewController, UITextFieldDelegate {
     self.configureConstraints()
     
     self.foaasPreviewView.createTextFields(for: self.pathBuilder!.allKeys())
+    self.foaasPreviewView.setTextFieldsDelegate(self)
   }
   
   
@@ -72,13 +73,11 @@ class FoaasPrevewViewController: UIViewController, UITextFieldDelegate {
   }
   
   
+  // TODO: needs live updating
   // MARK: - UITextField Delegate
-  func textFieldDidEndEditing(_ textField: UITextField) {
-    
-  }
-  
-  func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-    
+  func foaasTextField(_ textField: FoaasTextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+//    textField.identifier == key
+//    foaasPreviewView.updateLabel(text: "")
     return true
   }
   

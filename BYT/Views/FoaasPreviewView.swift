@@ -137,6 +137,12 @@ class FoaasPreviewView: UIView {
     }
   }
 
+  internal func setTextFieldsDelegate(_ delegate: FoaasTextFieldDelegate) {
+    slidingTextFields.forEach { (textField) in
+      textField.foaasTextFieldDelegate = delegate
+    }
+  }
+  
   
   // -------------------------------------
   // MARK: - Keyboard Notification
@@ -180,6 +186,14 @@ class FoaasPreviewView: UIView {
     }
   }
   
+  // TODO: needs testing 
+  internal func updateAttributedText(text: NSMutableAttributedString) {
+    DispatchQueue.main.async {
+      self.previewTextView.attributedText = text
+      self.updateTextViewdHeight(animated: true)
+    }
+  }
+  
   /// See https://medium.com/@louistur/dynamic-sizing-of-uitextview-with-autolayout-6dbcfa8e5e2d#.rhnheioqn for details
   private func updateTextViewdHeight(animated: Bool) {
     let textContainterInsets = self.previewTextView.textContainerInset
@@ -194,7 +208,6 @@ class FoaasPreviewView: UIView {
       self.layoutIfNeeded()
     })
   }
-  
   
   // MARK: - Lazy Inits
   internal lazy var previewLabel: UILabel = {
