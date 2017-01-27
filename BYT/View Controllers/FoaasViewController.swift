@@ -14,6 +14,10 @@ class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenu
     let foaasView: FoaasView = FoaasView(frame: CGRect.zero)
     let foaasSettingsMenuView: FoaasSettingsMenuView = FoaasSettingsMenuView(frame: CGRect.zero)
     
+    // MARK: - Constraints
+    var settingsMenuBottomConstraint: NSLayoutConstraint? = nil
+    var foaasBottomConstraint: NSLayoutConstraint? = nil
+    
     // MARK: - Models
     var foaas: Foaas?
     var colorScheme = [ColorScheme]()
@@ -32,27 +36,31 @@ class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenu
         configureConstraints()
         addGesturesAndActions()
         registerForNotifications()
-        
+        addFoaasViewShadow()
         makeRequest()
     }
     
     // MARK: - Setup
     private func configureConstraints() {
+        self.foaasView.translatesAutoresizingMaskIntoConstraints = false
         self.foaasSettingsMenuView.translatesAutoresizingMaskIntoConstraints = false
-        let _ = [
+        
+        self.settingsMenuBottomConstraint = foaasSettingsMenuView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 100)
+        self.foaasBottomConstraint = foaasView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0)
+        
+            [
             // foaasSettingMenuView
-            foaasSettingsMenuView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
             foaasSettingsMenuView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
             foaasSettingsMenuView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
             foaasSettingsMenuView.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.333),
-            
+            settingsMenuBottomConstraint!,
             // foaasView
-            foaasView.topAnchor.constraint(equalTo: self.view.topAnchor),
-            foaasView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
             foaasView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-            foaasView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor)
-            ].map{ $0.isActive = true }
-    }
+            foaasView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+            foaasView.heightAnchor.constraint(equalTo: self.view.heightAnchor),
+            foaasBottomConstraint!,
+            ].activate()
+        }
     
     private func setupViewHierarchy() {
         self.view.backgroundColor = .white
@@ -60,12 +68,21 @@ class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenu
         self.view.addSubview(foaasView)
     }
     
+    // MARK: - FoaasView Shadow
+    func addFoaasViewShadow() {
+        self.foaasView.layer.shadowColor = UIColor.black.cgColor
+        self.foaasView.layer.shadowOpacity = 0.8
+        self.foaasView.layer.shadowOffset = CGSize.zero
+        self.foaasView.layer.shadowRadius = 8
+    }
+    
+    // MARK: - Gesture Actions
     private func addGesturesAndActions() {
-        let swipeUpGesture = UISwipeGestureRecognizer(target: self, action: #selector(toggleMenu(sender:)))
+        let swipeUpGesture = UISwipeGestureRecognizer(target: self, action: #selector(toggleSettingsMenu(sender:)))
         swipeUpGesture.direction = .up
         foaasView.addGestureRecognizer(swipeUpGesture)
         
-        let swipeDownGesture = UISwipeGestureRecognizer(target: self, action: #selector(toggleMenu(sender:)))
+        let swipeDownGesture = UISwipeGestureRecognizer(target: self, action: #selector(toggleSettingsMenu(sender:)))
         swipeDownGesture.direction = .down
         foaasView.addGestureRecognizer(swipeDownGesture)
     }
@@ -77,9 +94,13 @@ class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenu
         notificationCenter.addObserver(self, selector: #selector(updateFoaas(sender:)), name: Notification.Name(rawValue: "FoaasObjectDidUpdate"), object: nil)
     }
     
+    
+    
     internal func updateFoaas(sender: Any) {
         // TODO
     }
+    
+    
     
     
     // MARK: - Updating Foaas
@@ -132,37 +153,33 @@ class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenu
         navVC.pushViewController(dtvc, animated: true)
     }
     
+    func didTapSettingsButton() {
+        if self.foaasView.frame.origin.y == 0 {
+            animateSettingsMenu(show: true, duration: 0.8, dampening: 0.7, springVelocity: 7)
+        } else {
+            animateSettingsMenu(show: false, duration: 0.1)
+        }
+    }
+    
     
     // MARK: - Animating Menu
-    internal func toggleMenu(sender: UISwipeGestureRecognizer) {
+    internal func toggleSettingsMenu(sender: UISwipeGestureRecognizer) {
         switch sender.direction {
-        case UISwipeGestureRecognizerDirection.up:
-            animateMenu(show: true, duration: 0.35, dampening: 0.7, springVelocity: 0.6)
-            
-        case UISwipeGestureRecognizerDirection.down:
-            animateMenu(show: false, duration: 0.1)
-            
+        case UISwipeGestureRecognizerDirection.up where self.foaasView.frame.origin.y == 0:
+            animateSettingsMenu(show: true, duration: 0.8, dampening: 0.7, springVelocity: 7)
+        case UISwipeGestureRecognizerDirection.down where self.foaasView.frame.origin.y != 0:
+            animateSettingsMenu(show: false, duration: 0.1)
         default: print("Not interested")
         }
     }
     
-    private func animateMenu(show: Bool, duration: TimeInterval, dampening: CGFloat = 0.005, springVelocity: CGFloat = 0.005) {
-        // ignore toggle request if already in proper position
-        switch show {
-        case true:
-            if self.foaasView.frame.origin.y != 0 { return }
-        case false:
-            if self.foaasView.frame.origin.y == 0 { return }
-        }
-        
-      //let multiplier: CGFloat = show ? -1 : 1
-      //let originalFrame = self.foaasView.frame
-        
-        // TODO: Adjust and update this animation
-        //    let newFrame = originalFrame.offsetBy(dx: 0.0, dy: self.foaasSettingsView.frame.size.height * multiplier)
-        //    UIView.animate(withDuration: duration, delay: 0.0, usingSpringWithDamping: dampening, initialSpringVelocity: springVelocity, options: [], animations: {
-        //      self.foaasView.frame = newFrame
-        //    }, completion: nil)
+    private func animateSettingsMenu(show: Bool, duration: TimeInterval, dampening: CGFloat = 0.005, springVelocity: CGFloat = 0.005) {
+        self.settingsMenuBottomConstraint?.constant = show ? 0.0 : 100.0
+        self.foaasBottomConstraint?.constant = show ? -(self.foaasSettingsMenuView.frame.height) : 0
+        self.foaasView.settingsMenuButton.transform = show ? CGAffineTransform(rotationAngle: CGFloat.pi) : CGAffineTransform.identity
+        UIView.animate(withDuration: duration, delay: 0.0, usingSpringWithDamping: dampening, initialSpringVelocity: springVelocity, options: .curveEaseOut, animations: {
+            self.view.layoutIfNeeded()
+        }, completion: nil)
     }
     
     
