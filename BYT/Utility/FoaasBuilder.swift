@@ -26,6 +26,13 @@ class FoaasPathBuilder {
    */
   init(operation: FoaasOperation) {
     self.operation = operation
+    var dict: [String:String] = [:]
+    for eachArray in operation.fields {
+        dict[eachArray.name.lowercased()] = eachArray.field.lowercased()
+    }
+    self.operationFields = dict
+    /*
+    self.operation = operation
     
     // 1. iterrates through the operation's [FoaasField] and converts to json
     self.operationFields = self.operation.fields.reduce( [:] ) { (current: [String:String], field: FoaasField) in
@@ -40,6 +47,7 @@ class FoaasPathBuilder {
       // 3. appends to a new dictionary of [String : String]
       return temp
       }
+  */
   }
   
   /**
@@ -57,6 +65,13 @@ class FoaasPathBuilder {
    - returns: A `String` that corresponds to the path component needed to create a `URL` to request a `Foaas` object
    */
   func build() -> String {
+    var urlString = self.operation.url
+    for (key,value) in operationFields {
+        urlString = urlString.replacingOccurrences(of: ":\(key)", with: value.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlPathAllowed)!)
+    }
+    return baseURLString + urlString
+    /*
+    
     let components = self.operation.url.components(separatedBy: "/:")
     
     let orderedComponents = components.flatMap { (component: String) -> String? in
@@ -73,6 +88,7 @@ class FoaasPathBuilder {
     return baseURLString + orderedComponents.reduce(components.first!) { (current: String, component: String) -> String in
       return "\(current)/\(component)"
     }.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlPathAllowed)!
+     */
   }
   
   /**

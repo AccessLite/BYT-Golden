@@ -1,4 +1,4 @@
-//
+            //
 //  FoaasPreviewViewController.swift
 //  BYT
 //
@@ -12,7 +12,12 @@ class FoaasPrevewViewController: UIViewController, FoaasTextFieldDelegate {
   
   internal private(set) var operation: FoaasOperation?
   private var pathBuilder: FoaasPathBuilder?
-
+    private var foaas: Foaas!
+    
+    var foaasSettingMenuDelegate : FoaasSettingMenuDelegate!
+    
+    var previewText: NSString = ""
+    var previewAttributedText: NSAttributedString = NSAttributedString()
   
   // MARK: - View Lifecycle
   override func viewDidLoad() {
@@ -64,24 +69,76 @@ class FoaasPrevewViewController: UIViewController, FoaasTextFieldDelegate {
     }
     
     FoaasAPIManager.getFoaas(url: url, completion: { (foaas: Foaas?) in
-      guard let validFoaas = foaas else {
-        return
-      }
-      
-      self.foaasPreviewView.updateLabel(text: validFoaas.message + "\n" + validFoaas.subtitle)
+      guard let validFoaas = foaas else { return }
+        self.foaas = validFoaas
+        var message = self.foaas.message
+        var subtitle = self.foaas.subtitle
+        //if self.foaasSettingMenuDelegate.filterIsOn {
+        message = FoulLanguageFilter.filterFoulLanguage(text: self.foaas.message)
+        subtitle = FoulLanguageFilter.filterFoulLanguage(text: self.foaas.subtitle)
+        //}
+        DispatchQueue.main.async {
+            let attributedString = NSMutableAttributedString(string: message, attributes: [NSForegroundColorAttributeName : UIColor.black, NSFontAttributeName : UIFont.systemFont(ofSize: 24, weight: UIFontWeightLight) ])
+            let fromAttribute = NSMutableAttributedString(string: "\n\n" + "From,\n" + subtitle, attributes: [ NSForegroundColorAttributeName : UIColor.black, NSFontAttributeName : UIFont.systemFont(ofSize: 24, weight: UIFontWeightLight) ])
+            let paragraphStyle = NSMutableParagraphStyle()
+            paragraphStyle.alignment = .right
+            
+            let textLength = fromAttribute.string.characters.count
+            let range = NSRange(location: 0, length: textLength)
+            
+            fromAttribute.addAttribute(NSParagraphStyleAttributeName, value: paragraphStyle, range: range)
+            attributedString.append(fromAttribute)
+            
+            self.foaasPreviewView.updateAttributedText(text: attributedString)
+            self.previewText = attributedString.mutableString
+            self.previewAttributedText = attributedString
+            
+            if let validFoaasPath = self.pathBuilder {
+                let keys = validFoaasPath.allKeys()
+                for key in keys {
+                    let range = self.previewText.range(of: key)
+                    let attributedStringToReplace = NSMutableAttributedString(string: validFoaasPath.operationFields[key]! , attributes: [NSUnderlineStyleAttributeName: NSUnderlineStyle.styleSingle.rawValue, NSForegroundColorAttributeName : UIColor.green, NSFontAttributeName : UIFont.systemFont(ofSize: 24, weight: UIFontWeightLight)])
+                    let attributedTextWithGreenFields = NSMutableAttributedString.init(attributedString: self.previewAttributedText)
+                    attributedTextWithGreenFields.replaceCharacters(in: range, with: attributedStringToReplace)
+                    
+                    self.foaasPreviewView.updateAttributedText(text: attributedTextWithGreenFields)
+                    self.previewAttributedText = attributedTextWithGreenFields
+                }
+            }
+        }
     })
   }
-  
   
   // TODO: needs live updating
   // MARK: - UITextField Delegate
   func foaasTextField(_ textField: FoaasTextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-//    textField.identifier == key
-//    foaasPreviewView.updateLabel(text: "")
+    
+    guard let validFoaasPath = self.pathBuilder else { return false }
+    guard var validText = textField.textField.text else { return false }
+    if textField.textField.text == "" {
+        validText = " "
+    }
+    let updatedString = (validText as NSString).replacingCharacters(in: range, with: string)
+    validFoaasPath.update(key: textField.identifier, value: updatedString)
+
+    updateAttributedTextInput()
     return true
   }
-  
-  
+    
+    func updateAttributedTextInput() {
+        if let validFoaasPath = self.pathBuilder {
+            let attributedText = NSMutableAttributedString.init(attributedString: self.previewAttributedText)
+            let keys = validFoaasPath.allKeys()
+            for key in keys {
+                let string = attributedText.string as NSString
+                let rangeOfWord = string.range(of: key)
+                let attributedStringToReplace = NSMutableAttributedString(string: validFoaasPath.operationFields[key]!, attributes: [NSUnderlineStyleAttributeName: NSUnderlineStyle.styleSingle.rawValue, NSForegroundColorAttributeName : UIColor.green, NSFontAttributeName : UIFont.systemFont(ofSize: 24, weight: UIFontWeightLight)])
+                attributedText.replaceCharacters(in: rangeOfWord, with: attributedStringToReplace)
+            }
+            self.foaasPreviewView.updateAttributedText(text: attributedText)
+        }
+    }
+
   // TODO: add in delegation
   // MARK: - Lazy Inits
   internal lazy var foaasPreviewView: FoaasPreviewView = {

@@ -179,7 +179,7 @@ class FoaasPreviewView: UIView {
   
   
   // MARK: - Updating Text
-  internal func updateLabel(text: String) {
+  internal func updatehe(text: String) {
     DispatchQueue.main.async {
       self.previewTextView.text = text
       self.updateTextViewdHeight(animated: true)
@@ -197,9 +197,13 @@ class FoaasPreviewView: UIView {
   /// See https://medium.com/@louistur/dynamic-sizing-of-uitextview-with-autolayout-6dbcfa8e5e2d#.rhnheioqn for details
   private func updateTextViewdHeight(animated: Bool) {
     let textContainterInsets = self.previewTextView.textContainerInset
-    let usedRect = self.previewTextView.layoutManager.usedRect(for: self.previewTextView.textContainer)
     
-    self.previewTextViewHeightConstraint?.constant = usedRect.size.height + textContainterInsets.top + textContainterInsets.bottom
+    //Change from usedRect into usedSize because the attributed text is not responding to usedRect
+    //let usedRect = self.previewTextView.layoutManager.usedRect(for: self.previewTextView.textContainer)
+    
+    let usedSize = self.previewTextView.contentSize
+    self.previewTextViewHeightConstraint?.constant = usedSize.height + textContainterInsets.top + textContainterInsets.bottom
+    
     // TODO: ensure that after typing, if additional lines are added that the textfield expands to accomodate this as well
     //    self.previewTextView.textContainer.heightTracksTextView = true
     
