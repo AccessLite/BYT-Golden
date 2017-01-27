@@ -62,7 +62,7 @@ class FoaasPathBuilder {
    build() // returns "/bus/Nala%20Cat/Grumpy%20Cat"
    ```
    
-   - returns: A `String` that corresponds to the path component needed to create a `URL` to request a `Foaas` object
+   - returns: A `String` that contains baseURLString and updated FoaasOperation.url needed to create a `URL` to request a `Foaas` object
    */
   func build() -> String {
     var urlString = self.operation.url
