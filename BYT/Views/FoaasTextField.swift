@@ -155,6 +155,6 @@ class FoaasTextField: UIView, UITextFieldDelegate {
     
   }
   
-  
+  //Enums + Switch statements are powerful as fuck. Look at how Louis did it here, he essentially just uses it to check on a simple state, easily built out by adding in directions and then cases, no need for value in the enum! 
 }
 
