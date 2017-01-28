@@ -35,7 +35,7 @@ class FoaasTextField: UIView, UITextFieldDelegate {
     
     let context = UIGraphicsGetCurrentContext()
     context?.setLineWidth(2.0)
-    context?.setStrokeColor(UIColor.red.cgColor)
+    context?.setStrokeColor(ColorManager.shared.currentColorScheme.accent.cgColor)
     context?.move(to: startPoint)
     context?.addLine(to: endPoint)
     

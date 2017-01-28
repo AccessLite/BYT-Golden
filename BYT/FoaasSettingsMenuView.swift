@@ -55,6 +55,9 @@ class FoaasSettingsMenuView: UIView, UIScrollViewDelegate {
         }
         
         let currentPage:CGFloat = floor((scrollView.contentOffset.x-pageWidth/2)/pageWidth)+1
+        
+        // THIS IS WHERE YOU GOTTA UPDATE THE COLOR MANAGER
+        ColorManager.shared.currentColorScheme = ColorManager.shared.colorSchemes[Int(currentPage)]
 
         if Int(currentPage) == 0{
             print("\(currentPage) is 0")
@@ -68,6 +71,7 @@ class FoaasSettingsMenuView: UIView, UIScrollViewDelegate {
         }else{
              print("\(currentPage) is others")
         }
+        
     }
     
     @IBAction func profanitySwitchDidChange(_ sender: UISwitch) {

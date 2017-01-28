@@ -20,7 +20,6 @@ class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenu
     
     // MARK: - Models
     var foaas: Foaas?
-    var colorScheme = [ColorScheme]()
     var versions = [Version]()
     var message = ""
     var subtitle = ""
@@ -126,11 +125,14 @@ class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenu
             FoaasDataManager.shared.requestColorSchemeData(endpoint: FoaasAPIManager.colorSchemeURL) { (data: Data?) in
                 guard let validData = data else { return }
                 guard let colorScheme = ColorScheme.parseColorSchemes(from: validData) else { return }
+                ColorManager.shared.colorSchemes = colorScheme
                 DispatchQueue.main.async {
-                    self.colorScheme = colorScheme
+                    // these hard coded values need to change 
+                    ColorManager.shared.currentColorScheme = colorScheme[0]
                     self.foaasSettingsMenuView.view1.backgroundColor = colorScheme[0].primary
                     self.foaasSettingsMenuView.view2.backgroundColor = colorScheme[1].primary
                     self.foaasSettingsMenuView.view3.backgroundColor = colorScheme[2].primary
+                    self.foaasView.backgroundColor = ColorManager.shared.currentColorScheme.primary
                 }
             }
             

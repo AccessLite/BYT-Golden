@@ -14,6 +14,7 @@ protocol FoaasViewDelegate: class {
 }
 
 class FoaasView: UIView {
+    
     internal var delegate: FoaasViewDelegate?
     
     // MARK: - Setup

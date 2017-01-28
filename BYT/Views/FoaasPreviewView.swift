@@ -71,7 +71,7 @@ class FoaasPreviewView: UIView {
   
   private func setupViewHierarchy() {
     self.backgroundColor = .white
-    self.scrollView.backgroundColor = .yellow
+    self.scrollView.backgroundColor = ColorManager.shared.currentColorScheme.primary
     
     
     self.addSubview(scrollView)
