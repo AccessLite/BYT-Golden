@@ -37,6 +37,8 @@ class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenu
         registerForNotifications()
         addFoaasViewShadow()
         makeRequest()
+        updateSettingsMenuColors()
+        
     }
     
     // MARK: - Setup
@@ -65,6 +67,17 @@ class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenu
         self.view.backgroundColor = .white
         self.view.addSubview(foaasSettingsMenuView)
         self.view.addSubview(foaasView)
+        self.foaasView.backgroundColor = ColorManager.shared.currentColorScheme.primary
+    }
+    
+    private func updateSettingsMenuColors() {
+        if ColorManager.shared.colorSchemes != nil {
+            DispatchQueue.main.async {
+                self.foaasSettingsMenuView.view1.backgroundColor = ColorManager.shared.colorSchemes[0].primary
+                self.foaasSettingsMenuView.view2.backgroundColor = ColorManager.shared.colorSchemes[1].primary
+                self.foaasSettingsMenuView.view3.backgroundColor = ColorManager.shared.colorSchemes[2].primary
+            }
+        }
     }
     
     // MARK: - FoaasView Shadow
@@ -122,17 +135,17 @@ class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenu
                     self.foaasView.subtitleTextLabel.text = subtitle
                 }
             }
+            
+            // Make the following API Call if the version has been updated...
+            
             FoaasDataManager.shared.requestColorSchemeData(endpoint: FoaasAPIManager.colorSchemeURL) { (data: Data?) in
                 guard let validData = data else { return }
-                guard let colorScheme = ColorScheme.parseColorSchemes(from: validData) else { return }
-                ColorManager.shared.colorSchemes = colorScheme
+                guard let colorSchemes = ColorScheme.parseColorSchemes(from: validData) else { return }
+                ColorManager.shared.colorSchemes = colorSchemes
                 DispatchQueue.main.async {
-                    // these hard coded values need to change 
-                    ColorManager.shared.currentColorScheme = colorScheme[0]
-                    self.foaasSettingsMenuView.view1.backgroundColor = colorScheme[0].primary
-                    self.foaasSettingsMenuView.view2.backgroundColor = colorScheme[1].primary
-                    self.foaasSettingsMenuView.view3.backgroundColor = colorScheme[2].primary
-                    self.foaasView.backgroundColor = ColorManager.shared.currentColorScheme.primary
+                    self.foaasSettingsMenuView.view1.backgroundColor = colorSchemes[0].primary
+                    self.foaasSettingsMenuView.view2.backgroundColor = colorSchemes[1].primary
+                    self.foaasSettingsMenuView.view3.backgroundColor = colorSchemes[2].primary
                 }
             }
             

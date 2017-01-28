@@ -35,6 +35,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
       }
     }
     
+    ColorManager.shared.loadCurrentColorScheme()
+    ColorManager.shared.loadColorSchemes()
+    
     return true
   }
 

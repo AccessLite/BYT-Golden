@@ -34,7 +34,8 @@ class FoaasSettingsMenuView: UIView, UIScrollViewDelegate {
             self.colorSwitcherScrollView.addSubview(self.view1)
             self.colorSwitcherScrollView.addSubview(self.view2)
             self.colorSwitcherScrollView.addSubview(self.view3)
-        }
+            
+            }
     }
     
     required init?(coder aDecoder: NSCoder) {

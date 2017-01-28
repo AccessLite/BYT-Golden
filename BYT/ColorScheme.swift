@@ -26,6 +26,8 @@ class ColorScheme {
     var premium: String
     var version_available : [VersionInColorScheme]
     
+    var jsonDict: [String: Any]
+    
     var colorArray: [UIColor] {
         get {
             return [_50, _100, _200, _300, _400, _500, _600, _700, _800, _900, _800, _700, _600, _500, _400, _300, _200, _100]
@@ -58,7 +60,8 @@ class ColorScheme {
          _900: String,
          a200: String,
          premium: String,
-         version_available : [VersionInColorScheme]) {
+         version_available : [VersionInColorScheme],
+        jsonDict: [String: Any]) {
         self.record_url = record_url
         self.color_scheme_name = color_scheme_name
         self._50 = UIColor(hexString: _50 )
@@ -74,9 +77,10 @@ class ColorScheme {
         self.a200 = UIColor(hexString: a200)
         self.premium = premium
         self.version_available = version_available
+        self.jsonDict = jsonDict
     }
     
-     convenience init?(from dict:[String:Any]) {
+    convenience init?(from dict:[String:Any]) {
         if let record_url = dict["record_url"] as? String,
             let color_scheme_name = dict["color_scheme_name"] as? String,
             let _50 = dict["_50"] as? String,
@@ -94,8 +98,8 @@ class ColorScheme {
             let version_availableArrayOfDict = dict["version_available"] as? [[String: Any]]{
             var v = [VersionInColorScheme]()
             for dict in version_availableArrayOfDict {
-//                guard let version = VersionInColorScheme(from: dict) else { return }
-//                v.append(version)
+                //                guard let version = VersionInColorScheme(from: dict) else { return }
+                //                v.append(version)
             }
             self.init(record_url:record_url,
                       color_scheme_name: color_scheme_name,
@@ -111,7 +115,8 @@ class ColorScheme {
                       _900: _900,
                       a200: a200,
                       premium: premium,
-                      version_available: [] )
+                      version_available: [],
+                      jsonDict: dict)
         } else {
             return nil
         }
@@ -134,15 +139,35 @@ class ColorScheme {
         return colorSchemes
     }
     
+    convenience required init?(data: Data) {
+        do {
+            let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: AnyObject]
+            if let validJson = json {
+                self.init(from: validJson)
+            } else {
+                return nil
+            }
+        }
+        catch {
+            print("Problem recreating currentColorScheme from data: \(error)")
+            return nil
+        }
+    }
+
+    
+    func toData() throws -> Data {
+        return try JSONSerialization.data(withJSONObject: self.jsonDict, options: [])
+    }
+    
 }
 
 class VersionInColorScheme {
     var id: Int
     var version_name: String
-//    init(id: Int, version_name: String) {
-//        self.id = id
-//        self.version_name = version_name
-//    }
+    //    init(id: Int, version_name: String) {
+    //        self.id = id
+    //        self.version_name = version_name
+    //    }
     init?(from dict: [String:Any]) {
         if let id = dict["id"] as? Int,
             let version_name = dict["version_name"] as? String {
