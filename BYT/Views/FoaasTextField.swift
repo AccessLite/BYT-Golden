@@ -12,11 +12,19 @@ enum SlideDirection {
   case up, down
 }
 
+protocol FoaasTextFieldDelegate: class {
+  func foaasTextField(_ textField: FoaasTextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool
+}
+
+
+// TODO: create helper function to locate textfield w/ identifier
 class FoaasTextField: UIView, UITextFieldDelegate {
 
   internal final var textField: UITextField!
   internal final var textLabel: UILabel!
   private var textLabelPlaceholder: String!
+  internal var identifier: String = ""
+  internal var foaasTextFieldDelegate: FoaasTextFieldDelegate?
   
   let largeLabelFont = UIFont.systemFont(ofSize: 24.0)
   let smallLabelFont = UIFont.systemFont(ofSize: 12.0)
@@ -50,7 +58,6 @@ class FoaasTextField: UIView, UITextFieldDelegate {
     self.textLabelPlaceholder = placeHolderText
     self.setupViewHierarchy()
     self.configureConstraints()
-    
   }
   
   override init(frame: CGRect) {
@@ -130,6 +137,11 @@ class FoaasTextField: UIView, UITextFieldDelegate {
     }
     
     slideLabel(direction: .up)
+  }
+  
+  func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+    
+    return self.foaasTextFieldDelegate?.foaasTextField(self, shouldChangeCharactersIn: range, replacementString: string) ?? true
   }
   
   
