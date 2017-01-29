@@ -90,9 +90,9 @@ class FoaasView: UIView {
             sender.layer.transform = CATransform3DMakeAffineTransform(newTransform)
         }, completion: { (complete) in
             sender.layer.transform = CATransform3DMakeAffineTransform(originalTransform)
+            self.delegate?.didTapActionButton()
         })
         
-        self.delegate?.didTapActionButton()
     }
     
     internal func didTapSettingsButton() {

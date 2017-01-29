@@ -8,7 +8,7 @@
 
 import UIKit
 
-class FoaasPrevewViewController: UIViewController, FoaasTextFieldDelegate {
+class FoaasPrevewViewController: UIViewController, FoaasTextFieldDelegate, FoaasPrevewViewDelegate {
   
   internal private(set) var operation: FoaasOperation?
   private var pathBuilder: FoaasPathBuilder?
@@ -23,6 +23,7 @@ class FoaasPrevewViewController: UIViewController, FoaasTextFieldDelegate {
     
     self.foaasPreviewView.createTextFields(for: self.pathBuilder!.allKeys())
     self.foaasPreviewView.setTextFieldsDelegate(self)
+    self.foaasPreviewView.delegate = self
   }
   
   
@@ -42,8 +43,19 @@ class FoaasPrevewViewController: UIViewController, FoaasTextFieldDelegate {
   }
   
   
-  // MARK: - Actions
+  // MARK: - FoaasButtonDelegateMethods
   
+    internal func backButtonPressed() {
+        _ = self.navigationController?.popViewController(animated: true)
+    }
+    
+    internal func doneButtonPressed() {
+        let messageAndSubtitle = self.foaasPreviewView.previewTextView.text.components(separatedBy: "\n")
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.post(name: Notification.Name(rawValue: "FoaasObjectDidUpdate"), object: Foaas(message: messageAndSubtitle[0], subtitle: messageAndSubtitle[1]))
+        _ = navigationController?.popToRootViewController(animated: true)
+
+    }
   
   // MARK: - Other
   internal func set(operation: FoaasOperation?) {

@@ -9,12 +9,20 @@
 import UIKit
 
 // TODO: implement delegation for textfields, make delegate protocol for use in view controller
+protocol FoaasPrevewViewDelegate {
+    func backButtonPressed()
+    func doneButtonPressed()
+}
+
 class FoaasPreviewView: UIView {
   internal private(set) var slidingTextFields: [FoaasTextField] = []
   
+    internal var delegate: FoaasPrevewViewDelegate?
+    
   private var scrollviewBottomConstraint: NSLayoutConstraint? = nil
   private var previewTextViewHeightConstraint: NSLayoutConstraint? = nil
   private var slidingTextFieldBottomConstraint: NSLayoutConstraint? = nil
+  private var newTransform = CGAffineTransform(scaleX: 1.1, y: 1.1)
   
   
   // -------------------------------------
@@ -35,7 +43,7 @@ class FoaasPreviewView: UIView {
   // -------------------------------------
   // MARK: - Config
   private func configureConstraints() {
-    stripAutoResizingMasks(self, scrollView, contentContainerView, previewTextView, previewLabel)
+    stripAutoResizingMasks(self, scrollView, contentContainerView, previewTextView, previewLabel, backButton, doneButton)
     
     // we need to keep a reference to both these constraints because they will be changing later. the scrollViewBottomConstraint
     // update with the keyboard show/hiding. and the previewTextViewHeightConstraint changes with the length of the 
@@ -57,7 +65,7 @@ class FoaasPreviewView: UIView {
       contentContainerView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
       contentContainerView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
       contentContainerView.topAnchor.constraint(equalTo: scrollView.topAnchor),
-      contentContainerView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+      contentContainerView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -72),
       contentContainerView.widthAnchor.constraint(equalTo: self.widthAnchor),
       
       // preview text view
@@ -66,6 +74,16 @@ class FoaasPreviewView: UIView {
       previewTextView.widthAnchor.constraint(equalTo: self.widthAnchor, constant: -32.0),
       previewTextViewHeightConstraint!,
       
+    //buttons
+      backButton.topAnchor.constraint(equalTo: contentContainerView.bottomAnchor, constant: 24),
+        backButton.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 48),
+        backButton.heightAnchor.constraint(equalToConstant: 54),
+        backButton.widthAnchor.constraint(equalToConstant: 54),
+        
+        doneButton.topAnchor.constraint(equalTo: contentContainerView.bottomAnchor, constant: 24),
+        doneButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -48),
+        doneButton.heightAnchor.constraint(equalToConstant: 54),
+        doneButton.widthAnchor.constraint(equalToConstant: 54)
       ].activate()
   }
   
@@ -76,6 +94,7 @@ class FoaasPreviewView: UIView {
     
     self.addSubview(scrollView)
     scrollView.addSubview(contentContainerView)
+    scrollView.addSubviews([backButton, doneButton])
     contentContainerView.addSubview(previewLabel)
     contentContainerView.addSubview(previewTextView)
   }
@@ -235,4 +254,57 @@ class FoaasPreviewView: UIView {
     let view = UIView()
     return view
   }()
+    
+    internal lazy var doneButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.addTarget(self, action: #selector(doneButtonClicked(sender:)), for: UIControlEvents.touchUpInside)
+        button.setImage(UIImage(named: "done_button")!, for: .normal)
+        button.imageView?.layer.shadowColor = UIColor.black.cgColor
+        button.imageView?.layer.shadowOpacity = 0.8
+        button.imageView?.layer.shadowOffset = CGSize.zero
+        button.imageView?.layer.shadowRadius = 8
+        button.imageView?.clipsToBounds = false
+        
+        return button
+    }()
+    
+    internal lazy var backButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.addTarget(self, action: #selector(backButtonClicked(sender:)), for: UIControlEvents.touchUpInside)
+        button.setImage(UIImage(named: "back_button")!, for: .normal)
+        button.imageView?.layer.shadowColor = UIColor.black.cgColor
+        button.imageView?.layer.shadowOpacity = 0.8
+        button.imageView?.layer.shadowOffset = CGSize.zero
+        button.imageView?.layer.shadowRadius = 8
+        button.imageView?.clipsToBounds = false
+        
+        return button
+    }()
+    
+    //MARK: Button Actions
+    internal func backButtonClicked(sender: UIButton) {
+        let originalTransform = sender.imageView!.transform
+        
+        UIView.animate(withDuration: 0.1, animations: {
+            sender.layer.transform = CATransform3DMakeAffineTransform(self.newTransform)
+        }, completion: { (complete) in
+            sender.layer.transform = CATransform3DMakeAffineTransform(originalTransform)
+            self.delegate?.backButtonPressed()
+        })
+    }
+    
+    internal func doneButtonClicked(sender: UIButton) {
+        let originalTransform = sender.imageView!.transform
+        
+        
+        
+        UIView.animate(withDuration: 0.1, animations: {
+            sender.layer.transform = CATransform3DMakeAffineTransform(self.newTransform)
+        }, completion: { (complete) in
+            sender.layer.transform = CATransform3DMakeAffineTransform(originalTransform)
+            self.delegate?.doneButtonPressed()
+        })
+
+    }
+    
 }
