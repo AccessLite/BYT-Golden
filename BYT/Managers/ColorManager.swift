@@ -75,7 +75,7 @@ class ColorManager {
     func loadColorSchemes() {
         if let savedDataFromDefaults = ColorManager.defaults.value(forKey: ColorManager.colorSchemesKey) as? [Data] {
             self.colorSchemes = savedDataFromDefaults.flatMap { ColorScheme(data: $0) }
-            print("Succesfully loaded colorSchems")
+            print("Succesfully loaded colorSchemes")
         } else {
             // if there are no saved clorSchemes then it will set an array of just the default colorScheme
             self.colorSchemes = [ColorManager.shared.currentColorScheme]

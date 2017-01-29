@@ -17,6 +17,11 @@ class FoaasSettingsMenuView: UIView, UIScrollViewDelegate {
     @IBOutlet weak var twitterButton: UIButton!
     @IBOutlet weak var colorSwitcherScrollView: UIScrollView!
     
+    
+    @IBOutlet weak var versionNumberLabel: UILabel!
+    @IBOutlet weak var versionMessageLabel: UILabel!
+    
+    
     var delegate : FoaasSettingMenuDelegate?
     
     override init(frame: CGRect) {
@@ -34,12 +39,16 @@ class FoaasSettingsMenuView: UIView, UIScrollViewDelegate {
             self.colorSwitcherScrollView.addSubview(self.view1)
             self.colorSwitcherScrollView.addSubview(self.view2)
             self.colorSwitcherScrollView.addSubview(self.view3)
-            
-            }
+        }
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+    }
+    
+    func updateVersionLabels() {
+        self.versionNumberLabel.text = "V\(VersionManager.shared.currentVersion.number)"
+        self.versionMessageLabel.text = "\(VersionManager.shared.currentVersion.message) BYT@BOARDINGPASS.COM"
     }
 
     func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {

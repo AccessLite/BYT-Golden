@@ -32,6 +32,7 @@
 		14CFEC4E1E37E86700BD46CF /* FoaasPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14CFEC4D1E37E86700BD46CF /* FoaasPreviewView.swift */; };
 		DE6658F71E3E805500513850 /* Extension + UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE6658F61E3E805500513850 /* Extension + UIColor.swift */; };
 		DE6658F91E3E884800513850 /* ColorScheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE6658F81E3E884800513850 /* ColorScheme.swift */; };
+		DE6658FB1E3E8E6300513850 /* VersionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE6658FA1E3E8E6300513850 /* VersionManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -62,6 +63,7 @@
 		14CFEC4D1E37E86700BD46CF /* FoaasPreviewView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FoaasPreviewView.swift; path = Views/FoaasPreviewView.swift; sourceTree = "<group>"; };
 		DE6658F61E3E805500513850 /* Extension + UIColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Extension + UIColor.swift"; path = "Models/Extension + UIColor.swift"; sourceTree = "<group>"; };
 		DE6658F81E3E884800513850 /* ColorScheme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ColorScheme.swift; path = Models/ColorScheme.swift; sourceTree = "<group>"; };
+		DE6658FA1E3E8E6300513850 /* VersionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VersionManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -148,6 +150,7 @@
 				1498A3021E3E55F0003A3E5C /* ColorManager.swift */,
 				14CFEC171E34394D00BD46CF /* FoaasAPIManager.swift */,
 				14CFEC181E34394D00BD46CF /* FoaasDataManager.swift */,
+				DE6658FA1E3E8E6300513850 /* VersionManager.swift */,
 			);
 			name = Managers;
 			sourceTree = "<group>";
@@ -251,6 +254,7 @@
 				14CFEC1A1E34394D00BD46CF /* FoaasDataManager.swift in Sources */,
 				DE6658F71E3E805500513850 /* Extension + UIColor.swift in Sources */,
 				1498A3011E3E55E4003A3E5C /* Version.swift in Sources */,
+				DE6658FB1E3E8E6300513850 /* VersionManager.swift in Sources */,
 				14CFEC131E34363300BD46CF /* Foaas.swift in Sources */,
 				14CFEC141E34363300BD46CF /* FoaasField.swift in Sources */,
 				14CFEC0E1E3435BE00BD46CF /* FoaasBuilder.swift in Sources */,

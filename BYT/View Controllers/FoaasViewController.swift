@@ -20,7 +20,6 @@ class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenu
     
     // MARK: - Models
     var foaas: Foaas?
-    var versions = [Version]()
     var message = ""
     var subtitle = ""
     
@@ -37,7 +36,7 @@ class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenu
         registerForNotifications()
         addFoaasViewShadow()
         makeRequest()
-        updateSettingsMenuColors()
+        updateSettingsMenu()
         
     }
     
@@ -70,7 +69,7 @@ class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenu
         self.foaasView.backgroundColor = ColorManager.shared.currentColorScheme.primary
     }
     
-    private func updateSettingsMenuColors() {
+    private func updateSettingsMenu() {
         
         // this is hard coded. Will work dynamically when Louis finishes the color scroll view implementation
         if ColorManager.shared.colorSchemes != nil && ColorManager.shared.colorSchemes.count > 2 {
@@ -80,6 +79,7 @@ class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenu
                 self.foaasSettingsMenuView.view3.backgroundColor = ColorManager.shared.colorSchemes[2].primary
             }
         }
+        self.foaasSettingsMenuView.updateVersionLabels()
     }
     
     // MARK: - FoaasView Shadow
@@ -154,8 +154,13 @@ class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenu
             FoaasDataManager.shared.requestVersionData(endpoint: FoaasAPIManager.versionURL) { (data: Data?) in
                 guard let validData = data else { return }
                 guard let version = Version.parseVersion(from: validData) else { return }
-                DispatchQueue.main.async {
-                    self.versions = version
+                
+                if version.number != VersionManager.shared.currentVersion.number {
+                    VersionManager.shared.currentVersion = version
+                    DispatchQueue.main.async {
+                        // update the version info in the settings menu view
+                        self.foaasSettingsMenuView.updateVersionLabels()
+                    }
                 }
             }
         }
