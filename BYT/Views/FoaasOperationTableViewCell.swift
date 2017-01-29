@@ -43,6 +43,7 @@ class FoaasOperationsTableViewCell: UITableViewCell {
     //once the color gradient appears on the tableView this white will be visible
     label.font = UIFont.Roboto.regular(size: 34.0)
     label.textColor = .white
+    label.alpha = 1.0
     
     return label
   }()

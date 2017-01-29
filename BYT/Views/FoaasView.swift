@@ -121,6 +121,7 @@ class FoaasView: UIView {
         //updating font and color according to PM notes
         label.font = UIFont.Roboto.light(size: 56.0)
         label.textColor = UIColor.white
+        label.alpha = 1.0
         
         label.textAlignment = .left
         label.adjustsFontSizeToFitWidth = true
@@ -136,6 +137,7 @@ class FoaasView: UIView {
         //updating font and color according to PM notes
         label.font = UIFont.Roboto.regular(size: 34.0)
         label.textColor = UIColor.white
+        label.alpha = 0.70
         
         label.textAlignment = .right
         label.adjustsFontSizeToFitWidth = true
