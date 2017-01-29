@@ -110,8 +110,13 @@ class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenu
     
     
     
-    internal func updateFoaas(sender: Any) {
-        // TODO
+    internal func updateFoaas(sender: Notification) {
+        guard let validFoaas = sender.object as? Foaas else {
+            print("The notification center did not register a Foaas Object. Fix your bug bro.")
+            return
+        }
+        self.foaasView.mainTextLabel.text = validFoaas.message
+        self.foaasView.subtitleTextLabel.text = validFoaas.subtitle
     }
     
     
