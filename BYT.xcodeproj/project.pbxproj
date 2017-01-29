@@ -34,7 +34,6 @@
 		DE6658F91E3E884800513850 /* ColorScheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE6658F81E3E884800513850 /* ColorScheme.swift */; };
 		DE6658FB1E3E8E6300513850 /* VersionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE6658FA1E3E8E6300513850 /* VersionManager.swift */; };
 /* End PBXBuildFile section */
-
 /* Begin PBXFileReference section */
 		1498A2FF1E3E55E4003A3E5C /* Version.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Version.swift; path = Models/Version.swift; sourceTree = "<group>"; };
 		1498A3021E3E55F0003A3E5C /* ColorManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ColorManager.swift; path = Managers/ColorManager.swift; sourceTree = "<group>"; };
