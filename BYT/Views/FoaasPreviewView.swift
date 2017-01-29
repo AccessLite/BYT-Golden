@@ -78,6 +78,10 @@ class FoaasPreviewView: UIView {
     scrollView.addSubview(contentContainerView)
     contentContainerView.addSubview(previewLabel)
     contentContainerView.addSubview(previewTextView)
+    scrollView.accessibilityIdentifier = "ScrollView"
+    contentContainerView.accessibilityIdentifier = "ContentContainerView"
+    previewLabel.accessibilityIdentifier = "PreviewLabel"
+    previewTextView.accessibilityIdentifier = "PreviewTextView"
   }
   
   
@@ -137,6 +141,12 @@ class FoaasPreviewView: UIView {
     }
   }
 
+  internal func setTextFieldsDelegate(_ delegate: FoaasTextFieldDelegate) {
+    slidingTextFields.forEach { (textField) in
+      textField.foaasTextFieldDelegate = delegate
+    }
+  }
+  
   
   // -------------------------------------
   // MARK: - Keyboard Notification
@@ -180,21 +190,30 @@ class FoaasPreviewView: UIView {
     }
   }
   
+  // TODO: needs testing 
+  internal func updateAttributedText(text: NSMutableAttributedString) {
+    DispatchQueue.main.async {
+      self.previewTextView.attributedText = text
+      self.updateTextViewdHeight(animated: true)
+    }
+  }
+  
   /// See https://medium.com/@louistur/dynamic-sizing-of-uitextview-with-autolayout-6dbcfa8e5e2d#.rhnheioqn for details
   private func updateTextViewdHeight(animated: Bool) {
     let textContainterInsets = self.previewTextView.textContainerInset
-    let usedRect = self.previewTextView.layoutManager.usedRect(for: self.previewTextView.textContainer)
+    let textContainer = self.previewTextView.textContainer
     
-    self.previewTextViewHeightConstraint?.constant = usedRect.size.height + textContainterInsets.top + textContainterInsets.bottom
-    // TODO: ensure that after typing, if additional lines are added that the textfield expands to accomodate this as well
-    //    self.previewTextView.textContainer.heightTracksTextView = true
-    
+    // ensureLayout must be called for the bounding rect of attributed text to be properly accounted for
+    self.previewTextView.layoutManager.ensureLayout(for: textContainer)
+    let usedRect = self.previewTextView.layoutManager.usedRect(for: textContainer)
+
+    self.previewTextViewHeightConstraint?.constant = usedRect.height + textContainterInsets.top + textContainterInsets.bottom
+
     if !animated { return }
     UIView.animate(withDuration: 0.2, animations: {
       self.layoutIfNeeded()
     })
   }
-  
   
   // MARK: - Lazy Inits
   internal lazy var previewLabel: UILabel = {
