@@ -57,7 +57,7 @@ class FoaasPrevewViewController: UIViewController, FoaasTextFieldDelegate, Foaas
     internal func doneButtonPressed() {
         let messageAndSubtitle = self.foaasPreviewView.previewTextView.text.components(separatedBy: "\n")
         let notificationCenter = NotificationCenter.default
-        notificationCenter.post(name: Notification.Name(rawValue: "FoaasObjectDidUpdate"), object: Foaas(message: messageAndSubtitle[0], subtitle: messageAndSubtitle[1]))
+        notificationCenter.post(name: Notification.Name(rawValue: "FoaasObjectDidUpdate"), object: Foaas(message: messageAndSubtitle[0], subtitle: messageAndSubtitle[1..<messageAndSubtitle.count].joined(separator: "\n")))
         _ = navigationController?.popToRootViewController(animated: true)
 
     }

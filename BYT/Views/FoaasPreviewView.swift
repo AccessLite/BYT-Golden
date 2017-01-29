@@ -267,8 +267,8 @@ class FoaasPreviewView: UIView {
         button.setImage(UIImage(named: "done_button")!, for: .normal)
         button.imageView?.layer.shadowColor = UIColor.black.cgColor
         button.imageView?.layer.shadowOpacity = 0.8
-        button.imageView?.layer.shadowOffset = CGSize.zero
-        button.imageView?.layer.shadowRadius = 8
+        button.imageView?.layer.shadowOffset = CGSize(width: 0, height: 5)
+        button.imageView?.layer.shadowRadius = 5
         button.imageView?.clipsToBounds = false
         
         return button
@@ -280,8 +280,8 @@ class FoaasPreviewView: UIView {
         button.setImage(UIImage(named: "back_button")!, for: .normal)
         button.imageView?.layer.shadowColor = UIColor.black.cgColor
         button.imageView?.layer.shadowOpacity = 0.8
-        button.imageView?.layer.shadowOffset = CGSize.zero
-        button.imageView?.layer.shadowRadius = 8
+        button.imageView?.layer.shadowOffset = CGSize(width: 0, height: 5)
+        button.imageView?.layer.shadowRadius = 5
         button.imageView?.clipsToBounds = false
         
         return button
