@@ -29,21 +29,19 @@ class ColorScheme {
     var jsonDict: [String: Any]
     
     var colorArray: [UIColor] {
-        get {
-            return [_50, _100, _200, _300, _400, _500, _600, _700, _800, _900, _800, _700, _600, _500, _400, _300, _200, _100]
-        }
+        return [_50, _100, _200, _300, _400, _500, _600, _700, _800, _900, _800, _700, _600, _500, _400, _300, _200, _100]
     }
     var primary: UIColor {
-        get { return _500 }
+        return _500
     }
     var primaryDark: UIColor {
-        get { return _700 }
+        return _700
     }
     var primaryLight: UIColor {
-        get { return _100 }
+        return _100
     }
     var accent: UIColor {
-        get { return a200 }
+        return a200
     }
     
     init(record_url: String,
