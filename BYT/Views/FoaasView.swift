@@ -15,7 +15,8 @@ protocol FoaasViewDelegate: class {
 
 class FoaasView: UIView {
     internal var delegate: FoaasViewDelegate?
-    
+  
+  
     // MARK: - Setup
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -31,8 +32,14 @@ class FoaasView: UIView {
         resizingView.addSubview(self.mainTextLabel)
         resizingView.addSubview(self.subtitleTextLabel)
         
+        resizingView.accessibilityIdentifier = "resizingView"
+        addButton.accessibilityIdentifier = "addButton"
+        settingsMenuButton.accessibilityIdentifier = "settingsMenuButton"
+        mainTextLabel.accessibilityIdentifier = "mainTextLabel"
+        subtitleTextLabel.accessibilityIdentifier = "subtitleTextLabel"
+        
         stripAutoResizingMasks(self, resizingView, mainTextLabel, subtitleTextLabel , addButton, settingsMenuButton)
-        self.backgroundColor = .yellow
+        self.backgroundColor = .purple
         self.settingsMenuButton.addTarget(self, action: #selector(didTapSettingsButton), for: .touchUpInside)
         self.addButton.addTarget(self, action: #selector(didTapButton(sender:)), for: .touchDown)
     }
@@ -55,7 +62,6 @@ class FoaasView: UIView {
             subtitleTextLabel.trailingAnchor.constraint(equalTo: resizingView.trailingAnchor, constant: -16.0),
             subtitleTextLabel.topAnchor.constraint(equalTo: self.mainTextLabel.bottomAnchor, constant: 16.0),
             subtitleTextLabel.bottomAnchor.constraint(equalTo: resizingView.bottomAnchor, constant: -16.0),
-            subtitleTextLabel.heightAnchor.constraint(equalTo: resizingView.heightAnchor, multiplier: 0.2)
         ]
         
         let buttonConstraints = [
@@ -98,7 +104,8 @@ class FoaasView: UIView {
     internal func didTapSettingsButton() {
         self.delegate?.didTapSettingsButton()
     }
-    
+  
+  
     // MARK: - Lazy Inits
     internal lazy var resizingView: UIView = {
         let view: UIView = UIView()
