@@ -26,8 +26,8 @@ class FoaasTextField: UIView, UITextFieldDelegate {
   internal var identifier: String = ""
   internal var foaasTextFieldDelegate: FoaasTextFieldDelegate?
   
-  let largeLabelFont = UIFont.systemFont(ofSize: 24.0)
-  let smallLabelFont = UIFont.systemFont(ofSize: 12.0)
+  let largeLabelFont = UIFont.Roboto.medium(size: 18.0)
+  let smallLabelFont = UIFont.Roboto.medium(size: 18.0)
   
   private var labelEmptyConstraint: NSLayoutConstraint!
   private var labelFilledConstraint: NSLayoutConstraint!
@@ -54,8 +54,8 @@ class FoaasTextField: UIView, UITextFieldDelegate {
     self.init(frame: CGRect.zero)
     self.backgroundColor = .clear
     self.clipsToBounds = false
-    
     self.textLabelPlaceholder = placeHolderText
+    
     self.setupViewHierarchy()
     self.configureConstraints()
   }

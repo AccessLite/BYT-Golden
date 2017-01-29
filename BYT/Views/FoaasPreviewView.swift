@@ -93,16 +93,16 @@ class FoaasPreviewView: UIView {
   /// `contentContainerView` and given constraints. 
   /// - Parameters:
   ///   - keys: The keys to be used to generate `FoaasTextField`
-  internal func createTextFields(for keys: [String]) {
-    for key in keys {
-      let newSlidingTextField = FoaasTextField(placeHolderText: key)
-      newSlidingTextField.identifier = key // used to later identify the textfields if needed
-      slidingTextFields.append(newSlidingTextField)
-      self.contentContainerView.addSubview(newSlidingTextField)
+    internal func createTextFields(for keys: [String]) {
+        for key in keys {
+            let newSlidingTextField = FoaasTextField(placeHolderText: key)
+            newSlidingTextField.identifier = key // used to later identify the textfields if needed
+            slidingTextFields.append(newSlidingTextField)
+            self.contentContainerView.addSubview(newSlidingTextField)
+        }
+        
+        arrangeSlidingTextFields()
     }
-    
-    arrangeSlidingTextFields()
-  }
   
   /// This dynamically lays out as many `FoaasTextField` as needed, based on the contents of `self.slidingTextFields`
   private func arrangeSlidingTextFields() {
@@ -219,13 +219,21 @@ class FoaasPreviewView: UIView {
   internal lazy var previewLabel: UILabel = {
     let label: UILabel = UILabel()
     label.text = "Preview"
-    label.font = UIFont.systemFont(ofSize: 18.0)
+    
+    //updating font and color according to PM notes
+    label.font = UIFont.Roboto.medium(size: 18.0)
+    label.textColor = .black
+    
     return label
   }()
   
   internal lazy var previewTextView: UITextView = {
     let textView: UITextView = UITextView()
-    textView.font = UIFont.systemFont(ofSize: 32.0)
+    
+    //updating font and color according to PM notes
+    textView.font = UIFont.Roboto.light(size: 24.0)
+    textView.textColor = .white
+    
     textView.isEditable = false
     return textView
   }()
