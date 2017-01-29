@@ -71,7 +71,9 @@ class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenu
     }
     
     private func updateSettingsMenuColors() {
-        if ColorManager.shared.colorSchemes != nil {
+        
+        // this is hard coded. Will work dynamically when Louis finishes the color scroll view implementation
+        if ColorManager.shared.colorSchemes != nil && ColorManager.shared.colorSchemes.count > 2 {
             DispatchQueue.main.async {
                 self.foaasSettingsMenuView.view1.backgroundColor = ColorManager.shared.colorSchemes[0].primary
                 self.foaasSettingsMenuView.view2.backgroundColor = ColorManager.shared.colorSchemes[1].primary

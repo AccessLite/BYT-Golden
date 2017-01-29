@@ -1,10 +1,12 @@
 //
 //  ColorScheme.swift
-//  BYT-anama118118
+//  BYT
 //
-//  Created by Ana Ma on 1/22/17.
-//  Copyright © 2017 C4Q. All rights reserved.
+//  Created by Tom Seymour on 1/29/17.
+//  Copyright © 2017 AccessLite. All rights reserved.
 //
+
+import Foundation
 
 import Foundation
 import UIKit
@@ -24,26 +26,22 @@ class ColorScheme {
     var _900: UIColor
     var a200: UIColor
     var premium: String
-    var version_available : [VersionInColorScheme]
-    
     var jsonDict: [String: Any]
     
     var colorArray: [UIColor] {
-        get {
-            return [_50, _100, _200, _300, _400, _500, _600, _700, _800, _900, _800, _700, _600, _500, _400, _300, _200, _100]
-        }
+        return [_50, _100, _200, _300, _400, _500, _600, _700, _800, _900, _800, _700, _600, _500, _400, _300, _200, _100]
     }
     var primary: UIColor {
-        get { return _500 }
+        return _500
     }
     var primaryDark: UIColor {
-        get { return _700 }
+        return _700
     }
     var primaryLight: UIColor {
-        get { return _100 }
+        return _100
     }
     var accent: UIColor {
-        get { return a200 }
+        return a200
     }
     
     init(record_url: String,
@@ -60,7 +58,6 @@ class ColorScheme {
          _900: String,
          a200: String,
          premium: String,
-         version_available : [VersionInColorScheme],
         jsonDict: [String: Any]) {
         self.record_url = record_url
         self.color_scheme_name = color_scheme_name
@@ -76,7 +73,6 @@ class ColorScheme {
         self._900 = UIColor(hexString: _900)
         self.a200 = UIColor(hexString: a200)
         self.premium = premium
-        self.version_available = version_available
         self.jsonDict = jsonDict
     }
     
@@ -94,13 +90,7 @@ class ColorScheme {
             let _800 = dict["_800"] as? String,
             let _900 = dict["_900"] as? String,
             let a200 = dict["a200"] as? String,
-            let premium = dict["premium"] as? String,
-            let version_availableArrayOfDict = dict["version_available"] as? [[String: Any]]{
-            var v = [VersionInColorScheme]()
-            for dict in version_availableArrayOfDict {
-                //                guard let version = VersionInColorScheme(from: dict) else { return }
-                //                v.append(version)
-            }
+            let premium = dict["premium"] as? String {
             self.init(record_url:record_url,
                       color_scheme_name: color_scheme_name,
                       _50: _50,
@@ -115,7 +105,6 @@ class ColorScheme {
                       _900: _900,
                       a200: a200,
                       premium: premium,
-                      version_available: [],
                       jsonDict: dict)
         } else {
             return nil
@@ -153,52 +142,9 @@ class ColorScheme {
             return nil
         }
     }
-
     
     func toData() throws -> Data {
         return try JSONSerialization.data(withJSONObject: self.jsonDict, options: [])
     }
-    
 }
 
-class VersionInColorScheme {
-    var id: Int
-    var version_name: String
-    //    init(id: Int, version_name: String) {
-    //        self.id = id
-    //        self.version_name = version_name
-    //    }
-    init?(from dict: [String:Any]) {
-        if let id = dict["id"] as? Int,
-            let version_name = dict["version_name"] as? String {
-            self.id = id
-            self.version_name = version_name
-        } else {
-            return nil
-        }
-    }
-    static func parseVersionInColorScheme(from arr:[String:Any]) -> [VersionInColorScheme]{
-        return []
-    }
-}
-
-extension UIColor {
-    //http://stackoverflow.com/questions/24263007/how-to-use-hex-colour-values-in-swift-ios
-    convenience init(hexString: String) {
-        let hex = hexString.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
-        var int = UInt32()
-        Scanner(string: hex).scanHexInt32(&int)
-        let a, r, g, b: UInt32
-        switch hex.characters.count {
-        case 3: // RGB (12-bit)
-            (a, r, g, b) = (255, (int >> 8) * 17, (int >> 4 & 0xF) * 17, (int & 0xF) * 17)
-        case 6: // RGB (24-bit)
-            (a, r, g, b) = (255, int >> 16, int >> 8 & 0xFF, int & 0xFF)
-        case 8: // ARGB (32-bit)
-            (a, r, g, b) = (int >> 24, int >> 16 & 0xFF, int >> 8 & 0xFF, int & 0xFF)
-        default:
-            (a, r, g, b) = (255, 0, 0, 0)
-        }
-        self.init(red: CGFloat(r) / 255, green: CGFloat(g) / 255, blue: CGFloat(b) / 255, alpha: CGFloat(a) / 255)
-    }
-}
