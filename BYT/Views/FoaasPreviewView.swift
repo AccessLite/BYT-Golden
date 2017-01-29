@@ -223,6 +223,7 @@ class FoaasPreviewView: UIView {
     //updating font and color according to PM notes
     label.font = UIFont.Roboto.medium(size: 18.0)
     label.textColor = .black
+    label.alpha = 1.0
     
     return label
   }()
@@ -233,6 +234,7 @@ class FoaasPreviewView: UIView {
     //updating font and color according to PM notes
     textView.font = UIFont.Roboto.light(size: 24.0)
     textView.textColor = .white
+    textView.alpha = 1.0
     
     textView.isEditable = false
     return textView

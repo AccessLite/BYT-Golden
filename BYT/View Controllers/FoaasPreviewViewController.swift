@@ -79,9 +79,10 @@ class FoaasPrevewViewController: UIViewController, FoaasTextFieldDelegate {
         //}
         DispatchQueue.main.async {
             
-            //Updated the font according to PM notes. Text won't be visible until color changes to the superview are implemented
-            let attributedString = NSMutableAttributedString(string: message, attributes: [NSForegroundColorAttributeName : UIColor.white, NSFontAttributeName : UIFont.Roboto.light(size: 24.0)! ])
-            let fromAttribute = NSMutableAttributedString(string: "\n\n" + "From,\n" + subtitle, attributes: [ NSForegroundColorAttributeName : UIColor.white, NSFontAttributeName : UIFont.Roboto.light(size: 24.0)!])
+            //Updated the font according to PM notes. Text won't be visible until color changes to the superview are implemented.
+            //Changed call from UIColor.white to RGB initializer so alpha values can be accounted for.
+            let attributedString = NSMutableAttributedString(string: message, attributes: [NSForegroundColorAttributeName : UIColor(red: 255.0, green: 255.0, blue: 255.0, alpha: 1.0), NSFontAttributeName : UIFont.Roboto.light(size: 24.0)! ])
+            let fromAttribute = NSMutableAttributedString(string: "\n\n" + "From,\n" + subtitle, attributes: [ NSForegroundColorAttributeName : UIColor(red: 255.0, green: 255.0, blue: 255.0, alpha: 1.0), NSFontAttributeName : UIFont.Roboto.light(size: 24.0)!])
             
             let paragraphStyle = NSMutableParagraphStyle()
             paragraphStyle.alignment = .right
@@ -102,7 +103,7 @@ class FoaasPrevewViewController: UIViewController, FoaasTextFieldDelegate {
                     let range = self.previewText.range(of: key)
                     
                     //Updated font but leaving accent color
-                    let attributedStringToReplace = NSMutableAttributedString(string: validFoaasPath.operationFields[key]! , attributes: [NSUnderlineStyleAttributeName: NSUnderlineStyle.styleSingle.rawValue, NSForegroundColorAttributeName : UIColor.green, NSFontAttributeName : UIFont.Roboto.light(size: 24.0)!])
+                    let attributedStringToReplace = NSMutableAttributedString(string: validFoaasPath.operationFields[key]! , attributes: [NSUnderlineStyleAttributeName: NSUnderlineStyle.styleSingle.rawValue, NSForegroundColorAttributeName : UIColor(red: 0.0, green: 255.0, blue: 0.0, alpha: 1.0), NSFontAttributeName : UIFont.Roboto.light(size: 24.0)!])
                     let attributedTextWithGreenFields = NSMutableAttributedString.init(attributedString: self.previewAttributedText)
                     attributedTextWithGreenFields.replaceCharacters(in: range, with: attributedStringToReplace)
                     
@@ -139,7 +140,7 @@ class FoaasPrevewViewController: UIViewController, FoaasTextFieldDelegate {
                 let rangeOfWord = string.range(of: key)
                 
                 //Updating font but leaving color as is
-                let attributedStringToReplace = NSMutableAttributedString(string: validFoaasPath.operationFields[key]!, attributes: [NSUnderlineStyleAttributeName: NSUnderlineStyle.styleSingle.rawValue, NSForegroundColorAttributeName : UIColor.green, NSFontAttributeName : UIFont.Roboto.light(size: 24.0)!])
+                let attributedStringToReplace = NSMutableAttributedString(string: validFoaasPath.operationFields[key]!, attributes: [NSUnderlineStyleAttributeName: NSUnderlineStyle.styleSingle.rawValue, NSForegroundColorAttributeName : UIColor(red: 0.0, green: 255.0, blue: 0.0, alpha: 1.0), NSFontAttributeName : UIFont.Roboto.light(size: 24.0)!])
                 attributedText.replaceCharacters(in: rangeOfWord, with: attributedStringToReplace)
             }
             self.foaasPreviewView.updateAttributedText(text: attributedText)

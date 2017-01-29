@@ -26,6 +26,7 @@ class FoaasTextField: UIView, UITextFieldDelegate {
   internal var identifier: String = ""
   internal var foaasTextFieldDelegate: FoaasTextFieldDelegate?
   
+    //Updated font to reflect PM notes
   let largeLabelFont = UIFont.Roboto.medium(size: 18.0)
   let smallLabelFont = UIFont.Roboto.medium(size: 18.0)
   
@@ -55,6 +56,9 @@ class FoaasTextField: UIView, UITextFieldDelegate {
     self.backgroundColor = .clear
     self.clipsToBounds = false
     self.textLabelPlaceholder = placeHolderText
+    
+    //setting alpha value according to PM notes
+    self.alpha = 0.34
     
     self.setupViewHierarchy()
     self.configureConstraints()
