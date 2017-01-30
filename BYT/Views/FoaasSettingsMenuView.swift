@@ -48,7 +48,7 @@ class FoaasSettingsMenuView: UIView, UIScrollViewDelegate {
     
     func updateVersionLabels() {
         self.versionNumberLabel.text = "V\(VersionManager.shared.currentVersion.number)"
-        self.versionMessageLabel.text = "\(VersionManager.shared.currentVersion.message) BYT@BOARDINGPASS.COM"
+        self.versionMessageLabel.text = "\(VersionManager.shared.currentVersion.message.uppercased()) BYT@BOARDINGPASS.COM"
     }
 
     func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
@@ -63,24 +63,10 @@ class FoaasSettingsMenuView: UIView, UIScrollViewDelegate {
             pageWidth = self.colorSwitcherScrollView.frame.width - CGFloat(40)
             number += 1
         }
-        
         let currentPage:CGFloat = floor((scrollView.contentOffset.x-pageWidth/2)/pageWidth)+1
         
         ColorManager.shared.currentColorScheme = ColorManager.shared.colorSchemes[Int(currentPage)]
-
-        if Int(currentPage) == 0{
-            print("\(currentPage) is 0")
-            self.delegate?.colorSwitcherScrollViewScrolled(color: self.view1.backgroundColor!)
-        }else if Int(currentPage) == 1{
-            print("\(currentPage) is 1")
-            self.delegate?.colorSwitcherScrollViewScrolled(color: self.view2.backgroundColor!)
-        }else if Int(currentPage) == 2{
-            print("\(currentPage) is 2")
-            self.delegate?.colorSwitcherScrollViewScrolled(color: self.view3.backgroundColor!)
-        }else{
-             print("\(currentPage) is others")
-        }
-        
+        self.delegate?.colorSwitcherScrollViewScrolled()
     }
     
     @IBAction func profanitySwitchDidChange(_ sender: UISwitch) {

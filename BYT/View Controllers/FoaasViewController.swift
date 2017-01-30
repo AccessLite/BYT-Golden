@@ -220,8 +220,8 @@ class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenu
         }
     }
     
-    func colorSwitcherScrollViewScrolled(color: UIColor) {
-        self.foaasView.backgroundColor = color
+    func colorSwitcherScrollViewScrolled() {
+        self.foaasView.backgroundColor = ColorManager.shared.currentColorScheme.primary
     }
     
     func profanitfySwitchChanged() {
