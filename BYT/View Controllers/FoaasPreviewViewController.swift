@@ -109,7 +109,7 @@ class FoaasPrevewViewController: UIViewController, FoaasTextFieldDelegate, Foaas
                 let keys = validFoaasPath.allKeys()
                 for key in keys {
                     let range = self.previewText.range(of: key)
-                    let attributedStringToReplace = NSMutableAttributedString(string: validFoaasPath.operationFields[key]! , attributes: [NSUnderlineStyleAttributeName: NSUnderlineStyle.styleSingle.rawValue, NSForegroundColorAttributeName : UIColor.green, NSFontAttributeName : UIFont.systemFont(ofSize: 24, weight: UIFontWeightLight)])
+                    let attributedStringToReplace = NSMutableAttributedString(string: validFoaasPath.operationFields[key]! , attributes: [NSUnderlineStyleAttributeName: NSUnderlineStyle.styleSingle.rawValue, NSForegroundColorAttributeName : ColorManager.shared.currentColorScheme.accent, NSFontAttributeName : UIFont.systemFont(ofSize: 24, weight: UIFontWeightLight)])
                     let attributedTextWithGreenFields = NSMutableAttributedString.init(attributedString: self.previewAttributedText)
                     attributedTextWithGreenFields.replaceCharacters(in: range, with: attributedStringToReplace)
                     
@@ -144,7 +144,7 @@ class FoaasPrevewViewController: UIViewController, FoaasTextFieldDelegate, Foaas
             for key in keys {
                 let string = attributedText.string as NSString
                 let rangeOfWord = string.range(of: key)
-                let attributedStringToReplace = NSMutableAttributedString(string: validFoaasPath.operationFields[key]!, attributes: [NSUnderlineStyleAttributeName: NSUnderlineStyle.styleSingle.rawValue, NSForegroundColorAttributeName : UIColor.green, NSFontAttributeName : UIFont.systemFont(ofSize: 24, weight: UIFontWeightLight)])
+                let attributedStringToReplace = NSMutableAttributedString(string: validFoaasPath.operationFields[key]!, attributes: [NSUnderlineStyleAttributeName: NSUnderlineStyle.styleSingle.rawValue, NSForegroundColorAttributeName : ColorManager.shared.currentColorScheme.accent, NSFontAttributeName : UIFont.systemFont(ofSize: 24, weight: UIFontWeightLight)])
                 attributedText.replaceCharacters(in: rangeOfWord, with: attributedStringToReplace)
             }
             self.foaasPreviewView.updateAttributedText(text: attributedText)

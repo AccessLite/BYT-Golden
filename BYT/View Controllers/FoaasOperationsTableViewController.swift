@@ -13,7 +13,6 @@ class FoaasOperationsTableViewController: UITableViewController {
     let operations = FoaasDataManager.shared.operations
     let cellIdentifier = "FoaasOperationCellIdentifier"
     
-    
     // MARK: - View Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,8 +34,7 @@ class FoaasOperationsTableViewController: UITableViewController {
     override func viewDidLayoutSubviews() {
         configureConstraints()
     }
-    
-    
+
     // MARK: - Tableview data source
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
@@ -54,15 +52,14 @@ class FoaasOperationsTableViewController: UITableViewController {
             cell.textLabel?.text = "INVALID"
             return cell }
         operationCell.operationNameLabel.text = operations?[indexPath.row].name
-        
+        operationCell.backgroundColor = ColorManager.shared.currentColorScheme.colorArray[indexPath.row % ColorManager.shared.currentColorScheme.colorArray.count]
         return operationCell
     }
     
     // MARK: - Tableview Delegate
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        guard
-            let selectedOperation = operations?[indexPath.row],
+        guard let selectedOperation = operations?[indexPath.row],
             let navVC = self.navigationController
             else { return }
         

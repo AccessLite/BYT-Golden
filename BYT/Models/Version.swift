@@ -14,69 +14,73 @@ class Version {
     var number: String
     var date_released: String
     var message: String
-    var color_schemes: [ColorSchemeInVersion]
+    
+    var jsonDict: [String: Any]
     
     init(record_url: String,
          version_name: String,
          number: String,
          date_released: String,
          message: String,
-         color_schemes: [ColorSchemeInVersion]) {
+         jsonDict: [String: Any]) {
         self.record_url = record_url
         self.version_name = version_name
         self.number = number
         self.date_released = date_released
         self.message = message
-        self.color_schemes = color_schemes
+        self.jsonDict = jsonDict
     }
     
     convenience init? (from dict: [String:Any]) {
         if let record_url = dict["record_url"] as? String,
             let version_name = dict["version_name"] as? String,
-            let number = dict["version_name"] as? String,
+            let number = dict["number"] as? String,
             let date_released = dict["date_released"] as? String,
-            let message = dict["message"] as? String,
-            let color_schemesArrayOfDict = dict["color_schemes"] as? [[String: Any]] {
-            var c = [ColorSchemeInVersion]()
-            for dict in color_schemesArrayOfDict {
-                //guard let color = ColorSchemeInVersion(from: dict) else { return }
-                //c.append(color)
-            }
+            let message = dict["message"] as? String {
+            
             self.init(record_url: record_url,
                       version_name: version_name,
                       number: number,
                       date_released: date_released,
                       message: message,
-                      color_schemes: [])
+                      jsonDict: dict)
         } else {
             return nil
         }
     }
     
-    static func parseVersion(from data: Data) -> [Version]? {
-        var versionArr = [Version]()
+    convenience required init?(data: Data) {
+        do {
+            let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: AnyObject]
+            if let validJson = json {
+                self.init(from: validJson)
+            } else {
+                return nil
+            }
+        }
+        catch {
+            print("Problem recreating currentVersion from data: \(error)")
+            return nil
+        }
+    }
+
+    
+    static func parseVersion(from data: Data) -> Version? {
         do {
             let json = try JSONSerialization.jsonObject(with: data, options: [])
-            guard let validArr = json as? [[String: Any]] else { return nil }
-            for version in validArr {
-                if let v = Version(from: version) {
-                    versionArr.append(v)
-                }
+            guard let validArr = json as? [[String: Any]], validArr.count > 0 else { return nil }
+            if let version = Version(from: validArr.last!) {
+                return version
             }
         }
         catch {
             print(error)
         }
-        return versionArr
+        return nil
     }
-
-}
-
-class ColorSchemeInVersion {
-    var id: Int
-    var color_scheme_name: String
-    init(id: Int, color_scheme_name: String) {
-        self.id = id
-        self.color_scheme_name = color_scheme_name
+    
+    func toData() throws -> Data {
+        return try JSONSerialization.data(withJSONObject: self.jsonDict, options: [])
     }
+    
 }
