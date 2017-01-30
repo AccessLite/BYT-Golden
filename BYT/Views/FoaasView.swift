@@ -14,6 +14,7 @@ protocol FoaasViewDelegate: class {
 }
 
 class FoaasView: UIView {
+    
     internal var delegate: FoaasViewDelegate?
   
   
@@ -96,9 +97,9 @@ class FoaasView: UIView {
             sender.layer.transform = CATransform3DMakeAffineTransform(newTransform)
         }, completion: { (complete) in
             sender.layer.transform = CATransform3DMakeAffineTransform(originalTransform)
+            self.delegate?.didTapActionButton()
         })
         
-        self.delegate?.didTapActionButton()
     }
     
     internal func didTapSettingsButton() {
@@ -151,7 +152,7 @@ class FoaasView: UIView {
         button.setBackgroundImage(UIImage(named: "add_button")!, for: .normal)
         button.layer.shadowColor = UIColor.black.cgColor
         button.layer.shadowOpacity = 0.8
-        button.layer.shadowOffset = CGSize.zero
+        button.layer.shadowOffset = CGSize(width: 0, height: 5)
         button.layer.shadowRadius = 8
         return button
     }()

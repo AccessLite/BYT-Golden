@@ -8,7 +8,7 @@
 
 import UIKit
 
-class FoaasPrevewViewController: UIViewController, FoaasTextFieldDelegate {
+class FoaasPrevewViewController: UIViewController, FoaasTextFieldDelegate, FoaasPrevewViewDelegate {
   
   internal private(set) var operation: FoaasOperation?
   private var pathBuilder: FoaasPathBuilder?
@@ -28,6 +28,7 @@ class FoaasPrevewViewController: UIViewController, FoaasTextFieldDelegate {
     
     self.foaasPreviewView.createTextFields(for: self.pathBuilder!.allKeys())
     self.foaasPreviewView.setTextFieldsDelegate(self)
+    self.foaasPreviewView.delegate = self
   }
   
   
@@ -47,8 +48,19 @@ class FoaasPrevewViewController: UIViewController, FoaasTextFieldDelegate {
   }
   
   
-  // MARK: - Actions
+  // MARK: - FoaasButtonDelegateMethods
   
+    internal func backButtonPressed() {
+        _ = self.navigationController?.popViewController(animated: true)
+    }
+    
+    internal func doneButtonPressed() {
+        let messageAndSubtitle = self.foaasPreviewView.previewTextView.text.components(separatedBy: "\n")
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.post(name: Notification.Name(rawValue: "FoaasObjectDidUpdate"), object: Foaas(message: messageAndSubtitle[0], subtitle: messageAndSubtitle[1..<messageAndSubtitle.count].joined(separator: "\n")))
+        _ = navigationController?.popToRootViewController(animated: true)
+
+    }
   
   // MARK: - Other
   internal func set(operation: FoaasOperation?) {
@@ -101,9 +113,8 @@ class FoaasPrevewViewController: UIViewController, FoaasTextFieldDelegate {
                 let keys = validFoaasPath.allKeys()
                 for key in keys {
                     let range = self.previewText.range(of: key)
-                    
-                    //Updated font but leaving accent color
-                    let attributedStringToReplace = NSMutableAttributedString(string: validFoaasPath.operationFields[key]! , attributes: [NSUnderlineStyleAttributeName: NSUnderlineStyle.styleSingle.rawValue, NSForegroundColorAttributeName : UIColor(red: 0.0, green: 255.0, blue: 0.0, alpha: 1.0), NSFontAttributeName : UIFont.Roboto.light(size: 24.0)!])
+                    let attributedStringToReplace = NSMutableAttributedString(string: validFoaasPath.operationFields[key]! , attributes: [NSUnderlineStyleAttributeName: NSUnderlineStyle.styleSingle.rawValue, NSForegroundColorAttributeName : ColorManager.shared.currentColorScheme.accent, NSFontAttributeName : UIFont.Roboto.light(size: 24.0)!])
+                  
                     let attributedTextWithGreenFields = NSMutableAttributedString.init(attributedString: self.previewAttributedText)
                     attributedTextWithGreenFields.replaceCharacters(in: range, with: attributedStringToReplace)
                     
@@ -138,9 +149,8 @@ class FoaasPrevewViewController: UIViewController, FoaasTextFieldDelegate {
             for key in keys {
                 let string = attributedText.string as NSString
                 let rangeOfWord = string.range(of: key)
-                
-                //Updating font but leaving color as is
-                let attributedStringToReplace = NSMutableAttributedString(string: validFoaasPath.operationFields[key]!, attributes: [NSUnderlineStyleAttributeName: NSUnderlineStyle.styleSingle.rawValue, NSForegroundColorAttributeName : UIColor(red: 0.0, green: 255.0, blue: 0.0, alpha: 1.0), NSFontAttributeName : UIFont.Roboto.light(size: 24.0)!])
+
+                let attributedStringToReplace = NSMutableAttributedString(string: validFoaasPath.operationFields[key]!, attributes: [NSUnderlineStyleAttributeName: NSUnderlineStyle.styleSingle.rawValue, NSForegroundColorAttributeName : ColorManager.shared.currentColorScheme.accent, NSFontAttributeName : UIFont.Roboto.light(size: 24.0)!])
                 attributedText.replaceCharacters(in: rangeOfWord, with: attributedStringToReplace)
             }
             self.foaasPreviewView.updateAttributedText(text: attributedText)

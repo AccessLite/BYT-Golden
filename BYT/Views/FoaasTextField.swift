@@ -42,7 +42,7 @@ class FoaasTextField: UIView, UITextFieldDelegate {
     
     let context = UIGraphicsGetCurrentContext()
     context?.setLineWidth(2.0)
-    context?.setStrokeColor(UIColor.red.cgColor)
+    context?.setStrokeColor(ColorManager.shared.currentColorScheme.accent.cgColor)
     context?.move(to: startPoint)
     context?.addLine(to: endPoint)
     
@@ -171,6 +171,6 @@ class FoaasTextField: UIView, UITextFieldDelegate {
     
   }
   
-  
+  //Enums + Switch statements are powerful as fuck. Look at how Louis did it here, he essentially just uses it to check on a simple state, easily built out by adding in directions and then cases, no need for value in the enum! 
 }
 
