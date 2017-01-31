@@ -117,7 +117,7 @@ class FoaasView: UIView {
     // TODO: fix this label to properly expand/shrink
     internal lazy var mainTextLabel: UILabel = {
         let label = UILabel()
-        label.text = "Main Text Label"
+        label.text = " "
         label.font = UIFont(name: label.font.fontName, size: 56)
         label.textColor = UIColor.white
         label.textAlignment = .left
@@ -129,7 +129,7 @@ class FoaasView: UIView {
     
     internal lazy var subtitleTextLabel: UILabel = {
         let label = UILabel()
-        label.text = "Subtitle Text Label"
+        label.text = " "
         label.font = UIFont(name: label.font.fontName, size: 34)
         label.textColor = UIColor.white
         label.textAlignment = .right
