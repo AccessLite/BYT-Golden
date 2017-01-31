@@ -112,6 +112,10 @@ class FoaasPreviewView: UIView {
             
             //PM spec indicates the placeholder text should be all caps.
             let newSlidingTextField = FoaasTextField(placeHolderText: key.uppercased())
+            
+            //I only want the placeholder text to have this alpha value in order to mimic the PM spec as accurately as the Sketch displays.
+            newSlidingTextField.textLabel.alpha = 0.34
+            
             newSlidingTextField.identifier = key // used to later identify the textfields if needed
             slidingTextFields.append(newSlidingTextField)
             self.contentContainerView.addSubview(newSlidingTextField)
