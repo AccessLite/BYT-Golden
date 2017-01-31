@@ -118,8 +118,13 @@ class FoaasView: UIView {
     internal lazy var mainTextLabel: UILabel = {
         let label = UILabel()
         label.text = " "
-        label.font = UIFont(name: label.font.fontName, size: 56)
+
+        //updating font and color according to PM notes
+        label.font = UIFont.Roboto.light(size: 56.0)
+
         label.textColor = UIColor.white
+        label.alpha = 1.0
+        
         label.textAlignment = .left
         label.adjustsFontSizeToFitWidth = true
         label.minimumScaleFactor = 0.25
@@ -130,8 +135,13 @@ class FoaasView: UIView {
     internal lazy var subtitleTextLabel: UILabel = {
         let label = UILabel()
         label.text = " "
-        label.font = UIFont(name: label.font.fontName, size: 34)
+        
+        //updating font and color according to PM notes
+        label.font = UIFont.Roboto.regular(size: 34.0)
+
         label.textColor = UIColor.white
+        label.alpha = 0.70
+        
         label.textAlignment = .right
         label.adjustsFontSizeToFitWidth = true
         label.minimumScaleFactor = 0.25
