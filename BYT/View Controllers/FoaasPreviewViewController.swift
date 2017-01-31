@@ -23,7 +23,7 @@ class FoaasPrevewViewController: UIViewController, FoaasTextFieldDelegate, Foaas
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    self.setupViewHeirarchy()
+    self.setupViewHierarchy()
     self.configureConstraints()
     
     self.foaasPreviewView.createTextFields(for: self.pathBuilder!.allKeys())
@@ -33,7 +33,7 @@ class FoaasPrevewViewController: UIViewController, FoaasTextFieldDelegate, Foaas
   
   
   // MARK: - View Setup
-  internal func setupViewHeirarchy() {
+  internal func setupViewHierarchy() {
     self.view.addSubview(foaasPreviewView)
   }
   
