@@ -43,7 +43,7 @@ class FoaasPreviewView: UIView {
   // -------------------------------------
   // MARK: - Config
   private func configureConstraints() {
-    stripAutoResizingMasks(self, scrollView, contentContainerView, previewTextView, previewLabel, backButton, doneButton)
+    stripAutoResizingMasks(self, scrollView, contentContainerView, previewTextView/*, previewLabel*/, backButton, doneButton)
     
     // we need to keep a reference to both these constraints because they will be changing later. the scrollViewBottomConstraint
     // update with the keyboard show/hiding. and the previewTextViewHeightConstraint changes with the length of the 
@@ -51,9 +51,9 @@ class FoaasPreviewView: UIView {
     scrollviewBottomConstraint = scrollView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 0.0)
     previewTextViewHeightConstraint = previewTextView.heightAnchor.constraint(equalToConstant: 0.0)
   
-    [ // preview label
-      previewLabel.leadingAnchor.constraint(equalTo: self.contentContainerView.leadingAnchor, constant: 16.0),
-      previewLabel.topAnchor.constraint(equalTo: self.contentContainerView.topAnchor, constant: 16.0),
+    [ // preview label is going to be removed from the view hierarchy
+//      previewLabel.leadingAnchor.constraint(equalTo: self.contentContainerView.leadingAnchor, constant: 16.0),
+//      previewLabel.topAnchor.constraint(equalTo: self.contentContainerView.topAnchor, constant: 16.0),
       
       // scroll view
       scrollView.topAnchor.constraint(equalTo: self.topAnchor),
@@ -69,7 +69,9 @@ class FoaasPreviewView: UIView {
       contentContainerView.widthAnchor.constraint(equalTo: self.widthAnchor),
       
       // preview text view
-      previewTextView.topAnchor.constraint(equalTo: previewLabel.bottomAnchor, constant: 8.0),
+//      previewTextView.topAnchor.constraint(equalTo: previewLabel.bottomAnchor, constant: 8.0),
+        //re-creating this constraint by adding the constant originally applied(8.0) with the previewLabels topAnchor constant of 16.0.
+      previewTextView.topAnchor.constraint(equalTo: self.contentContainerView.topAnchor, constant: 24.0),
       previewTextView.leadingAnchor.constraint(equalTo: self.contentContainerView.leadingAnchor, constant: 16.0),
       previewTextView.widthAnchor.constraint(equalTo: self.widthAnchor, constant: -32.0),
       previewTextViewHeightConstraint!,
@@ -91,15 +93,21 @@ class FoaasPreviewView: UIView {
     self.backgroundColor = .white
     self.scrollView.backgroundColor = ColorManager.shared.currentColorScheme.primary
     
+    //this is updating the previously white textView to be the color managers primary color
+    self.previewTextView.backgroundColor = ColorManager.shared.currentColorScheme.primary
+    
     
     self.addSubview(scrollView)
     scrollView.addSubview(contentContainerView)
     scrollView.addSubviews([backButton, doneButton])
-    contentContainerView.addSubview(previewLabel)
+    
+    //this will be removed from the view hierarchy
+//    contentContainerView.addSubview(previewLabel)
+    
     contentContainerView.addSubview(previewTextView)
     scrollView.accessibilityIdentifier = "ScrollView"
     contentContainerView.accessibilityIdentifier = "ContentContainerView"
-    previewLabel.accessibilityIdentifier = "PreviewLabel"
+//    previewLabel.accessibilityIdentifier = "PreviewLabel"
     previewTextView.accessibilityIdentifier = "PreviewTextView"
   }
   
@@ -235,17 +243,18 @@ class FoaasPreviewView: UIView {
   }
   
   // MARK: - Lazy Inits
-  internal lazy var previewLabel: UILabel = {
-    let label: UILabel = UILabel()
-    label.text = "Preview"
-    
-    //updating font and color according to PM notes
-    label.font = UIFont.Roboto.medium(size: 18.0)
-    label.textColor = .black
-    label.alpha = 1.0
-    
-    return label
-  }()
+    //this is going to be removed from the file
+//  internal lazy var previewLabel: UILabel = {
+//    let label: UILabel = UILabel()
+//    label.text = "Preview"
+//    
+//    //updating font and color according to PM notes
+//    label.font = UIFont.Roboto.medium(size: 18.0)
+//    label.textColor = .black
+//    label.alpha = 1.0
+//    
+//    return label
+//  }()
   
   internal lazy var previewTextView: UITextView = {
     let textView: UITextView = UITextView()
