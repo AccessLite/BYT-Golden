@@ -51,15 +51,11 @@ class FoaasPreviewView: UIView {
     scrollviewBottomConstraint = scrollView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 0.0)
     previewTextViewHeightConstraint = previewTextView.heightAnchor.constraint(equalToConstant: 0.0)
   
-    [ // preview label is going to be removed from the view hierarchy
-//      previewLabel.leadingAnchor.constraint(equalTo: self.contentContainerView.leadingAnchor, constant: 16.0),
-//      previewLabel.topAnchor.constraint(equalTo: self.contentContainerView.topAnchor, constant: 16.0),
-      
-      // scroll view
-      scrollView.topAnchor.constraint(equalTo: self.topAnchor),
-      scrollView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-      scrollView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-      scrollviewBottomConstraint!,
+    [// scroll view
+        scrollView.topAnchor.constraint(equalTo: self.topAnchor),
+        scrollView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+        scrollView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+        scrollviewBottomConstraint!,
 
       // container view 
       contentContainerView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
@@ -69,8 +65,6 @@ class FoaasPreviewView: UIView {
       contentContainerView.widthAnchor.constraint(equalTo: self.widthAnchor),
       
       // preview text view
-//      previewTextView.topAnchor.constraint(equalTo: previewLabel.bottomAnchor, constant: 8.0),
-        //re-creating this constraint by adding the constant originally applied(8.0) with the previewLabels topAnchor constant of 16.0.
       previewTextView.topAnchor.constraint(equalTo: self.contentContainerView.topAnchor, constant: 24.0),
       previewTextView.leadingAnchor.constraint(equalTo: self.contentContainerView.leadingAnchor, constant: 16.0),
       previewTextView.widthAnchor.constraint(equalTo: self.widthAnchor, constant: -32.0),
@@ -92,22 +86,15 @@ class FoaasPreviewView: UIView {
   private func setupViewHierarchy() {
     self.backgroundColor = .white
     self.scrollView.backgroundColor = ColorManager.shared.currentColorScheme.primary
-    
-    //this is updating the previously white textView to be the color managers primary color
     self.previewTextView.backgroundColor = ColorManager.shared.currentColorScheme.primary
-    
     
     self.addSubview(scrollView)
     scrollView.addSubview(contentContainerView)
     scrollView.addSubviews([backButton, doneButton])
     
-    //this will be removed from the view hierarchy
-//    contentContainerView.addSubview(previewLabel)
-    
     contentContainerView.addSubview(previewTextView)
     scrollView.accessibilityIdentifier = "ScrollView"
     contentContainerView.accessibilityIdentifier = "ContentContainerView"
-//    previewLabel.accessibilityIdentifier = "PreviewLabel"
     previewTextView.accessibilityIdentifier = "PreviewTextView"
   }
   
@@ -243,18 +230,6 @@ class FoaasPreviewView: UIView {
   }
   
   // MARK: - Lazy Inits
-    //this is going to be removed from the file
-//  internal lazy var previewLabel: UILabel = {
-//    let label: UILabel = UILabel()
-//    label.text = "Preview"
-//    
-//    //updating font and color according to PM notes
-//    label.font = UIFont.Roboto.medium(size: 18.0)
-//    label.textColor = .black
-//    label.alpha = 1.0
-//    
-//    return label
-//  }()
   
   internal lazy var previewTextView: UITextView = {
     let textView: UITextView = UITextView()
