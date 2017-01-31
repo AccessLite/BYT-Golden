@@ -109,7 +109,9 @@ class FoaasPreviewView: UIView {
   ///   - keys: The keys to be used to generate `FoaasTextField`
     internal func createTextFields(for keys: [String]) {
         for key in keys {
-            let newSlidingTextField = FoaasTextField(placeHolderText: key)
+            
+            //PM spec indicates the placeholder text should be all caps.
+            let newSlidingTextField = FoaasTextField(placeHolderText: key.uppercased())
             newSlidingTextField.identifier = key // used to later identify the textfields if needed
             slidingTextFields.append(newSlidingTextField)
             self.contentContainerView.addSubview(newSlidingTextField)
