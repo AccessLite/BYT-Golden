@@ -37,12 +37,12 @@ class FoaasColorView: UIView {
   
 }
 
-protocol FoaasColorPickerViewDelegate {
+protocol FoaasColorPickerViewDelegate: class {
   func didChangeIndex(to index: Int)
 }
 
 class FoaasColorPickerView: UIView, UIScrollViewDelegate {
-  private let baseUnit: CGFloat = 80.0
+  private var baseUnit: CGFloat = 80.0
   
   var containerWith: CGFloat { return baseUnit * 2.5 }
   var containerHeight: CGFloat { return baseUnit }
@@ -52,23 +52,24 @@ class FoaasColorPickerView: UIView, UIScrollViewDelegate {
   var bookendViewVisibilityWidth: CGFloat { return baseUnit / 4.0 }
   var clippedMarginWidth: CGFloat { return baseUnit * 0.75 }
   var intervalOffsets: CGFloat { return baseUnit * 1.5}
-
-  var foaasColorViews: [FoaasColorView] = []
-  var delegate: FoaasColorPickerViewDelegate?
   
-  convenience init(withColors colors: [UIColor]) {
+  var foaasColorViews: [FoaasColorView] = []
+  weak var delegate: FoaasColorPickerViewDelegate?
+  
+  convenience init(colors: [UIColor], baseUnit: CGFloat = 80.0) {
     self.init(frame: CGRect.zero)
     
     foaasColorViews = colors.map { FoaasColorView(baseUnit: baseUnit, managedColor: $0) }
-  }
-  
-  override init(frame: CGRect) {
-    super.init(frame: frame)
+    self.baseUnit = baseUnit
     
     setupViewHierarchy()
     configureConstraints()
     
     applyGradient()
+  }
+  
+  override private init(frame: CGRect) {
+    super.init(frame: frame)
   }
   
   required init?(coder aDecoder: NSCoder) {
@@ -87,9 +88,42 @@ class FoaasColorPickerView: UIView, UIScrollViewDelegate {
       scrollView.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
       scrollView.widthAnchor.constraint(equalToConstant: scrollWidth),
       scrollView.heightAnchor.constraint(equalToConstant: scrollHeight),
-    ].activate()
+      ].activate()
     
-    // TODO: Constrain the color managed views
+    guard
+      let firstColorView = foaasColorViews.first,
+      let lastColorView = foaasColorViews.last
+      else { return }
+    
+    // first and last views trailing and leading
+    [ firstColorView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: bookendViewVisibilityWidth),
+      lastColorView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -bookendViewVisibilityWidth)
+      ].activate()
+    
+    // all views center Y
+    let centerYConstraints = foaasColorViews.map{
+      $0.centerYAnchor.constraint(equalTo: scrollView.centerYAnchor)
+    }
+    centerYConstraints.activate()
+    
+    // chaining views together
+    var priorColorView: FoaasColorView?
+    for (idx, colorView) in foaasColorViews.enumerated() {
+      
+      switch idx {
+      case 0: continue
+        
+      default:
+        guard priorColorView != nil
+          else {
+            priorColorView = colorView
+            continue
+        }
+        
+        colorView.leadingAnchor.constraint(equalTo: priorColorView!.trailingAnchor, constant: interViewMargin).isActive = true
+      }
+    }
+    
   }
   
   private func setupViewHierarchy() {
@@ -97,6 +131,10 @@ class FoaasColorPickerView: UIView, UIScrollViewDelegate {
     self.containerView.addSubview(scrollView)
     
     self.scrollView.delegate = self
+    
+    // we need to extend the bounds of the scroll view, so we add its panGestureRecognizer to its container view
+    let panGesture = self.scrollView.panGestureRecognizer
+    self.containerView.addGestureRecognizer(panGesture)
   }
   
   private func applyGradient() {
@@ -108,10 +146,12 @@ class FoaasColorPickerView: UIView, UIScrollViewDelegate {
       UIColor.black.cgColor,
       UIColor.clear.cgColor,
     ]
-    // Start Point & End Point are used in describing the direction of the gradient. 
+    // Start Point & End Point are used in describing the direction of the gradient.
     // by changing the X-values only, we describe a horizontal gradient
     fullGradient.startPoint = CGPoint(x: 0.0, y: 0.0)
     fullGradient.endPoint = CGPoint(x: 1.0, y: 0.0)
+    
+    // first 10%, last 10% of width
     fullGradient.locations = [0.0, 0.1, 0.9, 1.0]
     
     self.containerView.layer.mask = fullGradient
@@ -127,8 +167,6 @@ class FoaasColorPickerView: UIView, UIScrollViewDelegate {
     let currentOffset = self.scrollView.contentOffset
     return Int(currentOffset.x / intervalOffsets)
   }
-  
-  // TODO: add function to return current color of index
   
   
   // MARK: - ScrollView Delegate

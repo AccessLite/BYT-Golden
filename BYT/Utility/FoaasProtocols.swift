@@ -20,7 +20,7 @@ protocol DataConvertible {
 }
 
 protocol FoaasSettingMenuDelegate {
-    func colorSwitcherScrollViewScrolled(color: UIColor)
+    func colorSwitcherScrollViewScrolled()
     func profanitfySwitchChanged()
     func twitterButtonTapped()
     func facebookButtonTapped()
@@ -31,7 +31,7 @@ protocol FoaasSettingMenuDelegate {
 }
 
 protocol ColorSchemeDelegate {
-    func colorSchemeDidChange(color: ColorScheme)
+    func colorSchemeDidChange()
 }
 
 func stripAutoResizingMasks(_ views: [UIView]) {

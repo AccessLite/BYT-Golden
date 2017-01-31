@@ -17,6 +17,11 @@ internal struct Foaas: JSONConvertible, CustomStringConvertible {
     return "\(message)\n\(subtitle)"
   }
   
+  init(message: String, subtitle: String) {
+        self.message = message
+        self.subtitle = subtitle
+    }
+    
   init?(json: [String : AnyObject]) {
     guard
       let message = json["message"] as? String,
@@ -24,9 +29,7 @@ internal struct Foaas: JSONConvertible, CustomStringConvertible {
       else {
         return nil 
     }
-    
-    self.message = message
-    self.subtitle = subtitle
+    self.init(message: message, subtitle: subtitle)
   }
   
   func toJson() -> [String : AnyObject] {

@@ -26,8 +26,9 @@ class FoaasTextField: UIView, UITextFieldDelegate {
   internal var identifier: String = ""
   internal var foaasTextFieldDelegate: FoaasTextFieldDelegate?
   
-  let largeLabelFont = UIFont.systemFont(ofSize: 24.0)
-  let smallLabelFont = UIFont.systemFont(ofSize: 12.0)
+    //Updated font to reflect PM notes
+  let largeLabelFont = UIFont.Roboto.medium(size: 18.0)
+  let smallLabelFont = UIFont.Roboto.medium(size: 18.0)
   
   private var labelEmptyConstraint: NSLayoutConstraint!
   private var labelFilledConstraint: NSLayoutConstraint!
@@ -41,7 +42,7 @@ class FoaasTextField: UIView, UITextFieldDelegate {
     
     let context = UIGraphicsGetCurrentContext()
     context?.setLineWidth(2.0)
-    context?.setStrokeColor(UIColor.red.cgColor)
+    context?.setStrokeColor(ColorManager.shared.currentColorScheme.accent.cgColor)
     context?.move(to: startPoint)
     context?.addLine(to: endPoint)
     
@@ -54,8 +55,11 @@ class FoaasTextField: UIView, UITextFieldDelegate {
     self.init(frame: CGRect.zero)
     self.backgroundColor = .clear
     self.clipsToBounds = false
-    
     self.textLabelPlaceholder = placeHolderText
+    
+    //setting alpha value according to PM notes
+    self.alpha = 0.34
+    
     self.setupViewHierarchy()
     self.configureConstraints()
   }
@@ -167,6 +171,6 @@ class FoaasTextField: UIView, UITextFieldDelegate {
     
   }
   
-  
+  //Enums + Switch statements are powerful as fuck. Look at how Louis did it here, he essentially just uses it to check on a simple state, easily built out by adding in directions and then cases, no need for value in the enum! 
 }
 

@@ -17,6 +17,11 @@ class FoaasSettingsMenuView: UIView, UIScrollViewDelegate {
     @IBOutlet weak var twitterButton: UIButton!
     @IBOutlet weak var colorSwitcherScrollView: UIScrollView!
     
+    
+    @IBOutlet weak var versionNumberLabel: UILabel!
+    @IBOutlet weak var versionMessageLabel: UILabel!
+    
+    
     var delegate : FoaasSettingMenuDelegate?
     
     override init(frame: CGRect) {
@@ -40,6 +45,11 @@ class FoaasSettingsMenuView: UIView, UIScrollViewDelegate {
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
+    
+    func updateVersionLabels() {
+        self.versionNumberLabel.text = "V\(VersionManager.shared.currentVersion.number)"
+        self.versionMessageLabel.text = "\(VersionManager.shared.currentVersion.message.uppercased()) BYT@BOARDINGPASS.COM"
+    }
 
     func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
         //http://sweettutos.com/2015/04/13/how-to-make-a-horizontal-paging-uiscrollview-with-auto-layout-in-storyboards-swift/
@@ -53,21 +63,10 @@ class FoaasSettingsMenuView: UIView, UIScrollViewDelegate {
             pageWidth = self.colorSwitcherScrollView.frame.width - CGFloat(40)
             number += 1
         }
-        
         let currentPage:CGFloat = floor((scrollView.contentOffset.x-pageWidth/2)/pageWidth)+1
-
-        if Int(currentPage) == 0{
-            print("\(currentPage) is 0")
-            self.delegate?.colorSwitcherScrollViewScrolled(color: self.view1.backgroundColor!)
-        }else if Int(currentPage) == 1{
-            print("\(currentPage) is 1")
-            self.delegate?.colorSwitcherScrollViewScrolled(color: self.view2.backgroundColor!)
-        }else if Int(currentPage) == 2{
-            print("\(currentPage) is 2")
-            self.delegate?.colorSwitcherScrollViewScrolled(color: self.view3.backgroundColor!)
-        }else{
-             print("\(currentPage) is others")
-        }
+        
+        ColorManager.shared.currentColorScheme = ColorManager.shared.colorSchemes[Int(currentPage)]
+        self.delegate?.colorSwitcherScrollViewScrolled()
     }
     
     @IBAction func profanitySwitchDidChange(_ sender: UISwitch) {

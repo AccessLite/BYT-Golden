@@ -9,12 +9,20 @@
 import UIKit
 
 // TODO: implement delegation for textfields, make delegate protocol for use in view controller
+protocol FoaasPrevewViewDelegate {
+    func backButtonPressed()
+    func doneButtonPressed()
+}
+
 class FoaasPreviewView: UIView {
   internal private(set) var slidingTextFields: [FoaasTextField] = []
   
+    internal var delegate: FoaasPrevewViewDelegate?
+    
   private var scrollviewBottomConstraint: NSLayoutConstraint? = nil
   private var previewTextViewHeightConstraint: NSLayoutConstraint? = nil
   private var slidingTextFieldBottomConstraint: NSLayoutConstraint? = nil
+  private var newTransform = CGAffineTransform(scaleX: 1.1, y: 1.1)
   
   
   // -------------------------------------
@@ -35,7 +43,7 @@ class FoaasPreviewView: UIView {
   // -------------------------------------
   // MARK: - Config
   private func configureConstraints() {
-    stripAutoResizingMasks(self, scrollView, contentContainerView, previewTextView, previewLabel)
+    stripAutoResizingMasks(self, scrollView, contentContainerView, previewTextView, previewLabel, backButton, doneButton)
     
     // we need to keep a reference to both these constraints because they will be changing later. the scrollViewBottomConstraint
     // update with the keyboard show/hiding. and the previewTextViewHeightConstraint changes with the length of the 
@@ -57,7 +65,7 @@ class FoaasPreviewView: UIView {
       contentContainerView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
       contentContainerView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
       contentContainerView.topAnchor.constraint(equalTo: scrollView.topAnchor),
-      contentContainerView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+      contentContainerView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -72),
       contentContainerView.widthAnchor.constraint(equalTo: self.widthAnchor),
       
       // preview text view
@@ -66,16 +74,27 @@ class FoaasPreviewView: UIView {
       previewTextView.widthAnchor.constraint(equalTo: self.widthAnchor, constant: -32.0),
       previewTextViewHeightConstraint!,
       
+    //buttons
+      backButton.topAnchor.constraint(equalTo: contentContainerView.bottomAnchor, constant: 24),
+        backButton.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 48),
+        backButton.heightAnchor.constraint(equalToConstant: 54),
+        backButton.widthAnchor.constraint(equalToConstant: 54),
+        
+        doneButton.topAnchor.constraint(equalTo: contentContainerView.bottomAnchor, constant: 24),
+        doneButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -48),
+        doneButton.heightAnchor.constraint(equalToConstant: 54),
+        doneButton.widthAnchor.constraint(equalToConstant: 54)
       ].activate()
   }
   
   private func setupViewHierarchy() {
     self.backgroundColor = .white
-    self.scrollView.backgroundColor = .yellow
+    self.scrollView.backgroundColor = ColorManager.shared.currentColorScheme.primary
     
     
     self.addSubview(scrollView)
     scrollView.addSubview(contentContainerView)
+    scrollView.addSubviews([backButton, doneButton])
     contentContainerView.addSubview(previewLabel)
     contentContainerView.addSubview(previewTextView)
     scrollView.accessibilityIdentifier = "ScrollView"
@@ -93,16 +112,16 @@ class FoaasPreviewView: UIView {
   /// `contentContainerView` and given constraints. 
   /// - Parameters:
   ///   - keys: The keys to be used to generate `FoaasTextField`
-  internal func createTextFields(for keys: [String]) {
-    for key in keys {
-      let newSlidingTextField = FoaasTextField(placeHolderText: key)
-      newSlidingTextField.identifier = key // used to later identify the textfields if needed
-      slidingTextFields.append(newSlidingTextField)
-      self.contentContainerView.addSubview(newSlidingTextField)
+    internal func createTextFields(for keys: [String]) {
+        for key in keys {
+            let newSlidingTextField = FoaasTextField(placeHolderText: key)
+            newSlidingTextField.identifier = key // used to later identify the textfields if needed
+            slidingTextFields.append(newSlidingTextField)
+            self.contentContainerView.addSubview(newSlidingTextField)
+        }
+        
+        arrangeSlidingTextFields()
     }
-    
-    arrangeSlidingTextFields()
-  }
   
   /// This dynamically lays out as many `FoaasTextField` as needed, based on the contents of `self.slidingTextFields`
   private func arrangeSlidingTextFields() {
@@ -219,13 +238,23 @@ class FoaasPreviewView: UIView {
   internal lazy var previewLabel: UILabel = {
     let label: UILabel = UILabel()
     label.text = "Preview"
-    label.font = UIFont.systemFont(ofSize: 18.0)
+    
+    //updating font and color according to PM notes
+    label.font = UIFont.Roboto.medium(size: 18.0)
+    label.textColor = .black
+    label.alpha = 1.0
+    
     return label
   }()
   
   internal lazy var previewTextView: UITextView = {
     let textView: UITextView = UITextView()
-    textView.font = UIFont.systemFont(ofSize: 32.0)
+    
+    //updating font and color according to PM notes
+    textView.font = UIFont.Roboto.light(size: 24.0)
+    textView.textColor = .white
+    textView.alpha = 1.0
+    
     textView.isEditable = false
     return textView
   }()
@@ -241,4 +270,57 @@ class FoaasPreviewView: UIView {
     let view = UIView()
     return view
   }()
+    
+    internal lazy var doneButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.addTarget(self, action: #selector(doneButtonClicked(sender:)), for: UIControlEvents.touchUpInside)
+        button.setImage(UIImage(named: "done_button")!, for: .normal)
+        button.imageView?.layer.shadowColor = UIColor.black.cgColor
+        button.imageView?.layer.shadowOpacity = 0.8
+        button.imageView?.layer.shadowOffset = CGSize(width: 0, height: 5)
+        button.imageView?.layer.shadowRadius = 5
+        button.imageView?.clipsToBounds = false
+        
+        return button
+    }()
+    
+    internal lazy var backButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.addTarget(self, action: #selector(backButtonClicked(sender:)), for: UIControlEvents.touchUpInside)
+        button.setImage(UIImage(named: "back_button")!, for: .normal)
+        button.imageView?.layer.shadowColor = UIColor.black.cgColor
+        button.imageView?.layer.shadowOpacity = 0.8
+        button.imageView?.layer.shadowOffset = CGSize(width: 0, height: 5)
+        button.imageView?.layer.shadowRadius = 5
+        button.imageView?.clipsToBounds = false
+        
+        return button
+    }()
+    
+    //MARK: Button Actions
+    internal func backButtonClicked(sender: UIButton) {
+        let originalTransform = sender.imageView!.transform
+        
+        UIView.animate(withDuration: 0.1, animations: {
+            sender.layer.transform = CATransform3DMakeAffineTransform(self.newTransform)
+        }, completion: { (complete) in
+            sender.layer.transform = CATransform3DMakeAffineTransform(originalTransform)
+            self.delegate?.backButtonPressed()
+        })
+    }
+    
+    internal func doneButtonClicked(sender: UIButton) {
+        let originalTransform = sender.imageView!.transform
+        
+        
+        
+        UIView.animate(withDuration: 0.1, animations: {
+            sender.layer.transform = CATransform3DMakeAffineTransform(self.newTransform)
+        }, completion: { (complete) in
+            sender.layer.transform = CATransform3DMakeAffineTransform(originalTransform)
+            self.delegate?.doneButtonPressed()
+        })
+
+    }
+    
 }

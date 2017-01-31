@@ -20,8 +20,6 @@ class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenu
     
     // MARK: - Models
     var foaas: Foaas?
-    var colorScheme = [ColorScheme]()
-    var versions = [Version]()
     var message = ""
     var subtitle = ""
     
@@ -38,6 +36,8 @@ class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenu
         registerForNotifications()
         addFoaasViewShadow()
         makeRequest()
+        updateSettingsMenu()
+        
     }
     
     // MARK: - Setup
@@ -66,6 +66,20 @@ class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenu
         self.view.backgroundColor = .white
         self.view.addSubview(foaasSettingsMenuView)
         self.view.addSubview(foaasView)
+        self.foaasView.backgroundColor = ColorManager.shared.currentColorScheme.primary
+    }
+    
+    private func updateSettingsMenu() {
+        
+        // this is hard coded. Will work dynamically when Louis finishes the color scroll view implementation
+        if ColorManager.shared.colorSchemes != nil && ColorManager.shared.colorSchemes.count > 2 {
+            DispatchQueue.main.async {
+                self.foaasSettingsMenuView.view1.backgroundColor = ColorManager.shared.colorSchemes[0].primary
+                self.foaasSettingsMenuView.view2.backgroundColor = ColorManager.shared.colorSchemes[1].primary
+                self.foaasSettingsMenuView.view3.backgroundColor = ColorManager.shared.colorSchemes[2].primary
+            }
+        }
+        self.foaasSettingsMenuView.updateVersionLabels()
     }
     
     // MARK: - FoaasView Shadow
@@ -96,8 +110,13 @@ class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenu
     
     
     
-    internal func updateFoaas(sender: Any) {
-        // TODO
+    internal func updateFoaas(sender: Notification) {
+        guard let validFoaas = sender.object as? Foaas else {
+            print("The notification center did not register a Foaas Object. Fix your bug bro.")
+            return
+        }
+        self.foaasView.mainTextLabel.text = validFoaas.message
+        self.foaasView.subtitleTextLabel.text = validFoaas.subtitle
     }
     
     
@@ -123,22 +142,30 @@ class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenu
                     self.foaasView.subtitleTextLabel.text = subtitle
                 }
             }
+            
+            // Make the following API Call if the version has been updated...
+            
             FoaasDataManager.shared.requestColorSchemeData(endpoint: FoaasAPIManager.colorSchemeURL) { (data: Data?) in
                 guard let validData = data else { return }
-                guard let colorScheme = ColorScheme.parseColorSchemes(from: validData) else { return }
+                guard let colorSchemes = ColorScheme.parseColorSchemes(from: validData) else { return }
+                ColorManager.shared.colorSchemes = colorSchemes
                 DispatchQueue.main.async {
-                    self.colorScheme = colorScheme
-                    self.foaasSettingsMenuView.view1.backgroundColor = colorScheme[0].primary
-                    self.foaasSettingsMenuView.view2.backgroundColor = colorScheme[1].primary
-                    self.foaasSettingsMenuView.view3.backgroundColor = colorScheme[2].primary
+                    self.foaasSettingsMenuView.view1.backgroundColor = colorSchemes[0].primary
+                    self.foaasSettingsMenuView.view2.backgroundColor = colorSchemes[1].primary
+                    self.foaasSettingsMenuView.view3.backgroundColor = colorSchemes[2].primary
                 }
             }
             
             FoaasDataManager.shared.requestVersionData(endpoint: FoaasAPIManager.versionURL) { (data: Data?) in
                 guard let validData = data else { return }
                 guard let version = Version.parseVersion(from: validData) else { return }
-                DispatchQueue.main.async {
-                    self.versions = version
+                
+                if version.number != VersionManager.shared.currentVersion.number {
+                    VersionManager.shared.currentVersion = version
+                    DispatchQueue.main.async {
+                        // update the version info in the settings menu view
+                        self.foaasSettingsMenuView.updateVersionLabels()
+                    }
                 }
             }
         }
@@ -193,8 +220,8 @@ class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenu
         }
     }
     
-    func colorSwitcherScrollViewScrolled(color: UIColor) {
-        self.foaasView.backgroundColor = color
+    func colorSwitcherScrollViewScrolled() {
+        self.foaasView.backgroundColor = ColorManager.shared.currentColorScheme.primary
     }
     
     func profanitfySwitchChanged() {
