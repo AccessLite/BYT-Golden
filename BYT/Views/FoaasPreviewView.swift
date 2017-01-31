@@ -43,7 +43,7 @@ class FoaasPreviewView: UIView {
   // -------------------------------------
   // MARK: - Config
   private func configureConstraints() {
-    stripAutoResizingMasks(self, scrollView, contentContainerView, previewTextView, previewLabel, backButton, doneButton)
+    stripAutoResizingMasks(self, scrollView, contentContainerView, previewTextView/*, previewLabel*/, backButton, doneButton)
     
     // we need to keep a reference to both these constraints because they will be changing later. the scrollViewBottomConstraint
     // update with the keyboard show/hiding. and the previewTextViewHeightConstraint changes with the length of the 
@@ -51,15 +51,11 @@ class FoaasPreviewView: UIView {
     scrollviewBottomConstraint = scrollView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 0.0)
     previewTextViewHeightConstraint = previewTextView.heightAnchor.constraint(equalToConstant: 0.0)
   
-    [ // preview label
-      previewLabel.leadingAnchor.constraint(equalTo: self.contentContainerView.leadingAnchor, constant: 16.0),
-      previewLabel.topAnchor.constraint(equalTo: self.contentContainerView.topAnchor, constant: 16.0),
-      
-      // scroll view
-      scrollView.topAnchor.constraint(equalTo: self.topAnchor),
-      scrollView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-      scrollView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-      scrollviewBottomConstraint!,
+    [// scroll view
+        scrollView.topAnchor.constraint(equalTo: self.topAnchor),
+        scrollView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+        scrollView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+        scrollviewBottomConstraint!,
 
       // container view 
       contentContainerView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
@@ -69,7 +65,7 @@ class FoaasPreviewView: UIView {
       contentContainerView.widthAnchor.constraint(equalTo: self.widthAnchor),
       
       // preview text view
-      previewTextView.topAnchor.constraint(equalTo: previewLabel.bottomAnchor, constant: 8.0),
+      previewTextView.topAnchor.constraint(equalTo: self.contentContainerView.topAnchor, constant: 24.0),
       previewTextView.leadingAnchor.constraint(equalTo: self.contentContainerView.leadingAnchor, constant: 16.0),
       previewTextView.widthAnchor.constraint(equalTo: self.widthAnchor, constant: -32.0),
       previewTextViewHeightConstraint!,
@@ -90,16 +86,15 @@ class FoaasPreviewView: UIView {
   private func setupViewHierarchy() {
     self.backgroundColor = .white
     self.scrollView.backgroundColor = ColorManager.shared.currentColorScheme.primary
-    
+    self.previewTextView.backgroundColor = ColorManager.shared.currentColorScheme.primary
     
     self.addSubview(scrollView)
     scrollView.addSubview(contentContainerView)
     scrollView.addSubviews([backButton, doneButton])
-    contentContainerView.addSubview(previewLabel)
+    
     contentContainerView.addSubview(previewTextView)
     scrollView.accessibilityIdentifier = "ScrollView"
     contentContainerView.accessibilityIdentifier = "ContentContainerView"
-    previewLabel.accessibilityIdentifier = "PreviewLabel"
     previewTextView.accessibilityIdentifier = "PreviewTextView"
   }
   
@@ -114,7 +109,13 @@ class FoaasPreviewView: UIView {
   ///   - keys: The keys to be used to generate `FoaasTextField`
     internal func createTextFields(for keys: [String]) {
         for key in keys {
-            let newSlidingTextField = FoaasTextField(placeHolderText: key)
+            
+            //PM spec indicates the placeholder text should be all caps.
+            let newSlidingTextField = FoaasTextField(placeHolderText: key.uppercased())
+            
+            //I only want the placeholder text to have this alpha value in order to mimic the PM spec as accurately as the Sketch displays.
+            newSlidingTextField.textLabel.alpha = 0.34
+            
             newSlidingTextField.identifier = key // used to later identify the textfields if needed
             slidingTextFields.append(newSlidingTextField)
             self.contentContainerView.addSubview(newSlidingTextField)
@@ -235,17 +236,6 @@ class FoaasPreviewView: UIView {
   }
   
   // MARK: - Lazy Inits
-  internal lazy var previewLabel: UILabel = {
-    let label: UILabel = UILabel()
-    label.text = "Preview"
-    
-    //updating font and color according to PM notes
-    label.font = UIFont.Roboto.medium(size: 18.0)
-    label.textColor = .black
-    label.alpha = 1.0
-    
-    return label
-  }()
   
   internal lazy var previewTextView: UITextView = {
     let textView: UITextView = UITextView()

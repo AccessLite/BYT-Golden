@@ -26,7 +26,9 @@ class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenu
     // MARK: - View Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.registerForNotifications()
+        
+        //removing duplicate call for registering for Notifications
+//        self.registerForNotifications()
         self.foaasView.delegate = self
         self.foaasSettingsMenuView.delegate = self
         
