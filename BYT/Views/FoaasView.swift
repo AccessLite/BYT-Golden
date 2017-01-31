@@ -117,10 +117,11 @@ class FoaasView: UIView {
     // TODO: fix this label to properly expand/shrink
     internal lazy var mainTextLabel: UILabel = {
         let label = UILabel()
-        label.text = "Main Text Label"
-        
+        label.text = " "
+
         //updating font and color according to PM notes
         label.font = UIFont.Roboto.light(size: 56.0)
+
         label.textColor = UIColor.white
         label.alpha = 1.0
         
@@ -133,10 +134,11 @@ class FoaasView: UIView {
     
     internal lazy var subtitleTextLabel: UILabel = {
         let label = UILabel()
-        label.text = "Subtitle Text Label"
+        label.text = " "
         
         //updating font and color according to PM notes
         label.font = UIFont.Roboto.regular(size: 34.0)
+
         label.textColor = UIColor.white
         label.alpha = 0.70
         

@@ -41,6 +41,10 @@ class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenu
         makeRequest()
         updateSettingsMenu()
         
+        UIView.animate(withDuration: 2.0) {
+            self.foaasView.alpha = 1.0
+        }
+        
     }
     
     // MARK: - Setup
