@@ -262,9 +262,9 @@ class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenu
     
     func camerarollButtonTapped() {
         print("cameraroll button tapped")
-        guard let vaidImage = getScreenShotImage(view: self.view) else { return }
+        guard let validImage = getScreenShotImage(view: self.view) else { return }
         //https://developer.apple.com/reference/uikit/1619125-uiimagewritetosavedphotosalbum
-        UIImageWriteToSavedPhotosAlbum(vaidImage, self, #selector(createScreenShotCompletion(image: didFinishSavingWithError: contextInfo:)), nil)
+        UIImageWriteToSavedPhotosAlbum(validImage, self, #selector(createScreenShotCompletion(image: didFinishSavingWithError: contextInfo:)), nil)
     }
     
     func shareButtonTapped() {
