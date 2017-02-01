@@ -9,6 +9,8 @@
 import UIKit
 import Social
 
+var languageFilterToggle: Bool = true
+
 class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenuDelegate {
     
     // MARK: - View
@@ -133,17 +135,10 @@ class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenu
         FoaasDataManager.shared.requestFoaas(url: FoaasDataManager.foaasURL!) { (foaas: Foaas?) in
             if let validFoaas = foaas {
                 self.foaas = validFoaas
-                var message = validFoaas.message
-                var subtitle = validFoaas.subtitle
-                
-                if self.filterIsOn {
-                    message = FoulLanguageFilter.filterFoulLanguage(text: message)
-                    subtitle = FoulLanguageFilter.filterFoulLanguage(text: subtitle)
-                }
                 
                 DispatchQueue.main.async {
-                    self.foaasView.mainTextLabel.text = message
-                    self.foaasView.subtitleTextLabel.text = subtitle
+                    self.foaasView.mainTextLabel.text = validFoaas.message.filterBadLanguage(languageFilterToggle)
+                    self.foaasView.subtitleTextLabel.text = validFoaas.subtitle.filterBadLanguage(languageFilterToggle)
                 }
             }
             
@@ -215,14 +210,6 @@ class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenu
     
     
     // MARK: - FoaasSettingMenuDelegate Method
-    var filterIsOn: Bool {
-        get {
-            return self.foaasSettingsMenuView.profanitySwitch.isOn
-        }
-        set (newValue) {
-            foaasSettingsMenuView.profanitySwitch.isOn = newValue
-        }
-    }
     
     func colorSwitcherScrollViewScrolled() {
         self.foaasView.backgroundColor = ColorManager.shared.currentColorScheme.primary
@@ -232,15 +219,11 @@ class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenu
         print("switch changed")
         
         guard let validFoaas = self.foaas else { return }
-        var message = validFoaas.message
-        var subtitle = validFoaas.subtitle
         
-        if self.filterIsOn {
-            message = FoulLanguageFilter.filterFoulLanguage(text: validFoaas.message)
-            subtitle = FoulLanguageFilter.filterFoulLanguage(text: validFoaas.subtitle)
-        }
-        self.foaasView.mainTextLabel.text = message
-        self.foaasView.subtitleTextLabel.text = subtitle
+        languageFilterToggle = foaasSettingsMenuView.profanitySwitch.isOn
+
+        self.foaasView.mainTextLabel.text = validFoaas.message.filterBadLanguage(languageFilterToggle)
+        self.foaasView.subtitleTextLabel.text = validFoaas.subtitle.filterBadLanguage(languageFilterToggle)
     }
     
     func twitterButtonTapped() {
@@ -271,18 +254,8 @@ class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenu
         print("share button tapped")
         guard let validFoaas = self.foaas else { return }
         var arrayToShare: [String] = []
-        var message = validFoaas.message
-        var subtitle = validFoaas.subtitle
-        
-        if self.filterIsOn {
-            message = FoulLanguageFilter.filterFoulLanguage(text: validFoaas.message)
-            subtitle = FoulLanguageFilter.filterFoulLanguage(text: validFoaas.subtitle)
-            arrayToShare.append(message)
-            arrayToShare.append(subtitle)
-        } else {
-            arrayToShare.append(message)
-            arrayToShare.append(subtitle)
-        }
+        arrayToShare.append(validFoaas.message.filterBadLanguage(languageFilterToggle))
+        arrayToShare.append(validFoaas.subtitle.filterBadLanguage(languageFilterToggle))
         
         let activityViewController = UIActivityViewController(activityItems: arrayToShare, applicationActivities: nil)
         activityViewController.popoverPresentationController?.sourceView = self.view
@@ -332,35 +305,48 @@ class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenu
     }
 }
 
-class FoulLanguageFilter {
-    ///Filter foul language of given text with foulWords in a default foulWordsArray
-    static func filterFoulLanguage(text: String) -> String {
-        let foulWordsArray = Set(["fuck", "dick", "cock", "crap", "asshole", "pussy", "shit", "vittupää", "motherfuck"])
-        var wordsArr = text.components(separatedBy: " ")
-        for f in foulWordsArray {
-            wordsArr = wordsArr.map { (word) -> String in
-                if word.lowercased().hasPrefix(f) || word.lowercased().hasSuffix(f) {
-                    return multateFoulLanguage(word: word)
-                } else {
-                    return word
+extension String {
+    func filterBadLanguage (_ toggle: Bool) -> String {
+        let wordsToBeFiltered: Set<String> = ["fuck", "bitch", "ass", "dick", "pussy", "shit", "twat", "cock"]
+        let wordsToBeUnfiltered: [String: String] = ["f*ck" : "u", "b*tch" : "i", "*ss" : "a", "*ick": "i", "p*ssy": "u", "sh*t": "i", "tw*t" : "a", "c*ck" : "o"]
+        let vowels: Set<Character> = ["a", "e", "i", "o", "u"]
+        //Breaks down the word into an Arr, where every word will be checked and filtered
+        func filterFoulWords (_ previewText: String) -> String {
+            var words = previewText.components(separatedBy: " ")
+            for (index, word) in words.enumerated() {
+                let filteredWord = word.replacingOccurrences(of: word, with: filter(word), options: .caseInsensitive, range: nil)
+                words[index] = filteredWord
+            }
+            return words.joined(separator: " ")
+        }
+        //this is the filter, it checks to see if the word contains an instance of a foul word by iterating over the foul words. if it comes back true, then it will replace the first instance of a vowel excepting y with a * and return the updated word.
+        
+        func filter(_ word: String) -> String {
+            for foulWord in wordsToBeFiltered where word.lowercased().contains(foulWord){
+                for char in word.lowercased().characters where vowels.contains(char) {
+                    return word.replacingOccurrences(of: String(char), with: "*", options: .caseInsensitive, range: nil)
                 }
             }
+            return word
         }
-        let string = wordsArr.joined(separator: " ")
-        return string
-    }
-    
-    ///Replaces word's first vowel into *
-    static func multateFoulLanguage(word: String) -> String {
-        let vowels = Set(["a","e","i","o","u"])
-        for c in word.lowercased().characters {
-            if vowels.contains(String(c)) {
-                if word.lowercased().hasPrefix("motherfuck") {
-                    return word.replacingOccurrences(of: "u", with: "*")
-                }
-                return word.replacingOccurrences(of: String(c), with: "*")
+        
+        func unfilterFoulWords(_ previewText: String) -> String {
+            var words = previewText.components(separatedBy: " ")
+            for (index, word) in words.enumerated() {
+                let filteredWord = word.replacingOccurrences(of: word, with: unfilter(word), options: .caseInsensitive, range: nil)
+                words[index] = filteredWord
             }
+            return words.joined(separator: " ")
         }
-        return word
+        
+        func unfilter(_ word: String) -> String {
+            for filteredWord in wordsToBeUnfiltered.keys where word.lowercased().contains(filteredWord) {
+                    return word.replacingOccurrences(of: "*", with: wordsToBeUnfiltered[filteredWord]!, options: .caseInsensitive, range: nil)
+            }
+            return word
+        }
+        //implements the filter on itself.
+        return toggle ? filterFoulWords(self) : unfilterFoulWords(self)
     }
 }
+

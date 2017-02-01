@@ -26,7 +26,6 @@ protocol FoaasSettingMenuDelegate {
     func facebookButtonTapped()
     func camerarollButtonTapped()
     func shareButtonTapped()
-    var filterIsOn: Bool { get set }
     func uploadData()
 }
 
