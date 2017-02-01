@@ -268,7 +268,7 @@ class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenu
         
         //after the screenshot is saved, the settings menu will animate back into it's original position (show: true).
         //this will give the false impression that the screenshot includes the settings menu because of how quickly it occurs.
-        animateSettingsMenu(show: true, duration: 0.8, dampening: 0.7, springVelocity: 7)
+        animateSettingsMenu(show: true, duration: 0.1)
     }
     
     func shareButtonTapped() {
