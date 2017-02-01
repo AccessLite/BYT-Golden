@@ -9,7 +9,6 @@
 import UIKit
 import Social
 
-var languageFilterToggle: Bool = true
 
 class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenuDelegate {
     
@@ -20,6 +19,7 @@ class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenu
     // MARK: - Constraints
     var settingsMenuBottomConstraint: NSLayoutConstraint? = nil
     var foaasBottomConstraint: NSLayoutConstraint? = nil
+    let defaults: UserDefaults = UserDefaults.standard
     
     // MARK: - Models
     var foaas: Foaas?
@@ -42,7 +42,6 @@ class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenu
         addFoaasViewShadow()
         makeRequest()
         updateSettingsMenu()
-        
     }
     
     // MARK: - Setup
@@ -221,6 +220,7 @@ class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenu
         guard let validFoaas = self.foaas else { return }
         
         languageFilterToggle = foaasSettingsMenuView.profanitySwitch.isOn
+        self.defaults.set(languageFilterToggle, forKey: LanguageFilterManager.shared.languageFilterKey)
 
         self.foaasView.mainTextLabel.text = validFoaas.message.filterBadLanguage(languageFilterToggle)
         self.foaasView.subtitleTextLabel.text = validFoaas.subtitle.filterBadLanguage(languageFilterToggle)
@@ -302,51 +302,6 @@ class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenu
             
             present(alertController, animated: true, completion: nil)
         }
-    }
-}
-
-extension String {
-    func filterBadLanguage (_ toggle: Bool) -> String {
-        let wordsToBeFiltered: Set<String> = ["fuck", "bitch", "ass", "dick", "pussy", "shit", "twat", "cock"]
-        let wordsToBeUnfiltered: [String: String] = ["f*ck" : "u", "b*tch" : "i", "*ss" : "a", "*ick": "i", "p*ssy": "u", "sh*t": "i", "tw*t" : "a", "c*ck" : "o"]
-        let vowels: Set<Character> = ["a", "e", "i", "o", "u"]
-        //Breaks down the word into an Arr, where every word will be checked and filtered
-        func filterFoulWords (_ previewText: String) -> String {
-            var words = previewText.components(separatedBy: " ")
-            for (index, word) in words.enumerated() {
-                let filteredWord = word.replacingOccurrences(of: word, with: filter(word), options: .caseInsensitive, range: nil)
-                words[index] = filteredWord
-            }
-            return words.joined(separator: " ")
-        }
-        //this is the filter, it checks to see if the word contains an instance of a foul word by iterating over the foul words. if it comes back true, then it will replace the first instance of a vowel excepting y with a * and return the updated word.
-        
-        func filter(_ word: String) -> String {
-            for foulWord in wordsToBeFiltered where word.lowercased().contains(foulWord){
-                for char in word.lowercased().characters where vowels.contains(char) {
-                    return word.replacingOccurrences(of: String(char), with: "*", options: .caseInsensitive, range: nil)
-                }
-            }
-            return word
-        }
-        
-        func unfilterFoulWords(_ previewText: String) -> String {
-            var words = previewText.components(separatedBy: " ")
-            for (index, word) in words.enumerated() {
-                let filteredWord = word.replacingOccurrences(of: word, with: unfilter(word), options: .caseInsensitive, range: nil)
-                words[index] = filteredWord
-            }
-            return words.joined(separator: " ")
-        }
-        
-        func unfilter(_ word: String) -> String {
-            for filteredWord in wordsToBeUnfiltered.keys where word.lowercased().contains(filteredWord) {
-                    return word.replacingOccurrences(of: "*", with: wordsToBeUnfiltered[filteredWord]!, options: .caseInsensitive, range: nil)
-            }
-            return word
-        }
-        //implements the filter on itself.
-        return toggle ? filterFoulWords(self) : unfilterFoulWords(self)
     }
 }
 

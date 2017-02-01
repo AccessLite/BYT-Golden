@@ -48,11 +48,13 @@
 		473EA5D31E3E7E6100DD35C9 /* RobotoCondensed-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 473EA5C11E3E7E6100DD35C9 /* RobotoCondensed-Light.ttf */; };
 		473EA5D41E3E7E6100DD35C9 /* RobotoCondensed-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 473EA5C21E3E7E6100DD35C9 /* RobotoCondensed-LightItalic.ttf */; };
 		473EA5D51E3E7E6100DD35C9 /* RobotoCondensed-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 473EA5C31E3E7E6100DD35C9 /* RobotoCondensed-Regular.ttf */; };
-    4786344D1E3E513600287661 /* FoaasFontManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4786344C1E3E513600287661 /* FoaasFontManager.swift */; };
+		4786344D1E3E513600287661 /* FoaasFontManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4786344C1E3E513600287661 /* FoaasFontManager.swift */; };
+		812EAE871E42312D003CAE18 /* Extension + LanguageFilterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812EAE861E42312D003CAE18 /* Extension + LanguageFilterManager.swift */; };
 		DE6658F71E3E805500513850 /* Extension + UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE6658F61E3E805500513850 /* Extension + UIColor.swift */; };
 		DE6658F91E3E884800513850 /* ColorScheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE6658F81E3E884800513850 /* ColorScheme.swift */; };
 		DE6658FB1E3E8E6300513850 /* VersionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE6658FA1E3E8E6300513850 /* VersionManager.swift */; };
 /* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		1498A2FF1E3E55E4003A3E5C /* Version.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Version.swift; path = Models/Version.swift; sourceTree = "<group>"; };
 		1498A3021E3E55F0003A3E5C /* ColorManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ColorManager.swift; path = Managers/ColorManager.swift; sourceTree = "<group>"; };
@@ -98,10 +100,10 @@
 		473EA5C21E3E7E6100DD35C9 /* RobotoCondensed-LightItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "RobotoCondensed-LightItalic.ttf"; sourceTree = "<group>"; };
 		473EA5C31E3E7E6100DD35C9 /* RobotoCondensed-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "RobotoCondensed-Regular.ttf"; sourceTree = "<group>"; };
 		4786344C1E3E513600287661 /* FoaasFontManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FoaasFontManager.swift; sourceTree = "<group>"; };
+		812EAE861E42312D003CAE18 /* Extension + LanguageFilterManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Extension + LanguageFilterManager.swift"; sourceTree = "<group>"; };
 		DE6658F61E3E805500513850 /* Extension + UIColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Extension + UIColor.swift"; path = "Models/Extension + UIColor.swift"; sourceTree = "<group>"; };
 		DE6658F81E3E884800513850 /* ColorScheme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ColorScheme.swift; path = Models/ColorScheme.swift; sourceTree = "<group>"; };
 		DE6658FA1E3E8E6300513850 /* VersionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VersionManager.swift; sourceTree = "<group>"; };
-
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -191,6 +193,7 @@
 				4786344C1E3E513600287661 /* FoaasFontManager.swift */,
 				14CFEC181E34394D00BD46CF /* FoaasDataManager.swift */,
 				DE6658FA1E3E8E6300513850 /* VersionManager.swift */,
+				812EAE861E42312D003CAE18 /* Extension + LanguageFilterManager.swift */,
 			);
 			name = Managers;
 			sourceTree = "<group>";
@@ -313,7 +316,6 @@
 				473EA5D31E3E7E6100DD35C9 /* RobotoCondensed-Light.ttf in Resources */,
 				473EA5CC1E3E7E6100DD35C9 /* Roboto-MediumItalic.ttf in Resources */,
 				473EA5C51E3E7E6100DD35C9 /* Roboto-BlackItalic.ttf in Resources */,
-				A7059A0A1E37E20800A09796 /* FoaasSettingsMenuView.xib in Resources */,
 				473EA5C81E3E7E6100DD35C9 /* Roboto-Italic.ttf in Resources */,
 				473EA5D01E3E7E6100DD35C9 /* RobotoCondensed-Bold.ttf in Resources */,
 				473EA5C71E3E7E6100DD35C9 /* Roboto-BoldItalic.ttf in Resources */,
@@ -351,6 +353,7 @@
 				14CFEC401E3705AC00BD46CF /* FoaasViewController.swift in Sources */,
 				14CFEC4A1E3708C300BD46CF /* FoaasTextField.swift in Sources */,
 				1498A3061E3E5602003A3E5C /* FoaasSettingsMenuView.swift in Sources */,
+				812EAE871E42312D003CAE18 /* Extension + LanguageFilterManager.swift in Sources */,
 				14CFEBFF1E3431F700BD46CF /* AppDelegate.swift in Sources */,
 				14CFEC481E37088A00BD46CF /* FoaasPreviewViewController.swift in Sources */,
 				14CFEC4E1E37E86700BD46CF /* FoaasPreviewView.swift in Sources */,
