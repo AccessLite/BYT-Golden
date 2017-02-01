@@ -31,6 +31,8 @@ class FoaasColorView: UIView {
   }
   
   private func configureConstraints() {
+    self.translatesAutoresizingMaskIntoConstraints = false
+    
     [ self.widthAnchor.constraint(equalToConstant: colorViewWidth),
       self.heightAnchor.constraint(equalToConstant: colorViewHeight) ].activate()
   }
@@ -82,6 +84,8 @@ class FoaasColorPickerView: UIView, UIScrollViewDelegate {
       containerView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
       containerView.topAnchor.constraint(equalTo: self.topAnchor),
       containerView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+      containerView.heightAnchor.constraint(equalToConstant: containerHeight),
+      containerView.widthAnchor.constraint(equalToConstant: containerWith),
       
       // scrollview
       scrollView.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
@@ -111,7 +115,9 @@ class FoaasColorPickerView: UIView, UIScrollViewDelegate {
     for (idx, colorView) in foaasColorViews.enumerated() {
       
       switch idx {
-      case 0: continue
+      case 0:
+        priorColorView = colorView
+        continue
         
       default:
         guard priorColorView != nil
@@ -121,6 +127,7 @@ class FoaasColorPickerView: UIView, UIScrollViewDelegate {
         }
         
         colorView.leadingAnchor.constraint(equalTo: priorColorView!.trailingAnchor, constant: interViewMargin).isActive = true
+        priorColorView = colorView
       }
     }
     
@@ -129,8 +136,17 @@ class FoaasColorPickerView: UIView, UIScrollViewDelegate {
   private func setupViewHierarchy() {
     self.addSubview(containerView)
     self.containerView.addSubview(scrollView)
+    _ = self.foaasColorViews.map {
+      self.scrollView.addSubview($0)
+      $0.translatesAutoresizingMaskIntoConstraints = false
+    }
     
+    self.scrollView.translatesAutoresizingMaskIntoConstraints = false
+    self.containerView.translatesAutoresizingMaskIntoConstraints = false 
     self.scrollView.delegate = self
+    
+    self.containerView.backgroundColor = .yellow
+    self.scrollView.backgroundColor = .gray
     
     // we need to extend the bounds of the scroll view, so we add its panGestureRecognizer to its container view
     let panGesture = self.scrollView.panGestureRecognizer

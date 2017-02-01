@@ -22,6 +22,7 @@ class FoaasSettingsMenuView: UIView, UIScrollViewDelegate {
     @IBOutlet weak var offLabel: UILabel!
     @IBOutlet weak var onLabel: UILabel!
   @IBOutlet weak var profanityLabel: UILabel!
+  @IBOutlet weak var colorPaletteLabel: UILabel!
   
     internal private(set) var foaasColorPickerView: FoaasColorPickerView?
   
@@ -34,24 +35,14 @@ class FoaasSettingsMenuView: UIView, UIScrollViewDelegate {
             //add a view to the subview
             self.addSubview(view)
             view.frame = self.bounds
-            // Color Scroll View
-//            self.colorSwitcherScrollView.translatesAutoresizingMaskIntoConstraints = false
-//            self.colorSwitcherScrollView.backgroundColor = .clear
-//            self.colorSwitcherScrollView.contentSize = CGSize(width: self.view1.frame.width * CGFloat(3) + CGFloat(40), height: self.view1.frame.height)
-//            self.colorSwitcherScrollView.delegate = self
           
-//            self.colorSwitcherScrollView.addSubview(self.view1)
-//            self.colorSwitcherScrollView.addSubview(self.view2)
-//            self.colorSwitcherScrollView.addSubview(self.view3)
-          
-          let colorManagerColors = ColorManager.shared.colorSchemes.map { $0.primary }
-          foaasColorPickerView = FoaasColorPickerView(colors: colorManagerColors, baseUnit: 60.0)
+//          let colorManagerColors = ColorManager.shared.colorSchemes.map { $0.primary }
+          foaasColorPickerView = FoaasColorPickerView(colors: [.red, .blue, .green], baseUnit: 60.0)
+          foaasColorPickerView?.translatesAutoresizingMaskIntoConstraints = false 
           self.addSubview(foaasColorPickerView!)
-          
-          [ foaasColorPickerView!.leadingAnchor.constraint(equalTo: self.offLabel.leadingAnchor),
-            foaasColorPickerView!.trailingAnchor.constraint(equalTo: self.onLabel.trailingAnchor),
-            foaasColorPickerView!.heightAnchor.constraint(equalToConstant: 30.0),
-            foaasColorPickerView!.centerYAnchor.constraint(equalTo: self.profanityLabel.centerYAnchor),
+        
+          [ foaasColorPickerView!.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16.0),
+            foaasColorPickerView!.centerYAnchor.constraint(equalTo: self.colorPaletteLabel.centerYAnchor),
           ].activate()
         }
     }
@@ -107,31 +98,6 @@ class FoaasSettingsMenuView: UIView, UIScrollViewDelegate {
         self.delegate?.twitterButtonTapped()
         print("twitterButtonTapped")
     }
-
-//    lazy var view1 : UIView = {
-//        let view = UIView()
-//        view.translatesAutoresizingMaskIntoConstraints = false
-//        view.backgroundColor = .blue
-//        view.frame = CGRect(x: 10, y: 0, width: 90, height: 30)
-//        return view
-//    }()
-//    
-//    lazy var view2 : UIView = {
-//        let view = UIView()
-//        view.translatesAutoresizingMaskIntoConstraints = false
-//        view.backgroundColor = .purple
-//        view.frame = CGRect(x: 110, y: 0, width: 90, height: 30)
-//        return view
-//    }()
-//    
-//    lazy var view3 : UIView = {
-//        let view = UIView()
-//        view.translatesAutoresizingMaskIntoConstraints = false
-//        view.backgroundColor = .green
-//        view.frame = CGRect(x: 210, y: 0, width: 90, height: 30)
-//        return view
-//    }()
-  
 }
 
 
