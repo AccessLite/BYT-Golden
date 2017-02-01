@@ -42,7 +42,10 @@ class FoaasTextField: UIView, UITextFieldDelegate {
     
     let context = UIGraphicsGetCurrentContext()
     context?.setLineWidth(2.0)
-    context?.setStrokeColor(ColorManager.shared.currentColorScheme.accent.cgColor)
+    
+    //PM spec appears to show that the stroke color is white
+    context?.setStrokeColor(UIColor.white.cgColor)
+    
     context?.move(to: startPoint)
     context?.addLine(to: endPoint)
     
@@ -57,8 +60,7 @@ class FoaasTextField: UIView, UITextFieldDelegate {
     self.clipsToBounds = false
     self.textLabelPlaceholder = placeHolderText
     
-    //setting alpha value according to PM notes
-    self.alpha = 0.34
+    //PM spec appears to show the textField "line" with a brighter white. I am removing the alpha value from here and applying it only to the placeholderText
     
     self.setupViewHierarchy()
     self.configureConstraints()
@@ -102,6 +104,10 @@ class FoaasTextField: UIView, UITextFieldDelegate {
   private func setupViewHierarchy() {
     textLabel = UILabel()
     textLabel.text = textLabelPlaceholder
+    
+    //PM spec appears to show that the textColor of this placeholder is white
+    textLabel.textColor = UIColor.white
+    
     textLabel.font = largeLabelFont
     textLabel.textAlignment = .left
     
@@ -111,6 +117,10 @@ class FoaasTextField: UIView, UITextFieldDelegate {
     textField.delegate = self
     textField.autocorrectionType = .no
     textField.autocapitalizationType = .words
+    
+    //Textfield text will appear as white and in Roboto-medium.
+    textField.textColor = UIColor.white
+    textField.font = UIFont.Roboto.medium(size: 18.0)
     
     self.addSubview(textLabel)
     self.addSubview(textField)

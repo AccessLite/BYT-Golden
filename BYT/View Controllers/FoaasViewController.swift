@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Social
 
 class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenuDelegate {
     
@@ -26,7 +27,9 @@ class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenu
     // MARK: - View Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.registerForNotifications()
+        
+        //removing duplicate call for registering for Notifications
+//        self.registerForNotifications()
         self.foaasView.delegate = self
         self.foaasSettingsMenuView.delegate = self
         
@@ -119,6 +122,7 @@ class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenu
         }
         self.foaasView.mainTextLabel.text = validFoaas.message
         self.foaasView.subtitleTextLabel.text = validFoaas.subtitle
+        self.foaas = validFoaas
     }
     
     
@@ -244,11 +248,20 @@ class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenu
     }
     
     func twitterButtonTapped() {
-        print("twitter button tapped")
+        sharePostTo(serviceType: SLServiceTypeTwitter)
     }
     
     func facebookButtonTapped() {
-        print("facebook button tapped")
+        sharePostTo(serviceType: SLServiceTypeFacebook)
+    }
+    
+    // this function shares the current foaas message to twitter or facebook. Will need to add to the message with a BYT tag and also will need to be filtered if the filter is on. Will also need to be the string that gets passed back from operations VC
+    
+    func sharePostTo(serviceType: String!) {
+        if let vc = SLComposeViewController(forServiceType: serviceType) {
+            vc.setInitialText(self.foaas!.description)
+            present(vc, animated: true, completion: nil)
+        }
     }
     
     func camerarollButtonTapped() {
