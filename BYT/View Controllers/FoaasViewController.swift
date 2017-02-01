@@ -265,6 +265,10 @@ class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenu
         guard let validImage = getScreenShotImage(view: self.view) else { return }
         //https://developer.apple.com/reference/uikit/1619125-uiimagewritetosavedphotosalbum
         UIImageWriteToSavedPhotosAlbum(validImage, self, #selector(createScreenShotCompletion(image: didFinishSavingWithError: contextInfo:)), nil)
+        
+        //after the screenshot is saved, the settings menu will animate back into it's original position (show: true).
+        //this will give the false impression that the screenshot includes the settings menu because of how quickly it occurs.
+        animateSettingsMenu(show: true, duration: 0.8, dampening: 0.7, springVelocity: 7)
     }
     
     func shareButtonTapped() {
@@ -298,6 +302,10 @@ class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenu
     ///Get current screenshot
     func getScreenShotImage(view: UIView) -> UIImage? {
         //https://developer.apple.com/reference/uikit/1623912-uigraphicsbeginimagecontextwitho
+        
+        //shortly before the graphics context for the view is determined, the settings menu will animate down (show: false)
+        animateSettingsMenu(show: false, duration: 0.1)
+        
         UIGraphicsBeginImageContextWithOptions(view.bounds.size, true, view.layer.contentsScale)
         guard let context = UIGraphicsGetCurrentContext() else{
             return nil

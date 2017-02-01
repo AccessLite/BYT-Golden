@@ -48,11 +48,12 @@
 		473EA5D31E3E7E6100DD35C9 /* RobotoCondensed-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 473EA5C11E3E7E6100DD35C9 /* RobotoCondensed-Light.ttf */; };
 		473EA5D41E3E7E6100DD35C9 /* RobotoCondensed-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 473EA5C21E3E7E6100DD35C9 /* RobotoCondensed-LightItalic.ttf */; };
 		473EA5D51E3E7E6100DD35C9 /* RobotoCondensed-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 473EA5C31E3E7E6100DD35C9 /* RobotoCondensed-Regular.ttf */; };
-    4786344D1E3E513600287661 /* FoaasFontManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4786344C1E3E513600287661 /* FoaasFontManager.swift */; };
+		4786344D1E3E513600287661 /* FoaasFontManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4786344C1E3E513600287661 /* FoaasFontManager.swift */; };
 		DE6658F71E3E805500513850 /* Extension + UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE6658F61E3E805500513850 /* Extension + UIColor.swift */; };
 		DE6658F91E3E884800513850 /* ColorScheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE6658F81E3E884800513850 /* ColorScheme.swift */; };
 		DE6658FB1E3E8E6300513850 /* VersionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE6658FA1E3E8E6300513850 /* VersionManager.swift */; };
 /* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		1498A2FF1E3E55E4003A3E5C /* Version.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Version.swift; path = Models/Version.swift; sourceTree = "<group>"; };
 		1498A3021E3E55F0003A3E5C /* ColorManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ColorManager.swift; path = Managers/ColorManager.swift; sourceTree = "<group>"; };
@@ -101,7 +102,6 @@
 		DE6658F61E3E805500513850 /* Extension + UIColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Extension + UIColor.swift"; path = "Models/Extension + UIColor.swift"; sourceTree = "<group>"; };
 		DE6658F81E3E884800513850 /* ColorScheme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ColorScheme.swift; path = Models/ColorScheme.swift; sourceTree = "<group>"; };
 		DE6658FA1E3E8E6300513850 /* VersionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VersionManager.swift; sourceTree = "<group>"; };
-
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -272,6 +272,7 @@
 				TargetAttributes = {
 					14CFEBE51E3430C600BD46CF = {
 						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = R7DWEPXN5Y;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -313,7 +314,6 @@
 				473EA5D31E3E7E6100DD35C9 /* RobotoCondensed-Light.ttf in Resources */,
 				473EA5CC1E3E7E6100DD35C9 /* Roboto-MediumItalic.ttf in Resources */,
 				473EA5C51E3E7E6100DD35C9 /* Roboto-BlackItalic.ttf in Resources */,
-				A7059A0A1E37E20800A09796 /* FoaasSettingsMenuView.xib in Resources */,
 				473EA5C81E3E7E6100DD35C9 /* Roboto-Italic.ttf in Resources */,
 				473EA5D01E3E7E6100DD35C9 /* RobotoCondensed-Bold.ttf in Resources */,
 				473EA5C71E3E7E6100DD35C9 /* Roboto-BoldItalic.ttf in Resources */,
@@ -468,7 +468,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = R7DWEPXN5Y;
 				INFOPLIST_FILE = "$(SRCROOT)/BYT/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -483,7 +483,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = R7DWEPXN5Y;
 				INFOPLIST_FILE = "$(SRCROOT)/BYT/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
