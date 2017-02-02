@@ -148,6 +148,7 @@ class FoaasView: UIView {
         label.textColor = UIColor.white
         label.alpha = 0.70
         
+        //PM spec has subtitle text aligned to the left
         label.textAlignment = .left
         label.adjustsFontSizeToFitWidth = true
         label.minimumScaleFactor = 0.25

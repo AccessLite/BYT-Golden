@@ -23,7 +23,7 @@ class FoaasPrevewViewController: UIViewController, FoaasTextFieldDelegate, Foaas
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    self.setupViewHeirarchy()
+    self.setupViewHierarchy()
     self.configureConstraints()
     
     self.foaasPreviewView.createTextFields(for: self.pathBuilder!.allKeys())
@@ -33,7 +33,7 @@ class FoaasPrevewViewController: UIViewController, FoaasTextFieldDelegate, Foaas
   
   
   // MARK: - View Setup
-  internal func setupViewHeirarchy() {
+  internal func setupViewHierarchy() {
     self.view.addSubview(foaasPreviewView)
   }
   
@@ -91,8 +91,6 @@ class FoaasPrevewViewController: UIViewController, FoaasTextFieldDelegate, Foaas
         //}
         DispatchQueue.main.async {
             
-            //Updated the font according to PM notes. Text won't be visible until color changes to the superview are implemented.
-            //Changed call from UIColor.white to RGB initializer so alpha values can be accounted for.
             let attributedString = NSMutableAttributedString(string: message, attributes: [NSForegroundColorAttributeName : UIColor(red: 255.0, green: 255.0, blue: 255.0, alpha: 1.0), NSFontAttributeName : UIFont.Roboto.light(size: 24.0)! ])
             let fromAttribute = NSMutableAttributedString(string: "\n\n" + "From,\n" + subtitle, attributes: [ NSForegroundColorAttributeName : UIColor(red: 255.0, green: 255.0, blue: 255.0, alpha: 1.0), NSFontAttributeName : UIFont.Roboto.light(size: 24.0)!])
             
