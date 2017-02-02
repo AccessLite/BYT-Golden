@@ -16,6 +16,8 @@ protocol FoaasViewDelegate: class {
 class FoaasView: UIView {
     
     internal var delegate: FoaasViewDelegate?
+    
+    var subtitleLabelConstraint = NSLayoutConstraint()
   
   
     // MARK: - Setup
@@ -53,13 +55,17 @@ class FoaasView: UIView {
             resizingView.bottomAnchor.constraint(equalTo: addButton.topAnchor, constant: -48.0)
         ]
         
+        //self.subtitleLabelConstraint = subtitleTextLabel.leadingAnchor.constraint(equalTo: resizingView.leadingAnchor, constant: 225.0)
+        self.subtitleLabelConstraint = subtitleTextLabel.leadingAnchor.constraint(greaterThanOrEqualTo: resizingView.leadingAnchor, constant: 16.0)
+        
         let labelConstraints = [
             mainTextLabel.leadingAnchor.constraint(equalTo: resizingView.leadingAnchor, constant: 16.0),
             mainTextLabel.topAnchor.constraint(equalTo: resizingView.topAnchor, constant: 16.0),
             mainTextLabel.trailingAnchor.constraint(equalTo: resizingView.trailingAnchor, constant: -16.0),
-            mainTextLabel.heightAnchor.constraint(equalTo: resizingView.heightAnchor, multiplier: 0.8),
+            mainTextLabel.heightAnchor.constraint(equalTo: resizingView.heightAnchor, multiplier: 0.7),
             
-            subtitleTextLabel.leadingAnchor.constraint(equalTo: resizingView.leadingAnchor, constant: 16.0),
+            subtitleLabelConstraint,
+            //subtitleTextLabel.leadingAnchor.constraint(equalTo: resizingView.leadingAnchor, constant: 16.0),
             subtitleTextLabel.trailingAnchor.constraint(equalTo: resizingView.trailingAnchor, constant: -16.0),
             subtitleTextLabel.topAnchor.constraint(equalTo: self.mainTextLabel.bottomAnchor, constant: 16.0),
             subtitleTextLabel.bottomAnchor.constraint(equalTo: resizingView.bottomAnchor, constant: -16.0),
@@ -142,7 +148,7 @@ class FoaasView: UIView {
         label.textColor = UIColor.white
         label.alpha = 0.70
         
-        label.textAlignment = .right
+        label.textAlignment = .left
         label.adjustsFontSizeToFitWidth = true
         label.minimumScaleFactor = 0.25
         label.numberOfLines = 0

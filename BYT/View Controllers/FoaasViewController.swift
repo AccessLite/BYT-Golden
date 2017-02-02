@@ -121,6 +121,18 @@ class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenu
         }
         self.foaasView.mainTextLabel.text = validFoaas.message
         self.foaasView.subtitleTextLabel.text = validFoaas.subtitle
+        DispatchQueue.main.async {
+            let valueForConstraintConstant = validFoaas.subtitle.characters.count
+            if self.foaasView.subtitleLabelConstraint.constant - CGFloat(Double(valueForConstraintConstant) * 1.5) < 16 {
+                self.foaasView.subtitleLabelConstraint.constant = 16.0
+                print(self.foaasView.subtitleLabelConstraint.constant - CGFloat(valueForConstraintConstant))
+                self.foaasView.layoutIfNeeded()
+            } else {
+                self.foaasView.subtitleLabelConstraint.constant = self.foaasView.subtitleLabelConstraint.constant - CGFloat(Double(valueForConstraintConstant) * 1.5)
+                print(self.foaasView.subtitleLabelConstraint.constant - CGFloat(Double(valueForConstraintConstant) * 1.5))
+                self.foaasView.layoutIfNeeded()
+            }
+        }
     }
     
     
@@ -143,7 +155,7 @@ class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenu
                 
                 DispatchQueue.main.async {
                     self.foaasView.mainTextLabel.text = message
-                    self.foaasView.subtitleTextLabel.text = subtitle
+                    self.foaasView.subtitleTextLabel.text = "From,\n\(subtitle)"
                 }
             }
             
