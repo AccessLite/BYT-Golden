@@ -8,24 +8,22 @@
 
 import UIKit
 
-class FoaasSettingsMenuView: UIView, UIScrollViewDelegate {
+class FoaasSettingsMenuView: UIView, UIScrollViewDelegate, FoaasColorPickerViewDelegate {
     
     @IBOutlet weak var profanitySwitch: UISwitch!
     @IBOutlet weak var shareImageButton: UIButton!
     @IBOutlet weak var cameraRollButton: UIButton!
     @IBOutlet weak var facebookButton: UIButton!
     @IBOutlet weak var twitterButton: UIButton!
-    @IBOutlet weak var colorSwitcherScrollView: UIScrollView!
-  
+
     @IBOutlet weak var versionNumberLabel: UILabel!
     @IBOutlet weak var versionMessageLabel: UILabel!
     @IBOutlet weak var offLabel: UILabel!
     @IBOutlet weak var onLabel: UILabel!
-  @IBOutlet weak var profanityLabel: UILabel!
-  @IBOutlet weak var colorPaletteLabel: UILabel!
-  
+    @IBOutlet weak var profanityLabel: UILabel!
+    @IBOutlet weak var colorPaletteLabel: UILabel!
+    
     internal private(set) var foaasColorPickerView: FoaasColorPickerView?
-  
     
     var delegate : FoaasSettingMenuDelegate?
     
@@ -35,15 +33,11 @@ class FoaasSettingsMenuView: UIView, UIScrollViewDelegate {
             //add a view to the subview
             self.addSubview(view)
             view.frame = self.bounds
-          
-//          let colorManagerColors = ColorManager.shared.colorSchemes.map { $0.primary }
-          foaasColorPickerView = FoaasColorPickerView(colors: [.red, .blue, .green], baseUnit: 60.0)
-          foaasColorPickerView?.translatesAutoresizingMaskIntoConstraints = false 
-          self.addSubview(foaasColorPickerView!)
-        
-          [ foaasColorPickerView!.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16.0),
-            foaasColorPickerView!.centerYAnchor.constraint(equalTo: self.colorPaletteLabel.centerYAnchor),
-          ].activate()
+            
+            setupViewHierarchy()
+            configureConstraints()
+            self.profanitySwitch.onTintColor = ColorManager.shared.currentColorScheme.accent
+            self.profanitySwitch.tintColor = ColorManager.shared.currentColorScheme.accent
         }
     }
     
@@ -55,25 +49,36 @@ class FoaasSettingsMenuView: UIView, UIScrollViewDelegate {
         self.versionNumberLabel.text = "V\(VersionManager.shared.currentVersion.number)"
         self.versionMessageLabel.text = "\(VersionManager.shared.currentVersion.message.uppercased()) BYT@BOARDINGPASS.COM"
     }
-
-//    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-//        //http://sweettutos.com/2015/04/13/how-to-make-a-horizontal-paging-uiscrollview-with-auto-layout-in-storyboards-swift/
-//        //set the width
-//        var number = 0
-//        var pageWidth:CGFloat = self.colorSwitcherScrollView.frame.width
-//        if number % 2 == 0 {
-//            pageWidth = self.colorSwitcherScrollView.frame.width
-//            number += 1
-//        } else {
-//            pageWidth = self.colorSwitcherScrollView.frame.width - CGFloat(40)
-//            number += 1
-//        }
-//        let currentPage:CGFloat = floor((scrollView.contentOffset.x-pageWidth/2)/pageWidth)+1
-//        
-//        ColorManager.shared.currentColorScheme = ColorManager.shared.colorSchemes[Int(currentPage)]
-//        self.delegate?.colorSwitcherScrollViewScrolled()
-//    }
-  
+    
+    private func configureConstraints() {
+        foaasColorPickerView?.translatesAutoresizingMaskIntoConstraints = false
+        [ foaasColorPickerView!.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16.0),
+          foaasColorPickerView!.centerYAnchor.constraint(equalTo: self.colorPaletteLabel.centerYAnchor),
+        ].activate()
+    }
+    
+    private func setupViewHierarchy() {
+        let colorManagerColors = ColorManager.shared.colorSchemes.map { $0.primary }
+        foaasColorPickerView = FoaasColorPickerView(colors: colorManagerColors, baseUnit: 60.0)
+        foaasColorPickerView?.delegate = self
+        
+        self.addSubview(foaasColorPickerView!)
+    }
+    
+    
+    // MARK: - Color Picker Functions
+    func didChangeColorPickerIndex(to index: Int) {
+        // TODO: there should be a funciton to update the color scheme rather that directly assigning it
+        //       to the singleton, from the singleton.
+        ColorManager.shared.currentColorScheme = ColorManager.shared.colorSchemes[index]
+        self.profanitySwitch.tintColor = ColorManager.shared.currentColorScheme.accent
+        self.profanitySwitch.onTintColor = ColorManager.shared.currentColorScheme.accent
+        
+        self.delegate?.colorSwitcherScrollViewScrolled()
+    }
+    
+    
+    // MARK: - Actions
     @IBAction func profanitySwitchDidChange(_ sender: UISwitch) {
         self.delegate?.profanitfySwitchChanged()
         print("Profanity Switch Did Change")
@@ -86,7 +91,7 @@ class FoaasSettingsMenuView: UIView, UIScrollViewDelegate {
     
     @IBAction func cameraButtonTapped(_ sender: UIButton) {
         self.delegate?.camerarollButtonTapped()
-         print("cameraButtonTapped")
+        print("cameraButtonTapped")
     }
     
     @IBAction func facebookButtonTapped(_ sender: UIButton) {
