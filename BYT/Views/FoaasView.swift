@@ -17,7 +17,7 @@ class FoaasView: UIView {
     
     internal var delegate: FoaasViewDelegate?
   
-  
+
     // MARK: - Setup
     override init(frame: CGRect) {
         super.init(frame: frame)

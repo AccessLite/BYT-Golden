@@ -40,9 +40,17 @@ class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenu
         addFoaasViewShadow()
         makeRequest()
         updateSettingsMenu()
-        
     }
+  
+  override func viewDidAppear(_ animated: Bool) {
+    super.viewDidAppear(animated)
     
+    // this must be called after the views have been laid out and drawn to the screen. 
+    // otherwise this gradient wont work
+    self.foaasSettingsMenuView.foaasColorPickerView?.applyGradient()
+  }
+  
+  
     // MARK: - Setup
     private func configureConstraints() {
         self.foaasView.translatesAutoresizingMaskIntoConstraints = false
@@ -63,7 +71,7 @@ class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenu
             foaasView.heightAnchor.constraint(equalTo: self.view.heightAnchor),
             foaasBottomConstraint!,
             ].activate()
-        }
+    }
     
     private func setupViewHierarchy() {
         self.view.backgroundColor = .white
@@ -73,15 +81,6 @@ class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenu
     }
     
     private func updateSettingsMenu() {
-        
-        // this is hard coded. Will work dynamically when Louis finishes the color scroll view implementation
-        if ColorManager.shared.colorSchemes != nil && ColorManager.shared.colorSchemes.count > 2 {
-            DispatchQueue.main.async {
-                self.foaasSettingsMenuView.view1.backgroundColor = ColorManager.shared.colorSchemes[0].primary
-                self.foaasSettingsMenuView.view2.backgroundColor = ColorManager.shared.colorSchemes[1].primary
-                self.foaasSettingsMenuView.view3.backgroundColor = ColorManager.shared.colorSchemes[2].primary
-            }
-        }
         self.foaasSettingsMenuView.updateVersionLabels()
     }
     
@@ -154,9 +153,11 @@ class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenu
                 guard let colorSchemes = ColorScheme.parseColorSchemes(from: validData) else { return }
                 ColorManager.shared.colorSchemes = colorSchemes
                 DispatchQueue.main.async {
-                    self.foaasSettingsMenuView.view1.backgroundColor = colorSchemes[0].primary
-                    self.foaasSettingsMenuView.view2.backgroundColor = colorSchemes[1].primary
-                    self.foaasSettingsMenuView.view3.backgroundColor = colorSchemes[2].primary
+                  
+                  // TODO
+//                    self.foaasSettingsMenuView.view1.backgroundColor = colorSchemes[0].primary
+//                    self.foaasSettingsMenuView.view2.backgroundColor = colorSchemes[1].primary
+//                    self.foaasSettingsMenuView.view3.backgroundColor = colorSchemes[2].primary
                 }
             }
             
@@ -262,9 +263,13 @@ class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenu
     
     func camerarollButtonTapped() {
         print("cameraroll button tapped")
-        guard let vaidImage = getScreenShotImage(view: self.view) else { return }
+        guard let validImage = getScreenShotImage(view: self.view) else { return }
         //https://developer.apple.com/reference/uikit/1619125-uiimagewritetosavedphotosalbum
-        UIImageWriteToSavedPhotosAlbum(vaidImage, self, #selector(createScreenShotCompletion(image: didFinishSavingWithError: contextInfo:)), nil)
+        UIImageWriteToSavedPhotosAlbum(validImage, self, #selector(createScreenShotCompletion(image: didFinishSavingWithError: contextInfo:)), nil)
+        
+        //after the screenshot is saved, the settings menu will animate back into it's original position (show: true).
+        //this will give the false impression that the screenshot includes the settings menu because of how quickly it occurs.
+        animateSettingsMenu(show: true, duration: 0.1)
     }
     
     func shareButtonTapped() {
@@ -298,6 +303,10 @@ class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenu
     ///Get current screenshot
     func getScreenShotImage(view: UIView) -> UIImage? {
         //https://developer.apple.com/reference/uikit/1623912-uigraphicsbeginimagecontextwitho
+        
+        //shortly before the graphics context for the view is determined, the settings menu will animate down (show: false)
+        animateSettingsMenu(show: false, duration: 0.1)
+        
         UIGraphicsBeginImageContextWithOptions(view.bounds.size, true, view.layer.contentsScale)
         guard let context = UIGraphicsGetCurrentContext() else{
             return nil
