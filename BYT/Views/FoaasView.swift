@@ -150,7 +150,7 @@ class FoaasView: UIView {
     
     internal lazy var addButton: UIButton = {
         let button: UIButton = UIButton(type: .custom)
-        button.setBackgroundImage(UIImage(named: "add_button")!, for: .normal)
+        button.setBackgroundImage(UIImage(named: "add_button_grayscale")!, for: .normal)
         button.layer.shadowColor = UIColor.black.cgColor
         button.layer.shadowOpacity = 0.8
         button.layer.shadowOffset = CGSize(width: 0, height: 5)

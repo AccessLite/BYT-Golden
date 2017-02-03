@@ -71,12 +71,12 @@ class FoaasPreviewView: UIView {
       previewTextViewHeightConstraint!,
       
     //buttons
-      backButton.topAnchor.constraint(equalTo: contentContainerView.bottomAnchor, constant: 24),
+      backButton.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -48),
         backButton.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 48),
         backButton.heightAnchor.constraint(equalToConstant: 54),
         backButton.widthAnchor.constraint(equalToConstant: 54),
         
-        doneButton.topAnchor.constraint(equalTo: contentContainerView.bottomAnchor, constant: 24),
+        doneButton.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -48),
         doneButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -48),
         doneButton.heightAnchor.constraint(equalToConstant: 54),
         doneButton.widthAnchor.constraint(equalToConstant: 54)
@@ -264,7 +264,7 @@ class FoaasPreviewView: UIView {
     internal lazy var doneButton: UIButton = {
         let button = UIButton(type: .custom)
         button.addTarget(self, action: #selector(doneButtonClicked(sender:)), for: UIControlEvents.touchUpInside)
-        button.setImage(UIImage(named: "done_button")!, for: .normal)
+        button.setImage(UIImage(named: "done_button_grayscale")!, for: .normal)
         button.imageView?.layer.shadowColor = UIColor.black.cgColor
         button.imageView?.layer.shadowOpacity = 0.8
         button.imageView?.layer.shadowOffset = CGSize(width: 0, height: 5)
@@ -277,7 +277,12 @@ class FoaasPreviewView: UIView {
     internal lazy var backButton: UIButton = {
         let button = UIButton(type: .custom)
         button.addTarget(self, action: #selector(backButtonClicked(sender:)), for: UIControlEvents.touchUpInside)
-        button.setImage(UIImage(named: "back_button")!, for: .normal)
+        
+        let origImage = UIImage(named: "back_button_grayscale")
+        let tintedImage = origImage?.withRenderingMode(.alwaysTemplate)
+        button.setImage(tintedImage, for: .normal)
+        button.tintColor = ColorManager.shared.currentColorScheme.accent
+        
         button.imageView?.layer.shadowColor = UIColor.black.cgColor
         button.imageView?.layer.shadowOpacity = 0.8
         button.imageView?.layer.shadowOffset = CGSize(width: 0, height: 5)

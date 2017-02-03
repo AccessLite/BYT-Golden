@@ -73,7 +73,7 @@ class FoaasOperationsTableViewController: UITableViewController {
     internal lazy var floatingButton: UIButton = {
         let button = UIButton(type: .custom)
         button.addTarget(self, action: #selector(floatingButtonClicked(sender:)), for: UIControlEvents.touchUpInside)
-        button.setImage(UIImage(named: "close_button")!, for: .normal)
+        button.setImage(UIImage(named: "close_button_grayscale")!, for: .normal)
         button.imageView?.layer.shadowColor = UIColor.black.cgColor
         button.imageView?.layer.shadowOpacity = 0.8
         button.imageView?.layer.shadowOffset = CGSize(width: 0, height: 5)
