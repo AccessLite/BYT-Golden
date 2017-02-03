@@ -40,9 +40,17 @@ class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenu
         addFoaasViewShadow()
         makeRequest()
         updateSettingsMenu()
-        
     }
+  
+  override func viewDidAppear(_ animated: Bool) {
+    super.viewDidAppear(animated)
     
+    // this must be called after the views have been laid out and drawn to the screen. 
+    // otherwise this gradient wont work
+    self.foaasSettingsMenuView.foaasColorPickerView?.applyGradient()
+  }
+  
+  
     // MARK: - Setup
     private func configureConstraints() {
         self.foaasView.translatesAutoresizingMaskIntoConstraints = false
@@ -63,7 +71,7 @@ class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenu
             foaasView.heightAnchor.constraint(equalTo: self.view.heightAnchor),
             foaasBottomConstraint!,
             ].activate()
-        }
+    }
     
     private func setupViewHierarchy() {
         self.view.backgroundColor = .white
@@ -73,15 +81,6 @@ class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenu
     }
     
     private func updateSettingsMenu() {
-        
-        // this is hard coded. Will work dynamically when Louis finishes the color scroll view implementation
-        if ColorManager.shared.colorSchemes != nil && ColorManager.shared.colorSchemes.count > 2 {
-            DispatchQueue.main.async {
-                self.foaasSettingsMenuView.view1.backgroundColor = ColorManager.shared.colorSchemes[0].primary
-                self.foaasSettingsMenuView.view2.backgroundColor = ColorManager.shared.colorSchemes[1].primary
-                self.foaasSettingsMenuView.view3.backgroundColor = ColorManager.shared.colorSchemes[2].primary
-            }
-        }
         self.foaasSettingsMenuView.updateVersionLabels()
     }
     
@@ -154,9 +153,11 @@ class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenu
                 guard let colorSchemes = ColorScheme.parseColorSchemes(from: validData) else { return }
                 ColorManager.shared.colorSchemes = colorSchemes
                 DispatchQueue.main.async {
-                    self.foaasSettingsMenuView.view1.backgroundColor = colorSchemes[0].primary
-                    self.foaasSettingsMenuView.view2.backgroundColor = colorSchemes[1].primary
-                    self.foaasSettingsMenuView.view3.backgroundColor = colorSchemes[2].primary
+                  
+                  // TODO
+//                    self.foaasSettingsMenuView.view1.backgroundColor = colorSchemes[0].primary
+//                    self.foaasSettingsMenuView.view2.backgroundColor = colorSchemes[1].primary
+//                    self.foaasSettingsMenuView.view3.backgroundColor = colorSchemes[2].primary
                 }
             }
             
