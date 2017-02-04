@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1430C7521E457393002D904A /* Profanity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1430C7511E457393002D904A /* Profanity.swift */; };
 		1498A2FD1E3D7A4F003A3E5C /* FoaasColorPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1498A2FC1E3D7A4F003A3E5C /* FoaasColorPickerView.swift */; };
 		1498A3011E3E55E4003A3E5C /* Version.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1498A2FF1E3E55E4003A3E5C /* Version.swift */; };
 		1498A3031E3E55F0003A3E5C /* ColorManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1498A3021E3E55F0003A3E5C /* ColorManager.swift */; };
@@ -50,12 +51,14 @@
 		473EA5D41E3E7E6100DD35C9 /* RobotoCondensed-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 473EA5C21E3E7E6100DD35C9 /* RobotoCondensed-LightItalic.ttf */; };
 		473EA5D51E3E7E6100DD35C9 /* RobotoCondensed-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 473EA5C31E3E7E6100DD35C9 /* RobotoCondensed-Regular.ttf */; };
 		4786344D1E3E513600287661 /* FoaasFontManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4786344C1E3E513600287661 /* FoaasFontManager.swift */; };
+		812EAE871E42312D003CAE18 /* Extension + LanguageFilterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812EAE861E42312D003CAE18 /* Extension + LanguageFilterManager.swift */; };
 		DE6658F71E3E805500513850 /* Extension + UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE6658F61E3E805500513850 /* Extension + UIColor.swift */; };
 		DE6658F91E3E884800513850 /* ColorScheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE6658F81E3E884800513850 /* ColorScheme.swift */; };
 		DE6658FB1E3E8E6300513850 /* VersionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE6658FA1E3E8E6300513850 /* VersionManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1430C7511E457393002D904A /* Profanity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Profanity.swift; path = Models/Profanity.swift; sourceTree = "<group>"; };
 		1498A2FC1E3D7A4F003A3E5C /* FoaasColorPickerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FoaasColorPickerView.swift; path = Views/FoaasColorPickerView.swift; sourceTree = "<group>"; };
 		1498A2FF1E3E55E4003A3E5C /* Version.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Version.swift; path = Models/Version.swift; sourceTree = "<group>"; };
 		1498A3021E3E55F0003A3E5C /* ColorManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ColorManager.swift; path = Managers/ColorManager.swift; sourceTree = "<group>"; };
@@ -74,7 +77,7 @@
 		14CFEC121E34363300BD46CF /* FoaasTemplate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FoaasTemplate.swift; path = Models/FoaasTemplate.swift; sourceTree = "<group>"; };
 		14CFEC171E34394D00BD46CF /* FoaasAPIManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FoaasAPIManager.swift; path = Managers/FoaasAPIManager.swift; sourceTree = "<group>"; };
 		14CFEC181E34394D00BD46CF /* FoaasDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FoaasDataManager.swift; path = Managers/FoaasDataManager.swift; sourceTree = "<group>"; };
-		14CFEC3F1E3705AC00BD46CF /* FoaasViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FoaasViewController.swift; path = "View Controllers/FoaasViewController.swift"; sourceTree = "<group>"; };
+		14CFEC3F1E3705AC00BD46CF /* FoaasViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.swift; name = FoaasViewController.swift; path = "View Controllers/FoaasViewController.swift"; sourceTree = "<group>"; tabWidth = 4; };
 		14CFEC411E3705E800BD46CF /* FoaasView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FoaasView.swift; path = Views/FoaasView.swift; sourceTree = "<group>"; };
 		14CFEC431E3707C600BD46CF /* FoaasOperationsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FoaasOperationsTableViewController.swift; path = "View Controllers/FoaasOperationsTableViewController.swift"; sourceTree = "<group>"; };
 		14CFEC451E37083400BD46CF /* FoaasOperationTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FoaasOperationTableViewCell.swift; path = Views/FoaasOperationTableViewCell.swift; sourceTree = "<group>"; };
@@ -101,6 +104,7 @@
 		473EA5C21E3E7E6100DD35C9 /* RobotoCondensed-LightItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "RobotoCondensed-LightItalic.ttf"; sourceTree = "<group>"; };
 		473EA5C31E3E7E6100DD35C9 /* RobotoCondensed-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "RobotoCondensed-Regular.ttf"; sourceTree = "<group>"; };
 		4786344C1E3E513600287661 /* FoaasFontManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FoaasFontManager.swift; sourceTree = "<group>"; };
+		812EAE861E42312D003CAE18 /* Extension + LanguageFilterManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = "Extension + LanguageFilterManager.swift"; sourceTree = "<group>"; tabWidth = 4; };
 		DE6658F61E3E805500513850 /* Extension + UIColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Extension + UIColor.swift"; path = "Models/Extension + UIColor.swift"; sourceTree = "<group>"; };
 		DE6658F81E3E884800513850 /* ColorScheme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ColorScheme.swift; path = Models/ColorScheme.swift; sourceTree = "<group>"; };
 		DE6658FA1E3E8E6300513850 /* VersionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VersionManager.swift; sourceTree = "<group>"; };
@@ -182,6 +186,7 @@
 				14CFEC101E34363300BD46CF /* FoaasField.swift */,
 				14CFEC111E34363300BD46CF /* FoaasOperation.swift */,
 				14CFEC121E34363300BD46CF /* FoaasTemplate.swift */,
+				1430C7511E457393002D904A /* Profanity.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -194,6 +199,7 @@
 				4786344C1E3E513600287661 /* FoaasFontManager.swift */,
 				14CFEC181E34394D00BD46CF /* FoaasDataManager.swift */,
 				DE6658FA1E3E8E6300513850 /* VersionManager.swift */,
+				812EAE861E42312D003CAE18 /* Extension + LanguageFilterManager.swift */,
 			);
 			name = Managers;
 			sourceTree = "<group>";
@@ -346,6 +352,7 @@
 				14CFEC131E34363300BD46CF /* Foaas.swift in Sources */,
 				14CFEC141E34363300BD46CF /* FoaasField.swift in Sources */,
 				14CFEC0E1E3435BE00BD46CF /* FoaasBuilder.swift in Sources */,
+				1430C7521E457393002D904A /* Profanity.swift in Sources */,
 				14CFEC4C1E3709A700BD46CF /* FoaasNavigationController.swift in Sources */,
 				4786344D1E3E513600287661 /* FoaasFontManager.swift in Sources */,
 				14CFEC0A1E34346F00BD46CF /* FoaasProtocols.swift in Sources */,
@@ -355,6 +362,7 @@
 				14CFEC401E3705AC00BD46CF /* FoaasViewController.swift in Sources */,
 				14CFEC4A1E3708C300BD46CF /* FoaasTextField.swift in Sources */,
 				1498A3061E3E5602003A3E5C /* FoaasSettingsMenuView.swift in Sources */,
+				812EAE871E42312D003CAE18 /* Extension + LanguageFilterManager.swift in Sources */,
 				14CFEBFF1E3431F700BD46CF /* AppDelegate.swift in Sources */,
 				14CFEC481E37088A00BD46CF /* FoaasPreviewViewController.swift in Sources */,
 				14CFEC4E1E37E86700BD46CF /* FoaasPreviewView.swift in Sources */,
