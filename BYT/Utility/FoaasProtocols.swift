@@ -19,16 +19,6 @@ protocol DataConvertible {
   func toData() throws -> Data
 }
 
-protocol FoaasSettingMenuDelegate {
-    func colorSwitcherScrollViewScrolled()
-    func profanitfySwitchChanged()
-    func twitterButtonTapped()
-    func facebookButtonTapped()
-    func camerarollButtonTapped()
-    func shareButtonTapped()
-    func uploadData()
-}
-
 protocol ColorSchemeDelegate {
     func colorSchemeDidChange()
 }

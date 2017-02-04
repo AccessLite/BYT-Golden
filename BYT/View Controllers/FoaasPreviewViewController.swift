@@ -84,12 +84,8 @@ class FoaasPrevewViewController: UIViewController, FoaasTextFieldDelegate, Foaas
     FoaasAPIManager.getFoaas(url: url, completion: { (foaas: Foaas?) in
       guard let validFoaas = foaas else { return }
         self.foaas = validFoaas
-        let message = self.foaas.message.filterBadLanguage(languageFilterToggle)
-        let subtitle = self.foaas.subtitle.filterBadLanguage(languageFilterToggle)
-//        //if self.foaasSettingMenuDelegate.filterIsOn {
-//        message = FoulLanguageFilter.filterFoulLanguage(text: self.foaas.message)
-//        subtitle = FoulLanguageFilter.filterFoulLanguage(text: self.foaas.subtitle)
-        //}
+        let message = self.foaas.message.filterBadLanguage()
+        let subtitle = self.foaas.subtitle.filterBadLanguage()
         DispatchQueue.main.async {
             
             let attributedString = NSMutableAttributedString(string: message, attributes: [NSForegroundColorAttributeName : UIColor(red: 255.0, green: 255.0, blue: 255.0, alpha: 1.0), NSFontAttributeName : UIFont.Roboto.light(size: 24.0)! ])
