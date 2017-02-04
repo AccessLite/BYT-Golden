@@ -41,12 +41,21 @@ class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenu
         makeRequest()
         updateSettingsMenu()
         
-        UIView.animate(withDuration: 2.0) {
+        UIView.animate(withDuration: 0.3) {
             self.foaasView.alpha = 1.0
         }
         
     }
+  
+  override func viewDidAppear(_ animated: Bool) {
+    super.viewDidAppear(animated)
     
+    // this must be called after the views have been laid out and drawn to the screen. 
+    // otherwise this gradient wont work
+    self.foaasSettingsMenuView.foaasColorPickerView?.applyGradient()
+  }
+  
+  
     // MARK: - Setup
     private func configureConstraints() {
         self.foaasView.translatesAutoresizingMaskIntoConstraints = false
@@ -67,7 +76,7 @@ class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenu
             foaasView.heightAnchor.constraint(equalTo: self.view.heightAnchor),
             foaasBottomConstraint!,
             ].activate()
-        }
+    }
     
     private func setupViewHierarchy() {
         self.view.backgroundColor = .white
@@ -77,15 +86,6 @@ class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenu
     }
     
     private func updateSettingsMenu() {
-        
-        // this is hard coded. Will work dynamically when Louis finishes the color scroll view implementation
-        if ColorManager.shared.colorSchemes != nil && ColorManager.shared.colorSchemes.count > 2 {
-            DispatchQueue.main.async {
-                self.foaasSettingsMenuView.view1.backgroundColor = ColorManager.shared.colorSchemes[0].primary
-                self.foaasSettingsMenuView.view2.backgroundColor = ColorManager.shared.colorSchemes[1].primary
-                self.foaasSettingsMenuView.view3.backgroundColor = ColorManager.shared.colorSchemes[2].primary
-            }
-        }
         self.foaasSettingsMenuView.updateVersionLabels()
     }
     
@@ -124,16 +124,16 @@ class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenu
         }
         self.foaasView.mainTextLabel.text = validFoaas.message
         self.foaasView.subtitleTextLabel.text = validFoaas.subtitle
-
+        
+        //Updates the constraint constant of subtitleLabel to newConstraintConstant asynchronously as the length of subtitleLabel.text changes
         DispatchQueue.main.async {
-            let valueForConstraintConstant = validFoaas.subtitle.characters.count
-            if self.foaasView.subtitleLabelConstraint.constant - CGFloat(Double(valueForConstraintConstant) * 1.5) < 16 {
+            let numberOfCharactersInSubtitle = validFoaas.subtitle.characters.count
+            let newConstraintConstant = self.foaasView.subtitleLabelConstraint.constant - CGFloat(Double(numberOfCharactersInSubtitle) * 1.5)
+            if newConstraintConstant < 16 {
                 self.foaasView.subtitleLabelConstraint.constant = 16.0
-                print(self.foaasView.subtitleLabelConstraint.constant - CGFloat(valueForConstraintConstant))
                 self.foaasView.layoutIfNeeded()
             } else {
-                self.foaasView.subtitleLabelConstraint.constant = self.foaasView.subtitleLabelConstraint.constant - CGFloat(Double(valueForConstraintConstant) * 1.5)
-                print(self.foaasView.subtitleLabelConstraint.constant - CGFloat(Double(valueForConstraintConstant) * 1.5))
+                self.foaasView.subtitleLabelConstraint.constant = newConstraintConstant
                 self.foaasView.layoutIfNeeded()
             }
         }
@@ -172,9 +172,11 @@ class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenu
                 guard let colorSchemes = ColorScheme.parseColorSchemes(from: validData) else { return }
                 ColorManager.shared.colorSchemes = colorSchemes
                 DispatchQueue.main.async {
-                    self.foaasSettingsMenuView.view1.backgroundColor = colorSchemes[0].primary
-                    self.foaasSettingsMenuView.view2.backgroundColor = colorSchemes[1].primary
-                    self.foaasSettingsMenuView.view3.backgroundColor = colorSchemes[2].primary
+                  
+                  // TODO
+//                    self.foaasSettingsMenuView.view1.backgroundColor = colorSchemes[0].primary
+//                    self.foaasSettingsMenuView.view2.backgroundColor = colorSchemes[1].primary
+//                    self.foaasSettingsMenuView.view3.backgroundColor = colorSchemes[2].primary
                 }
             }
             
@@ -280,9 +282,13 @@ class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenu
     
     func camerarollButtonTapped() {
         print("cameraroll button tapped")
-        guard let vaidImage = getScreenShotImage(view: self.view) else { return }
+        guard let validImage = getScreenShotImage(view: self.view) else { return }
         //https://developer.apple.com/reference/uikit/1619125-uiimagewritetosavedphotosalbum
-        UIImageWriteToSavedPhotosAlbum(vaidImage, self, #selector(createScreenShotCompletion(image: didFinishSavingWithError: contextInfo:)), nil)
+        UIImageWriteToSavedPhotosAlbum(validImage, self, #selector(createScreenShotCompletion(image: didFinishSavingWithError: contextInfo:)), nil)
+        
+        //after the screenshot is saved, the settings menu will animate back into it's original position (show: true).
+        //this will give the false impression that the screenshot includes the settings menu because of how quickly it occurs.
+        animateSettingsMenu(show: true, duration: 0.1)
     }
     
     func shareButtonTapped() {
@@ -316,6 +322,10 @@ class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenu
     ///Get current screenshot
     func getScreenShotImage(view: UIView) -> UIImage? {
         //https://developer.apple.com/reference/uikit/1623912-uigraphicsbeginimagecontextwitho
+        
+        //shortly before the graphics context for the view is determined, the settings menu will animate down (show: false)
+        animateSettingsMenu(show: false, duration: 0.1)
+        
         UIGraphicsBeginImageContextWithOptions(view.bounds.size, true, view.layer.contentsScale)
         guard let context = UIGraphicsGetCurrentContext() else{
             return nil

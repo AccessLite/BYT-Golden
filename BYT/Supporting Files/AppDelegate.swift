@@ -16,11 +16,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
     
-    let navigationVC = FoaasNavigationController(rootViewController: FoaasViewController())
-    self.window = UIWindow(frame: UIScreen.main.bounds)
-    self.window?.rootViewController = navigationVC
-    self.window?.makeKeyAndVisible()
-    
     FoaasDataManager.shared.requestOperations { (operations: [FoaasOperation]?) in
       if operations != nil {
         print("Loaded operations")
@@ -39,6 +34,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     ColorManager.shared.loadColorSchemes()
     VersionManager.shared.loadCurrentVersion()
     
+    let navigationVC = FoaasNavigationController(rootViewController: FoaasViewController())
+    self.window = UIWindow(frame: UIScreen.main.bounds)
+    self.window?.rootViewController = navigationVC
+    self.window?.makeKeyAndVisible()
     return true
   }
 

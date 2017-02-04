@@ -19,7 +19,7 @@ class FoaasView: UIView {
     
     var subtitleLabelConstraint = NSLayoutConstraint()
   
-  
+
     // MARK: - Setup
     override init(frame: CGRect) {
         super.init(frame: frame)
