@@ -40,7 +40,6 @@ class FoaasSettingsMenuView: UIView, UIScrollViewDelegate, FoaasColorPickerViewD
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-
         if let view = Bundle.main.loadNibNamed("FoaasSettingsMenuView", owner: self, options: nil)?.first as? UIView {
             //add a view to the subview
             self.addSubview(view)
@@ -48,8 +47,7 @@ class FoaasSettingsMenuView: UIView, UIScrollViewDelegate, FoaasColorPickerViewD
             
             setupViewHierarchy()
             configureConstraints()
-            self.profanitySwitch.onTintColor = ColorManager.shared.currentColorScheme.accent
-            self.profanitySwitch.tintColor = ColorManager.shared.currentColorScheme.accent
+            updateSwitch()
         }
     }
     
@@ -117,12 +115,10 @@ class FoaasSettingsMenuView: UIView, UIScrollViewDelegate, FoaasColorPickerViewD
     }
     
     //MARK: - Helper Function
-    // TODO: Unclear if this function works as intended (appears to crash)
     func updateSwitch () {
-        
-        //I'm not fully sure as why I need update this here instead of App Delegate, but whenever I put this in appdelegate it did not seem to update the languageFilterToggle early enough? If anyone knows why this is the case that would be awesome, I suspect it has something to do with the timing of when a xib gets loaded.
-//        LanguageFilterManager.shared.checkCurrentToggle()
-//        self.profanitySwitch.setOn(languageFilterToggle, animated: false)
+        self.profanitySwitch.isOn = LanguageFilter.profanityAllowed
+        self.profanitySwitch.onTintColor = ColorManager.shared.currentColorScheme.accent
+        self.profanitySwitch.tintColor = ColorManager.shared.currentColorScheme.accent
     }
     
 }
