@@ -36,6 +36,10 @@ class FoaasPrevewViewController: UIViewController, FoaasTextFieldDelegate, Foaas
   // MARK: - View Setup
   internal func setupViewHierarchy() {
     self.view.addSubview(foaasPreviewView)
+    
+    let rightSwipe: UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(backButtonPressed))
+    rightSwipe.direction = .right
+    self.view.addGestureRecognizer(rightSwipe)
   }
   
   internal func configureConstraints() {

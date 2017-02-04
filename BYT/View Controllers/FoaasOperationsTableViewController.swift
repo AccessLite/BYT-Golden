@@ -21,14 +21,16 @@ class FoaasOperationsTableViewController: UITableViewController {
         self.tableView.rowHeight = UITableViewAutomaticDimension
         self.tableView.estimatedRowHeight = 64.0
         self.tableView.register(FoaasOperationsTableViewCell.self, forCellReuseIdentifier: cellIdentifier)
-        self.view.addSubview(floatingButton)
-        
-        //configureConstraints()
-        // TODO: make better use of this nav subclass or remove it entirely
-        //    if let foaasNavVC = self.navigationController as? FoaasNavigationController {
-        //      foaasNavVC.adjustRightBar(to: .done)
-        //      foaasNavVC.isNavigationBarHidden = true
-        //    }
+      
+        setupViewHierarchy()
+    }
+
+    private func setupViewHierarchy() {
+      self.view.addSubview(floatingButton)
+      
+      let rightSwipe: UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(popTableView))
+      rightSwipe.direction = .right
+      self.view.addGestureRecognizer(rightSwipe)
     }
     
     override func viewDidLayoutSubviews() {
@@ -93,7 +95,11 @@ class FoaasOperationsTableViewController: UITableViewController {
             sender.layer.transform = CATransform3DMakeAffineTransform(originalTransform)
         })
 
-        _ = navigationController?.popViewController(animated: true)
+        popTableView()
+    }
+  
+    func popTableView() {
+      _ = navigationController?.popViewController(animated: true)
     }
     
     //MARK: - Constraints
