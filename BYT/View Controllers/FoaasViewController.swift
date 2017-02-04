@@ -108,6 +108,10 @@ class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenu
         let swipeDownGesture = UISwipeGestureRecognizer(target: self, action: #selector(toggleSettingsMenu(sender:)))
         swipeDownGesture.direction = .down
         foaasView.addGestureRecognizer(swipeDownGesture)
+        
+        let swipeLeftGesture = UISwipeGestureRecognizer(target: self, action: #selector(didTapActionButton))
+        swipeLeftGesture.direction = .left
+        foaasView.addGestureRecognizer(swipeLeftGesture)
     }
     
     
