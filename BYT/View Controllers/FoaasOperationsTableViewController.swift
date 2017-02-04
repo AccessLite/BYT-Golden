@@ -16,7 +16,7 @@ class FoaasOperationsTableViewController: UITableViewController {
     // MARK: - View Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.tableView.separatorColor = UIColor.clear
         self.title = "Operations"
         self.tableView.rowHeight = UITableViewAutomaticDimension
         self.tableView.estimatedRowHeight = 64.0
@@ -47,7 +47,6 @@ class FoaasOperationsTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath)
-        
         guard let operationCell = cell as? FoaasOperationsTableViewCell else {
             cell.textLabel?.text = "INVALID"
             return cell }

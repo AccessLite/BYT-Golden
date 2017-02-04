@@ -42,6 +42,11 @@ class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenu
         addFoaasViewShadow()
         makeRequest()
         updateSettingsMenu()
+        
+        UIView.animate(withDuration: 0.3) {
+            self.foaasView.alpha = 1.0
+        }
+        
     }
   
   override func viewDidAppear(_ animated: Bool) {
@@ -121,6 +126,20 @@ class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenu
         }
         self.foaasView.mainTextLabel.text = validFoaas.message
         self.foaasView.subtitleTextLabel.text = validFoaas.subtitle
+        
+        //Updates the constraint constant of subtitleLabel to newConstraintConstant asynchronously as the length of subtitleLabel.text changes
+        DispatchQueue.main.async {
+            let numberOfCharactersInSubtitle = validFoaas.subtitle.characters.count
+            let newConstraintConstant = self.foaasView.subtitleLabelConstraint.constant - CGFloat(Double(numberOfCharactersInSubtitle) * 1.5)
+            if newConstraintConstant < 16 {
+                self.foaasView.subtitleLabelConstraint.constant = 16.0
+                self.foaasView.layoutIfNeeded()
+            } else {
+                self.foaasView.subtitleLabelConstraint.constant = newConstraintConstant
+                self.foaasView.layoutIfNeeded()
+            }
+        }
+
         self.foaas = validFoaas
     }
     
