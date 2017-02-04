@@ -69,6 +69,7 @@
                     </connections>
                 </button>
                 <label opaque="NO" userInteractionEnabled="NO" alpha="0.87" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="PROFANITY" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FbX-qF-isL">
+                    <rect key="frame" x="16" y="66.5" width="153" height="21"/>
                     <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="18"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
