@@ -26,9 +26,18 @@ class LanguageFilterManager {
             languageFilterToggle = false
         }
     }
+    
+    // TODO: add save function here
+    
+    // TODO: move filtering functions here
+    // TODO: filtering functions take a closure of (String) -> String
+    
+  
 }
 
 extension String {
+  
+    // TODO: slim down this call, maybe just as a computed property
     func filterBadLanguage (_ toggle: Bool) -> String {
         
         //implements the filter on itself.
