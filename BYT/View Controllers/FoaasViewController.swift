@@ -154,11 +154,8 @@ class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenu
                 guard let colorSchemes = ColorScheme.parseColorSchemes(from: validData) else { return }
                 ColorManager.shared.colorSchemes = colorSchemes
                 DispatchQueue.main.async {
-                  
-                  // TODO
-//                    self.foaasSettingsMenuView.view1.backgroundColor = colorSchemes[0].primary
-//                    self.foaasSettingsMenuView.view2.backgroundColor = colorSchemes[1].primary
-//                    self.foaasSettingsMenuView.view3.backgroundColor = colorSchemes[2].primary
+//                    self.foaasSettingsMenuView.reloadColorPicker()
+                    
                 }
             }
             

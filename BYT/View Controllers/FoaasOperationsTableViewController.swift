@@ -22,7 +22,6 @@ class FoaasOperationsTableViewController: UITableViewController {
         self.tableView.estimatedRowHeight = 64.0
         self.tableView.register(FoaasOperationsTableViewCell.self, forCellReuseIdentifier: cellIdentifier)
         self.view.addSubview(floatingButton)
-        
         //configureConstraints()
         // TODO: make better use of this nav subclass or remove it entirely
         //    if let foaasNavVC = self.navigationController as? FoaasNavigationController {
