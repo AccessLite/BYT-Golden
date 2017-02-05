@@ -13,7 +13,9 @@ enum SlideDirection {
 }
 
 protocol FoaasTextFieldDelegate: class {
-  func foaasTextField(_ textField: FoaasTextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool
+    func foaasTextField(_ textField: FoaasTextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool
+    func foaasTextFieldShouldReturn(_ textField: FoaasTextField) -> Bool
+    func foaasTextFieldDidEndEditing(_ textField: FoaasTextField)
 }
 
 
@@ -157,7 +159,15 @@ class FoaasTextField: UIView, UITextFieldDelegate {
     
     return self.foaasTextFieldDelegate?.foaasTextField(self, shouldChangeCharactersIn: range, replacementString: string) ?? true
   }
-  
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool{
+        return self.foaasTextFieldDelegate?.foaasTextFieldShouldReturn(self) ?? true
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        self.foaasTextFieldDelegate?.foaasTextFieldDidEndEditing(self)
+    }
+
   
   // MARK: - Helpers
   private func slideLabel(direction: SlideDirection) {

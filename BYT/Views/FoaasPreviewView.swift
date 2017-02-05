@@ -12,12 +12,13 @@ import UIKit
 protocol FoaasPrevewViewDelegate {
     func backButtonPressed()
     func doneButtonPressed()
+    func tapGestureDismissKeyboard(_ sender: UITapGestureRecognizer)
 }
 
-class FoaasPreviewView: UIView {
+class FoaasPreviewView: UIView, UIGestureRecognizerDelegate {
   internal private(set) var slidingTextFields: [FoaasTextField] = []
   
-    internal var delegate: FoaasPrevewViewDelegate?
+  internal var delegate: FoaasPrevewViewDelegate?
     
   private var scrollviewBottomConstraint: NSLayoutConstraint? = nil
   private var previewTextViewHeightConstraint: NSLayoutConstraint? = nil
@@ -234,6 +235,10 @@ class FoaasPreviewView: UIView {
       self.layoutIfNeeded()
     })
   }
+    
+    func tapGestureDismissKeyboard(_ sender: UITapGestureRecognizer) {
+        self.delegate?.tapGestureDismissKeyboard(sender)
+    }
   
   // MARK: - Lazy Inits
   
@@ -251,7 +256,7 @@ class FoaasPreviewView: UIView {
   
   internal lazy var scrollView: UIScrollView = {
     let scroll: UIScrollView = UIScrollView()
-    scroll.keyboardDismissMode = .onDrag
+    scroll.keyboardDismissMode = .interactive
     scroll.alwaysBounceVertical = true
     return scroll
   }()
