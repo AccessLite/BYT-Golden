@@ -8,6 +8,17 @@
 
 import UIKit
 
+protocol FoaasSettingMenuDelegate {
+    func colorSwitcherScrollViewScrolled()
+    func profanitfySwitchToggled(on: Bool)
+    
+    func twitterButtonTapped()
+    func facebookButtonTapped()
+    func camerarollButtonTapped()
+    func shareButtonTapped()
+    func uploadData()
+}
+
 class FoaasSettingsMenuView: UIView, UIScrollViewDelegate, FoaasColorPickerViewDelegate {
     
     @IBOutlet weak var profanitySwitch: UISwitch!
@@ -15,7 +26,7 @@ class FoaasSettingsMenuView: UIView, UIScrollViewDelegate, FoaasColorPickerViewD
     @IBOutlet weak var cameraRollButton: UIButton!
     @IBOutlet weak var facebookButton: UIButton!
     @IBOutlet weak var twitterButton: UIButton!
-
+    
     @IBOutlet weak var versionNumberLabel: UILabel!
     @IBOutlet weak var versionMessageLabel: UILabel!
     @IBOutlet weak var offLabel: UILabel!
@@ -36,8 +47,7 @@ class FoaasSettingsMenuView: UIView, UIScrollViewDelegate, FoaasColorPickerViewD
             
             setupViewHierarchy()
             configureConstraints()
-            self.profanitySwitch.onTintColor = ColorManager.shared.currentColorScheme.accent
-            self.profanitySwitch.tintColor = ColorManager.shared.currentColorScheme.accent
+            updateSwitch()
         }
     }
     
@@ -54,7 +64,7 @@ class FoaasSettingsMenuView: UIView, UIScrollViewDelegate, FoaasColorPickerViewD
         foaasColorPickerView?.translatesAutoresizingMaskIntoConstraints = false
         [ foaasColorPickerView!.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16.0),
           foaasColorPickerView!.centerYAnchor.constraint(equalTo: self.colorPaletteLabel.centerYAnchor),
-        ].activate()
+          ].activate()
     }
     
     private func setupViewHierarchy() {
@@ -89,7 +99,7 @@ class FoaasSettingsMenuView: UIView, UIScrollViewDelegate, FoaasColorPickerViewD
     
     // MARK: - Actions
     @IBAction func profanitySwitchDidChange(_ sender: UISwitch) {
-        self.delegate?.profanitfySwitchChanged()
+        self.delegate?.profanitfySwitchToggled(on: sender.isOn)
         print("Profanity Switch Did Change")
     }
     
@@ -112,6 +122,14 @@ class FoaasSettingsMenuView: UIView, UIScrollViewDelegate, FoaasColorPickerViewD
         self.delegate?.twitterButtonTapped()
         print("twitterButtonTapped")
     }
+    
+    //MARK: - Helper Function
+    func updateSwitch () {
+        self.profanitySwitch.isOn = LanguageFilter.profanityAllowed
+        self.profanitySwitch.onTintColor = ColorManager.shared.currentColorScheme.accent
+        self.profanitySwitch.tintColor = ColorManager.shared.currentColorScheme.accent
+    }
+    
 }
 
 

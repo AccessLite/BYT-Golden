@@ -9,6 +9,7 @@
 import UIKit
 import Social
 
+
 class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenuDelegate {
     
     // MARK: - View
@@ -18,6 +19,7 @@ class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenu
     // MARK: - Constraints
     var settingsMenuBottomConstraint: NSLayoutConstraint? = nil
     var foaasBottomConstraint: NSLayoutConstraint? = nil
+    let defaults: UserDefaults = UserDefaults.standard
     
     // MARK: - Models
     var foaas: Foaas?
@@ -40,6 +42,11 @@ class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenu
         addFoaasViewShadow()
         makeRequest()
         updateSettingsMenu()
+        
+        UIView.animate(withDuration: 0.3) {
+            self.foaasView.alpha = 1.0
+        }
+        
     }
   
   override func viewDidAppear(_ animated: Bool) {
@@ -120,6 +127,20 @@ class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenu
         }
         self.foaasView.mainTextLabel.text = validFoaas.message
         self.foaasView.subtitleTextLabel.text = validFoaas.subtitle
+        
+        //Updates the constraint constant of subtitleLabel to newConstraintConstant asynchronously as the length of subtitleLabel.text changes
+        DispatchQueue.main.async {
+            let numberOfCharactersInSubtitle = validFoaas.subtitle.characters.count
+            let newConstraintConstant = self.foaasView.subtitleLabelConstraint.constant - CGFloat(Double(numberOfCharactersInSubtitle) * 1.5)
+            if newConstraintConstant < 16 {
+                self.foaasView.subtitleLabelConstraint.constant = 16.0
+                self.foaasView.layoutIfNeeded()
+            } else {
+                self.foaasView.subtitleLabelConstraint.constant = newConstraintConstant
+                self.foaasView.layoutIfNeeded()
+            }
+        }
+
         self.foaas = validFoaas
     }
     
@@ -133,17 +154,10 @@ class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenu
         FoaasDataManager.shared.requestFoaas(url: FoaasDataManager.foaasURL!) { (foaas: Foaas?) in
             if let validFoaas = foaas {
                 self.foaas = validFoaas
-                var message = validFoaas.message
-                var subtitle = validFoaas.subtitle
-                
-                if self.filterIsOn {
-                    message = FoulLanguageFilter.filterFoulLanguage(text: message)
-                    subtitle = FoulLanguageFilter.filterFoulLanguage(text: subtitle)
-                }
                 
                 DispatchQueue.main.async {
-                    self.foaasView.mainTextLabel.text = message
-                    self.foaasView.subtitleTextLabel.text = subtitle
+                    self.foaasView.mainTextLabel.text = validFoaas.message.filterBadLanguage()
+                    self.foaasView.subtitleTextLabel.text = validFoaas.subtitle.filterBadLanguage()
                 }
             }
             
@@ -214,32 +228,19 @@ class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenu
     
     
     // MARK: - FoaasSettingMenuDelegate Method
-    var filterIsOn: Bool {
-        get {
-            return self.foaasSettingsMenuView.profanitySwitch.isOn
-        }
-        set (newValue) {
-            foaasSettingsMenuView.profanitySwitch.isOn = newValue
-        }
-    }
-    
     func colorSwitcherScrollViewScrolled() {
         self.foaasView.backgroundColor = ColorManager.shared.currentColorScheme.primary
         self.foaasView.addButton.backgroundColor = ColorManager.shared.currentColorScheme.accent
         self.foaasView.settingsMenuButton.tintColor = ColorManager.shared.currentColorScheme.accent
     }
     
-    func profanitfySwitchChanged() {
+
+    func profanitfySwitchToggled(on: Bool) {
         guard let validFoaas = self.foaas else { return }
-        var message = validFoaas.message
-        var subtitle = validFoaas.subtitle
         
-        if self.filterIsOn {
-            message = FoulLanguageFilter.filterFoulLanguage(text: validFoaas.message)
-            subtitle = FoulLanguageFilter.filterFoulLanguage(text: validFoaas.subtitle)
-        }
-        self.foaasView.mainTextLabel.text = message
-        self.foaasView.subtitleTextLabel.text = subtitle
+        LanguageFilter.profanityAllowed = on
+        self.foaasView.mainTextLabel.text = validFoaas.message.filterBadLanguage()
+        self.foaasView.subtitleTextLabel.text = validFoaas.subtitle.filterBadLanguage()
     }
     
     func twitterButtonTapped() {
@@ -277,18 +278,8 @@ class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenu
         print("share button tapped")
         guard let validFoaas = self.foaas else { return }
         var arrayToShare: [String] = []
-        var message = validFoaas.message
-        var subtitle = validFoaas.subtitle
-        
-        if self.filterIsOn {
-            message = FoulLanguageFilter.filterFoulLanguage(text: validFoaas.message)
-            subtitle = FoulLanguageFilter.filterFoulLanguage(text: validFoaas.subtitle)
-            arrayToShare.append(message)
-            arrayToShare.append(subtitle)
-        } else {
-            arrayToShare.append(message)
-            arrayToShare.append(subtitle)
-        }
+        arrayToShare.append(validFoaas.message.filterBadLanguage())
+        arrayToShare.append(validFoaas.subtitle.filterBadLanguage())
         
         let activityViewController = UIActivityViewController(activityItems: arrayToShare, applicationActivities: nil)
         activityViewController.popoverPresentationController?.sourceView = self.view
@@ -342,35 +333,3 @@ class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenu
     }
 }
 
-class FoulLanguageFilter {
-    ///Filter foul language of given text with foulWords in a default foulWordsArray
-    static func filterFoulLanguage(text: String) -> String {
-        let foulWordsArray = Set(["fuck", "dick", "cock", "crap", "asshole", "pussy", "shit", "vittupää", "motherfuck"])
-        var wordsArr = text.components(separatedBy: " ")
-        for f in foulWordsArray {
-            wordsArr = wordsArr.map { (word) -> String in
-                if word.lowercased().hasPrefix(f) || word.lowercased().hasSuffix(f) {
-                    return multateFoulLanguage(word: word)
-                } else {
-                    return word
-                }
-            }
-        }
-        let string = wordsArr.joined(separator: " ")
-        return string
-    }
-    
-    ///Replaces word's first vowel into *
-    static func multateFoulLanguage(word: String) -> String {
-        let vowels = Set(["a","e","i","o","u"])
-        for c in word.lowercased().characters {
-            if vowels.contains(String(c)) {
-                if word.lowercased().hasPrefix("motherfuck") {
-                    return word.replacingOccurrences(of: "u", with: "*")
-                }
-                return word.replacingOccurrences(of: String(c), with: "*")
-            }
-        }
-        return word
-    }
-}

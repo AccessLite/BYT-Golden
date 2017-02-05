@@ -17,23 +17,31 @@ class FoaasOperationsTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.tableView.separatorColor = UIColor.clear
         self.title = "Operations"
+        
         self.tableView.rowHeight = UITableViewAutomaticDimension
         self.tableView.estimatedRowHeight = 64.0
+        
         self.tableView.register(FoaasOperationsTableViewCell.self, forCellReuseIdentifier: cellIdentifier)
-        self.view.addSubview(floatingButton)
-        //configureConstraints()
-        // TODO: make better use of this nav subclass or remove it entirely
-        //    if let foaasNavVC = self.navigationController as? FoaasNavigationController {
-        //      foaasNavVC.adjustRightBar(to: .done)
-        //      foaasNavVC.isNavigationBarHidden = true
-        //    }
+        self.tableView.backgroundColor = ColorManager.shared.currentColorScheme.primary
     }
     
-    override func viewDidLayoutSubviews() {
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        // TODO: remove this kind of implementation and add it to the FoaasNavigationController
+        guard let window = UIApplication.shared.keyWindow else { return }
+        window.addSubview(floatingButton)
+        
         configureConstraints()
     }
-
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        floatingButton.removeFromSuperview()
+    }
+    
     // MARK: - Tableview data source
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
@@ -46,21 +54,22 @@ class FoaasOperationsTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath)
-        
+       
         guard let operationCell = cell as? FoaasOperationsTableViewCell else {
             cell.textLabel?.text = "INVALID"
-            return cell }
-        operationCell.operationNameLabel.text = operations?[indexPath.row].name
+            return cell
+        }
+        
+        operationCell.operationNameLabel.text = operations?[indexPath.row].name.filterBadLanguage()
         operationCell.backgroundColor = ColorManager.shared.currentColorScheme.colorArray[indexPath.row % ColorManager.shared.currentColorScheme.colorArray.count]
         return operationCell
     }
     
     // MARK: - Tableview Delegate
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
         guard let selectedOperation = operations?[indexPath.row],
             let navVC = self.navigationController
-            else { return }
+        else { return }
         
         let dtvc = FoaasPrevewViewController()
         dtvc.set(operation: selectedOperation)
@@ -80,7 +89,6 @@ class FoaasOperationsTableViewController: UITableViewController {
         button.layer.shadowOffset = CGSize(width: 0, height: 5)
         button.layer.shadowRadius = 5
         button.clipsToBounds = false
-
         return button
     }()
     
@@ -94,7 +102,7 @@ class FoaasOperationsTableViewController: UITableViewController {
         }, completion: { (complete) in
             sender.layer.transform = CATransform3DMakeAffineTransform(originalTransform)
         })
-
+        
         _ = navigationController?.popViewController(animated: true)
     }
     
@@ -102,14 +110,13 @@ class FoaasOperationsTableViewController: UITableViewController {
     
     func configureConstraints () {
         floatingButton.translatesAutoresizingMaskIntoConstraints = false
-        floatingButton.removeConstraints(floatingButton.constraints)
         
-        let _ = [
-            floatingButton.trailingAnchor.constraint(equalTo: (tableView.superview?.trailingAnchor)!, constant: -48.0),
-            floatingButton.bottomAnchor.constraint(equalTo: (tableView.superview?.bottomAnchor)!, constant: -48.0),
+        guard let window = UIApplication.shared.keyWindow else { return }
+        
+        [   floatingButton.trailingAnchor.constraint(equalTo: window.trailingAnchor, constant: -48.0),
+            floatingButton.bottomAnchor.constraint(equalTo: window.bottomAnchor, constant: -48.0),
             floatingButton.widthAnchor.constraint(equalToConstant: 54.0),
-            floatingButton.heightAnchor.constraint(equalToConstant: 54.0)
-            ].map { $0.isActive = true }
+            floatingButton.heightAnchor.constraint(equalToConstant: 54.0) ].activate()
     }
 }
 

@@ -8,18 +8,16 @@
 
 import UIKit
 
-// TODO: implement delegation for textfields, make delegate protocol for use in view controller
 protocol FoaasPrevewViewDelegate {
-    func backButtonPressed()
-    func doneButtonPressed()
+  func backButtonPressed()
+  func doneButtonPressed()
 }
 
 class FoaasPreviewView: UIView {
   internal private(set) var slidingTextFields: [FoaasTextField] = []
   
-    internal var delegate: FoaasPrevewViewDelegate?
-    
-  private var scrollviewBottomConstraint: NSLayoutConstraint? = nil
+  internal var delegate: FoaasPrevewViewDelegate?
+  
   private var previewTextViewHeightConstraint: NSLayoutConstraint? = nil
   private var slidingTextFieldBottomConstraint: NSLayoutConstraint? = nil
   private var newTransform = CGAffineTransform(scaleX: 1.1, y: 1.1)
@@ -29,7 +27,6 @@ class FoaasPreviewView: UIView {
   // MARK: Initializer
   override init(frame: CGRect) {
     super.init(frame: frame)
-    registerForNotifications()
     
     setupViewHierarchy()
     configureConstraints()
@@ -45,19 +42,16 @@ class FoaasPreviewView: UIView {
   private func configureConstraints() {
     stripAutoResizingMasks(self, scrollView, contentContainerView, previewTextView/*, previewLabel*/, backButton, doneButton)
     
-    // we need to keep a reference to both these constraints because they will be changing later. the scrollViewBottomConstraint
-    // update with the keyboard show/hiding. and the previewTextViewHeightConstraint changes with the length of the 
-    // foaas operation preview text
-    scrollviewBottomConstraint = scrollView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 0.0)
+    // the previewTextViewHeightConstraint changes with the length of the foaas operation preview text
     previewTextViewHeightConstraint = previewTextView.heightAnchor.constraint(equalToConstant: 0.0)
-  
+    
     [// scroll view
-        scrollView.topAnchor.constraint(equalTo: self.topAnchor),
-        scrollView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-        scrollView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-        scrollviewBottomConstraint!,
-
-      // container view 
+      scrollView.topAnchor.constraint(equalTo: self.topAnchor),
+      scrollView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+      scrollView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+      scrollView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 0.0),
+      
+      // container view
       contentContainerView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
       contentContainerView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
       contentContainerView.topAnchor.constraint(equalTo: scrollView.topAnchor),
@@ -70,6 +64,7 @@ class FoaasPreviewView: UIView {
       previewTextView.widthAnchor.constraint(equalTo: self.widthAnchor, constant: -32.0),
       previewTextViewHeightConstraint!,
       
+
     //buttons
       backButton.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -48),
         backButton.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 48),
@@ -80,6 +75,7 @@ class FoaasPreviewView: UIView {
         doneButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -48),
         doneButton.heightAnchor.constraint(equalToConstant: 54),
         doneButton.widthAnchor.constraint(equalToConstant: 54)
+
       ].activate()
   }
   
@@ -103,26 +99,21 @@ class FoaasPreviewView: UIView {
   // MARK: - FoaasTextFields
   
   /// Creates the same number of `FoaasTextFields` as the `.count` of the `keys` parameter. Each `FoaasTextField` is given
-  /// an identifier `String` with the same value as the key at that index. Each `FoaasTextField` created is added to the 
-  /// `contentContainerView` and given constraints. 
+  /// an identifier `String` with the same value as the key at that index. Each `FoaasTextField` created is added to the
+  /// `contentContainerView` and given constraints.
   /// - Parameters:
   ///   - keys: The keys to be used to generate `FoaasTextField`
-    internal func createTextFields(for keys: [String]) {
-        for key in keys {
-            
-            //PM spec indicates the placeholder text should be all caps.
-            let newSlidingTextField = FoaasTextField(placeHolderText: key.uppercased())
-            
-            //I only want the placeholder text to have this alpha value in order to mimic the PM spec as accurately as the Sketch displays.
-            newSlidingTextField.textLabel.alpha = 0.34
-            
-            newSlidingTextField.identifier = key // used to later identify the textfields if needed
-            slidingTextFields.append(newSlidingTextField)
-            self.contentContainerView.addSubview(newSlidingTextField)
-        }
-        
-        arrangeSlidingTextFields()
+  internal func createTextFields(for keys: [String]) {
+    for key in keys {
+      let newSlidingTextField = FoaasTextField(placeHolderText: key.uppercased())
+      newSlidingTextField.textLabel.alpha = 0.34
+      newSlidingTextField.identifier = key // used to later identify the textfields if needed
+      
+      slidingTextFields.append(newSlidingTextField)
+      self.contentContainerView.addSubview(newSlidingTextField)
     }
+    arrangeSlidingTextFields()
+  }
   
   /// This dynamically lays out as many `FoaasTextField` as needed, based on the contents of `self.slidingTextFields`
   private func arrangeSlidingTextFields() {
@@ -141,7 +132,7 @@ class FoaasPreviewView: UIView {
           // if there is only 1 textfield, we need to fallthrough to the "last" textfield case
           fallthrough
         }
-
+        
       // last view needs to be pinned to the bottom, in addition to all of the other constraints
       case slidingTextFields.count - 1:
         textField.bottomAnchor.constraint(equalTo: contentContainerView.bottomAnchor, constant: -16.0).isActive = true
@@ -160,44 +151,10 @@ class FoaasPreviewView: UIView {
       priorTextField = textField
     }
   }
-
+  
   internal func setTextFieldsDelegate(_ delegate: FoaasTextFieldDelegate) {
     slidingTextFields.forEach { (textField) in
       textField.foaasTextFieldDelegate = delegate
-    }
-  }
-  
-  
-  // -------------------------------------
-  // MARK: - Keyboard Notification
-  private func registerForNotifications() {
-    NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidAppear(notification:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-    NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillDisappear(notification:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
-  }
-  
-  deinit {
-    NotificationCenter.default.removeObserver(self)
-  }
-  
-  internal func keyboardDidAppear(notification: Notification) {
-    self.shouldShowKeyboard(show: true, notification: notification, completion: nil)
-  }
-  
-  internal func keyboardWillDisappear(notification: Notification) {
-    self.shouldShowKeyboard(show: false, notification: notification, completion: nil)
-  }
-  
-  private func shouldShowKeyboard(show: Bool, notification: Notification, completion: ((Bool) -> Void)? ) {
-    if let keyboardFrame = notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? CGRect,
-      let animationNumber = notification.userInfo?[UIKeyboardAnimationCurveUserInfoKey] as? NSNumber,
-      let animationDuration = notification.userInfo?[UIKeyboardAnimationDurationUserInfoKey] as? TimeInterval {
-      let animationOption = UIViewAnimationOptions(rawValue: animationNumber.uintValue)
-      
-      scrollviewBottomConstraint?.constant = keyboardFrame.size.height * (show ? -1 : 1)
-      UIView.animate(withDuration: animationDuration, delay: 0.0, options: animationOption, animations: {
-        self.layoutIfNeeded()
-      }, completion: completion)
-      
     }
   }
   
@@ -210,7 +167,6 @@ class FoaasPreviewView: UIView {
     }
   }
   
-  // TODO: needs testing 
   internal func updateAttributedText(text: NSMutableAttributedString) {
     DispatchQueue.main.async {
       self.previewTextView.attributedText = text
@@ -226,17 +182,17 @@ class FoaasPreviewView: UIView {
     // ensureLayout must be called for the bounding rect of attributed text to be properly accounted for
     self.previewTextView.layoutManager.ensureLayout(for: textContainer)
     let usedRect = self.previewTextView.layoutManager.usedRect(for: textContainer)
-
+    
     self.previewTextViewHeightConstraint?.constant = usedRect.height + textContainterInsets.top + textContainterInsets.bottom
-
+    
     if !animated { return }
     UIView.animate(withDuration: 0.2, animations: {
       self.layoutIfNeeded()
     })
   }
   
-  // MARK: - Lazy Inits
   
+  // MARK: - Lazy Inits
   internal lazy var previewTextView: UITextView = {
     let textView: UITextView = UITextView()
     
@@ -251,7 +207,7 @@ class FoaasPreviewView: UIView {
   
   internal lazy var scrollView: UIScrollView = {
     let scroll: UIScrollView = UIScrollView()
-    scroll.keyboardDismissMode = .onDrag
+    //    scroll.keyboardDismissMode = .onDrag
     scroll.alwaysBounceVertical = true
     return scroll
   }()
@@ -260,7 +216,7 @@ class FoaasPreviewView: UIView {
     let view = UIView()
     return view
   }()
-    
+  
     internal lazy var doneButton: UIButton = {
         let button = UIButton(type: .custom)
         button.addTarget(self, action: #selector(doneButtonClicked(sender:)), for: UIControlEvents.touchUpInside)
@@ -272,7 +228,6 @@ class FoaasPreviewView: UIView {
         button.layer.shadowOffset = CGSize(width: 0, height: 5)
         button.layer.shadowRadius = 5
         button.clipsToBounds = false
-        
         return button
     }()
     
@@ -289,31 +244,29 @@ class FoaasPreviewView: UIView {
         button.clipsToBounds = false
         return button
     }()
+  
     
-    //MARK: Button Actions
-    internal func backButtonClicked(sender: UIButton) {
-        let originalTransform = sender.imageView!.transform
-        
-        UIView.animate(withDuration: 0.1, animations: {
-            sender.layer.transform = CATransform3DMakeAffineTransform(self.newTransform)
-        }, completion: { (complete) in
-            sender.layer.transform = CATransform3DMakeAffineTransform(originalTransform)
-            self.delegate?.backButtonPressed()
-        })
-    }
+  //MARK: Button Actions
+  internal func backButtonClicked(sender: UIButton) {
+    let originalTransform = sender.imageView!.transform
+    UIView.animate(withDuration: 0.1, animations: {
+      sender.layer.transform = CATransform3DMakeAffineTransform(self.newTransform)
+    }, completion: { (complete) in
+      sender.layer.transform = CATransform3DMakeAffineTransform(originalTransform)
+      self.delegate?.backButtonPressed()
+    })
+  }
+  
+  internal func doneButtonClicked(sender: UIButton) {
+    let originalTransform = sender.imageView!.transform
     
-    internal func doneButtonClicked(sender: UIButton) {
-        let originalTransform = sender.imageView!.transform
-        
-        
-        
-        UIView.animate(withDuration: 0.1, animations: {
-            sender.layer.transform = CATransform3DMakeAffineTransform(self.newTransform)
-        }, completion: { (complete) in
-            sender.layer.transform = CATransform3DMakeAffineTransform(originalTransform)
-            self.delegate?.doneButtonPressed()
-        })
-
-    }
+    UIView.animate(withDuration: 0.1, animations: {
+      sender.layer.transform = CATransform3DMakeAffineTransform(self.newTransform)
+    }, completion: { (complete) in
+      sender.layer.transform = CATransform3DMakeAffineTransform(originalTransform)
+      self.delegate?.doneButtonPressed()
+    })
     
+  }
+  
 }
