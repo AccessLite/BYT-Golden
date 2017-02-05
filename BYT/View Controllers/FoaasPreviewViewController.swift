@@ -20,10 +20,12 @@ class FoaasPrevewViewController: UIViewController, FoaasTextFieldDelegate, Foaas
     var previewText: NSString = ""
     var previewAttributedText: NSAttributedString = NSAttributedString()
   
+  
+  // -------------------------------------
   // MARK: - View Lifecycle
   override func viewDidLoad() {
     super.viewDidLoad()
-    
+    registerForNotifications()
     self.setupViewHierarchy()
     self.configureConstraints()
     
@@ -33,24 +35,29 @@ class FoaasPrevewViewController: UIViewController, FoaasTextFieldDelegate, Foaas
   }
   
   
+  // -------------------------------------
   // MARK: - View Setup
   internal func setupViewHierarchy() {
     self.view.addSubview(foaasPreviewView)
   }
   
+  var bottomConstraint: NSLayoutConstraint? = nil
   internal func configureConstraints() {
+    self.automaticallyAdjustsScrollViewInsets = true
+    self.edgesForExtendedLayout = []
     
+    bottomConstraint = foaasPreviewView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0.0)
     let _ = [
       foaasPreviewView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 0.0),
       foaasPreviewView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 0.0),
       foaasPreviewView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: 0.0),
-      foaasPreviewView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0.0),
+      bottomConstraint!,
       ].map { $0.isActive = true }
   }
   
   
+  // -------------------------------------
   // MARK: - FoaasButtonDelegateMethods
-  
     internal func backButtonPressed() {
         _ = self.navigationController?.popViewController(animated: true)
     }
@@ -63,6 +70,8 @@ class FoaasPrevewViewController: UIViewController, FoaasTextFieldDelegate, Foaas
 
     }
   
+  
+  // -------------------------------------
   // MARK: - Other
   internal func set(operation: FoaasOperation?) {
     guard let validOp = operation else { return }
@@ -121,7 +130,42 @@ class FoaasPrevewViewController: UIViewController, FoaasTextFieldDelegate, Foaas
     })
   }
   
-  // TODO: needs live updating
+  
+  // -------------------------------------
+  // MARK: - Keyboard Notification
+  private func registerForNotifications() {
+    NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidAppear(notification:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+    NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillDisappear(notification:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+  }
+  
+  deinit {
+    NotificationCenter.default.removeObserver(self)
+  }
+  
+  internal func keyboardDidAppear(notification: Notification) {
+    self.shouldShowKeyboard(show: true, notification: notification, completion: nil)
+  }
+  
+  internal func keyboardWillDisappear(notification: Notification) {
+    self.shouldShowKeyboard(show: false, notification: notification, completion: nil)
+  }
+  
+  private func shouldShowKeyboard(show: Bool, notification: Notification, completion: ((Bool) -> Void)? ) {
+    if let keyboardFrame = notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? CGRect,
+      let animationNumber = notification.userInfo?[UIKeyboardAnimationCurveUserInfoKey] as? NSNumber,
+      let animationDuration = notification.userInfo?[UIKeyboardAnimationDurationUserInfoKey] as? TimeInterval {
+      let animationOption = UIViewAnimationOptions(rawValue: animationNumber.uintValue)
+      
+      bottomConstraint?.constant = keyboardFrame.size.height * (show ? -1 : 1)
+      UIView.animate(withDuration: animationDuration, delay: 0.0, options: animationOption, animations: {
+        self.view.layoutIfNeeded()
+      }, completion: completion)
+      
+    }
+  }
+
+  
+  // -------------------------------------
   // MARK: - UITextField Delegate
   func foaasTextField(_ textField: FoaasTextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
     
@@ -152,7 +196,8 @@ class FoaasPrevewViewController: UIViewController, FoaasTextFieldDelegate, Foaas
         }
     }
 
-  // TODO: add in delegation
+
+  // -------------------------------------
   // MARK: - Lazy Inits
   internal lazy var foaasPreviewView: FoaasPreviewView = {
     let previewView = FoaasPreviewView()
