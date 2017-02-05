@@ -48,6 +48,7 @@ class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenu
     // this must be called after the views have been laid out and drawn to the screen. 
     // otherwise this gradient wont work
     self.foaasSettingsMenuView.foaasColorPickerView?.applyGradient()
+    self.foaasSettingsMenuView.foaasColorPickerView?.setCurrentIndex(ColorManager.shared.colorSchemeIndex())
   }
   
   
@@ -231,7 +232,7 @@ class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenu
         self.foaasView.settingsMenuButton.tintColor = ColorManager.shared.currentColorScheme.accent
     }
     
-    func profanitfySwitchChanged() {        
+    func profanitfySwitchChanged() {
         guard let validFoaas = self.foaas else { return }
         var message = validFoaas.message
         var subtitle = validFoaas.subtitle
@@ -256,7 +257,10 @@ class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenu
     
     func sharePostTo(serviceType: String!) {
         if let vc = SLComposeViewController(forServiceType: serviceType) {
-            vc.setInitialText(self.foaas!.description)
+            guard let validImage = getScreenShotImage(view: self.view) else { return }
+//            vc.setInitialText(self.foaas!.description)
+            vc.add(validImage)
+            vc.add(URL(string: "https://github.com/AccessLite/BYT-Golden")!)
             present(vc, animated: true, completion: nil)
         }
     }

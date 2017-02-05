@@ -48,6 +48,15 @@ class ColorManager {
 
     private init() {}
     
+    func colorSchemeIndex() -> Int {
+        for i in 0..<colorSchemes.count {
+            if colorSchemes[i].primary == currentColorScheme.primary {
+                return i
+            }
+        }
+        return 0
+    }
+    
     func saveCurrentColorScheme() {
         do {
             let currentColorSchemeData: Data = try ColorManager.shared.currentColorScheme.toData()

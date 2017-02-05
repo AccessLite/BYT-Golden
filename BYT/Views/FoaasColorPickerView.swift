@@ -136,7 +136,6 @@ class FoaasColorPickerView: UIView, UIScrollViewDelegate {
         self.scrollView.translatesAutoresizingMaskIntoConstraints = false
         self.containerView.translatesAutoresizingMaskIntoConstraints = false
         self.scrollView.delegate = self
-        self.setCurrentIndex(1)
         
         // we need to extend the bounds of the scroll view, so we add its panGestureRecognizer to its container view
         let panGesture = self.scrollView.panGestureRecognizer
@@ -169,6 +168,7 @@ class FoaasColorPickerView: UIView, UIScrollViewDelegate {
     func setCurrentIndex(_ index: Int) {
         let offSetPoint = CGPoint(x: intervalOffsets * CGFloat(index), y: 0.0)
         self.scrollView.setContentOffset(offSetPoint, animated: true)
+        print("current offset\(offSetPoint)")
     }
     
     func currentIndex() -> Int {
