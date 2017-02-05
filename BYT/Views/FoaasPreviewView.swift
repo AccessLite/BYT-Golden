@@ -264,12 +264,14 @@ class FoaasPreviewView: UIView {
     internal lazy var doneButton: UIButton = {
         let button = UIButton(type: .custom)
         button.addTarget(self, action: #selector(doneButtonClicked(sender:)), for: UIControlEvents.touchUpInside)
-        button.setImage(UIImage(named: "done_button_grayscale")!, for: .normal)
-        button.imageView?.layer.shadowColor = UIColor.black.cgColor
-        button.imageView?.layer.shadowOpacity = 0.8
-        button.imageView?.layer.shadowOffset = CGSize(width: 0, height: 5)
-        button.imageView?.layer.shadowRadius = 5
-        button.imageView?.clipsToBounds = false
+        button.setImage(UIImage(named: "checkmark_symbol")!, for: .normal)
+        button.backgroundColor = ColorManager.shared.currentColorScheme.accent
+        button.layer.cornerRadius = 26
+        button.layer.shadowColor = UIColor.black.cgColor
+        button.layer.shadowOpacity = 0.8
+        button.layer.shadowOffset = CGSize(width: 0, height: 5)
+        button.layer.shadowRadius = 5
+        button.clipsToBounds = false
         
         return button
     }()
@@ -277,18 +279,14 @@ class FoaasPreviewView: UIView {
     internal lazy var backButton: UIButton = {
         let button = UIButton(type: .custom)
         button.addTarget(self, action: #selector(backButtonClicked(sender:)), for: UIControlEvents.touchUpInside)
-        
-        let origImage = UIImage(named: "back_button_grayscale")
-        let tintedImage = origImage?.withRenderingMode(.alwaysTemplate)
-        button.setImage(tintedImage, for: .normal)
-        button.tintColor = ColorManager.shared.currentColorScheme.accent
-        
-        button.imageView?.layer.shadowColor = UIColor.black.cgColor
-        button.imageView?.layer.shadowOpacity = 0.8
-        button.imageView?.layer.shadowOffset = CGSize(width: 0, height: 5)
-        button.imageView?.layer.shadowRadius = 5
-        button.imageView?.clipsToBounds = false
-        
+        button.setImage(UIImage(named: "arrow_symbol")!, for: .normal)
+        button.backgroundColor = ColorManager.shared.currentColorScheme.accent
+        button.layer.cornerRadius = 26
+        button.layer.shadowColor = UIColor.black.cgColor
+        button.layer.shadowOpacity = 0.8
+        button.layer.shadowOffset = CGSize(width: 0, height: 5)
+        button.layer.shadowRadius = 5
+        button.clipsToBounds = false
         return button
     }()
     

@@ -73,12 +73,14 @@ class FoaasOperationsTableViewController: UITableViewController {
     internal lazy var floatingButton: UIButton = {
         let button = UIButton(type: .custom)
         button.addTarget(self, action: #selector(floatingButtonClicked(sender:)), for: UIControlEvents.touchUpInside)
-        button.setImage(UIImage(named: "close_button_grayscale")!, for: .normal)
-        button.imageView?.layer.shadowColor = UIColor.black.cgColor
-        button.imageView?.layer.shadowOpacity = 0.8
-        button.imageView?.layer.shadowOffset = CGSize(width: 0, height: 5)
-        button.imageView?.layer.shadowRadius = 5
-        button.imageView?.clipsToBounds = false
+        button.setImage(UIImage(named: "x_symbol")!, for: .normal)
+        button.backgroundColor = ColorManager.shared.currentColorScheme.accent
+        button.layer.cornerRadius = 26
+        button.layer.shadowColor = UIColor.black.cgColor
+        button.layer.shadowOpacity = 0.8
+        button.layer.shadowOffset = CGSize(width: 0, height: 5)
+        button.layer.shadowRadius = 5
+        button.clipsToBounds = false
 
         return button
     }()

@@ -47,7 +47,7 @@ class FoaasSettingsMenuView: UIView, UIScrollViewDelegate, FoaasColorPickerViewD
     
     func updateVersionLabels() {
         self.versionNumberLabel.text = "V\(VersionManager.shared.currentVersion.number)"
-        self.versionMessageLabel.text = "\(VersionManager.shared.currentVersion.message.uppercased()) BYT@BOARDINGPASS.COM"
+        self.versionMessageLabel.text = "\(VersionManager.shared.currentVersion.message.uppercased())  GITHUB.COM/ACCESSLITE/BYT-GOLDEN"
     }
     
     private func configureConstraints() {
@@ -73,7 +73,6 @@ class FoaasSettingsMenuView: UIView, UIScrollViewDelegate, FoaasColorPickerViewD
         ColorManager.shared.currentColorScheme = ColorManager.shared.colorSchemes[index]
         self.profanitySwitch.tintColor = ColorManager.shared.currentColorScheme.accent
         self.profanitySwitch.onTintColor = ColorManager.shared.currentColorScheme.accent
-        
         self.delegate?.colorSwitcherScrollViewScrolled()
     }
     

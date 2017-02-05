@@ -227,11 +227,11 @@ class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenu
     
     func colorSwitcherScrollViewScrolled() {
         self.foaasView.backgroundColor = ColorManager.shared.currentColorScheme.primary
+        self.foaasView.addButton.backgroundColor = ColorManager.shared.currentColorScheme.accent
+        self.foaasView.settingsMenuButton.tintColor = ColorManager.shared.currentColorScheme.accent
     }
     
-    func profanitfySwitchChanged() {
-        print("switch changed")
-        
+    func profanitfySwitchChanged() {        
         guard let validFoaas = self.foaas else { return }
         var message = validFoaas.message
         var subtitle = validFoaas.subtitle
