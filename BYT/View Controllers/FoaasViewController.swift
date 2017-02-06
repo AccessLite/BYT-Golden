@@ -168,6 +168,8 @@ class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenu
                 guard let colorSchemes = ColorScheme.parseColorSchemes(from: validData) else { return }
                 ColorManager.shared.colorSchemes = colorSchemes
                 DispatchQueue.main.async {
+                    
+                    // This is where the call to update the color picker needs to happen
 //                    self.foaasSettingsMenuView.reloadColorPicker()
                     
                 }
@@ -229,9 +231,12 @@ class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenu
     
     // MARK: - FoaasSettingMenuDelegate Method
     func colorSwitcherScrollViewScrolled() {
-        self.foaasView.backgroundColor = ColorManager.shared.currentColorScheme.primary
-        self.foaasView.addButton.backgroundColor = ColorManager.shared.currentColorScheme.accent
-        self.foaasView.settingsMenuButton.tintColor = ColorManager.shared.currentColorScheme.accent
+        UIView.animate(withDuration: 0.3) {
+            self.foaasView.backgroundColor = ColorManager.shared.currentColorScheme.primary
+            self.foaasView.addButton.backgroundColor = ColorManager.shared.currentColorScheme.accent
+            self.foaasView.settingsMenuButton.tintColor = ColorManager.shared.currentColorScheme.accent
+            self.view.layoutIfNeeded()
+        }
     }
     
 

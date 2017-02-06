@@ -75,14 +75,15 @@ class FoaasSettingsMenuView: UIView, UIScrollViewDelegate, FoaasColorPickerViewD
         self.addSubview(foaasColorPickerView!)
     }
     
+    
+    // TODO, LOUIS.
     // trying here to re initialize the colorPicker but not working properly
     
 //    func reloadColorPicker() {
-//        self.foaasColorPickerView?.removeConstraints((self.foaasColorPickerView?.constraints)!)
-//        self.foaasColorPickerView = nil
-//        
+//        self.foaasColorPickerView?.removeFromSuperview()
 //        self.setupViewHierarchy()
 //        self.configureConstraints()
+//        self.foaasColorPickerView?.applyGradient()
 //    }
     
     
