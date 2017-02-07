@@ -22,9 +22,19 @@ class FoaasOperationsTableViewController: UITableViewController {
         
         self.tableView.rowHeight = UITableViewAutomaticDimension
         self.tableView.estimatedRowHeight = 64.0
-        
-        self.tableView.register(FoaasOperationsTableViewCell.self, forCellReuseIdentifier: cellIdentifier)
-        self.tableView.backgroundColor = ColorManager.shared.currentColorScheme.primary
+      
+        setupViewHierarchy()
+    }
+
+    private func setupViewHierarchy() {
+      self.view.addSubview(floatingButton)
+      
+      let rightSwipe: UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(popTableView))
+      rightSwipe.direction = .right
+      self.view.addGestureRecognizer(rightSwipe)
+
+      self.tableView.register(FoaasOperationsTableViewCell.self, forCellReuseIdentifier: cellIdentifier)
+      self.tableView.backgroundColor = ColorManager.shared.currentColorScheme.primary
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -101,8 +111,12 @@ class FoaasOperationsTableViewController: UITableViewController {
         }, completion: { (complete) in
             sender.layer.transform = CATransform3DMakeAffineTransform(originalTransform)
         })
-        
-        _ = navigationController?.popViewController(animated: true)
+      
+        popTableView()
+    }
+  
+    func popTableView() {
+      _ = navigationController?.popViewController(animated: true)
     }
     
     //MARK: - Constraints

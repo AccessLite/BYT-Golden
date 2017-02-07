@@ -19,57 +19,59 @@ class FoaasPrevewViewController: UIViewController, FoaasTextFieldDelegate, Foaas
     
     var previewText: NSString = ""
     var previewAttributedText: NSAttributedString = NSAttributedString()
-    
+  
     var tapGestureRecognizer: UITapGestureRecognizer!
-    
-    // MARK: - FoaasButtonDelegateMethods
-    
-    
-    // -------------------------------------
+    var bottomConstraint: NSLayoutConstraint? = nil
+
     // MARK: - View Lifecycle
     override func viewDidLoad() {
-        super.viewDidLoad()
-        registerForNotifications()
-        self.setupViewHierarchy()
-        self.configureConstraints()
-        
-        self.foaasPreviewView.createTextFields(for: self.pathBuilder!.allKeys())
-        self.foaasPreviewView.setTextFieldsDelegate(self)
-        self.foaasPreviewView.delegate = self
-        
-        //Add tapGestureRecognizer to view
-        tapGestureRecognizer = UITapGestureRecognizer(target: self.foaasPreviewView, action: #selector(tapGestureDismissKeyboard(_:)))
-        self.view.isUserInteractionEnabled = true
-        self.foaasPreviewView.isUserInteractionEnabled = true
-        tapGestureRecognizer.cancelsTouchesInView = false
-        tapGestureRecognizer.numberOfTapsRequired = 1
-        tapGestureRecognizer.numberOfTouchesRequired = 1
-        tapGestureRecognizer.delegate = self.foaasPreviewView
-        self.foaasPreviewView.addGestureRecognizer(tapGestureRecognizer)
+      super.viewDidLoad()
+      
+      self.setupViewHierarchy()
+      self.configureConstraints()
+      
+      self.foaasPreviewView.createTextFields(for: self.pathBuilder!.allKeys())
+      self.foaasPreviewView.setTextFieldsDelegate(self)
+      self.foaasPreviewView.delegate = self
     }
     
-    // -------------------------------------
+    
     // MARK: - View Setup
     internal func setupViewHierarchy() {
-        self.view.addSubview(foaasPreviewView)
+      self.view.addSubview(foaasPreviewView)
+      
+      let rightSwipe: UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(backButtonPressed))
+      rightSwipe.direction = .right
+      self.view.addGestureRecognizer(rightSwipe)
+    
+      //Add tapGestureRecognizer to view
+      tapGestureRecognizer = UITapGestureRecognizer(target: self.foaasPreviewView, action: #selector(tapGestureDismissKeyboard(_:)))
+      self.view.isUserInteractionEnabled = true
+      self.foaasPreviewView.isUserInteractionEnabled = true
+      tapGestureRecognizer.cancelsTouchesInView = false
+      tapGestureRecognizer.numberOfTapsRequired = 1
+      tapGestureRecognizer.numberOfTouchesRequired = 1
+      tapGestureRecognizer.delegate = self.foaasPreviewView
+      self.foaasPreviewView.addGestureRecognizer(tapGestureRecognizer)
     }
     
-    var bottomConstraint: NSLayoutConstraint? = nil
     internal func configureConstraints() {
-        self.automaticallyAdjustsScrollViewInsets = true
-        self.edgesForExtendedLayout = []
-        
-        bottomConstraint = foaasPreviewView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0.0)
-        let _ = [
-            foaasPreviewView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 0.0),
-            foaasPreviewView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 0.0),
-            foaasPreviewView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: 0.0),
-            bottomConstraint!,
-            ].map { $0.isActive = true }
+      self.automaticallyAdjustsScrollViewInsets = true
+      self.edgesForExtendedLayout = []
+    
+      bottomConstraint = foaasPreviewView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0.0)
+      let _ = [
+        foaasPreviewView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 0.0),
+        foaasPreviewView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 0.0),
+        foaasPreviewView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: 0.0),
+        bottomConstraint!,
+      ].map { $0.isActive = true }
     }
     
+  
     // -------------------------------------
     // MARK: - FoaasButtonDelegateMethods
+  
     internal func backButtonPressed() {
         _ = self.navigationController?.popViewController(animated: true)
     }
