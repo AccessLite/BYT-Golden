@@ -132,6 +132,8 @@ class FoaasTextField: UIView, UITextFieldDelegate {
     textField.delegate = self
     textField.autocorrectionType = .no
     textField.autocapitalizationType = .words
+    textField.textColor = UIColor.white
+    textField.font = UIFont.Roboto.medium(size: 18.0)
     
     self.addSubview(textLabel)
     self.addSubview(textField)
