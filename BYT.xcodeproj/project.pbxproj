@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1408CAA11E494B1100AFC1AA /* FoaasColorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1408CAA01E494B1100AFC1AA /* FoaasColorView.swift */; };
 		1430C7521E457393002D904A /* Profanity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1430C7511E457393002D904A /* Profanity.swift */; };
 		1498A2FD1E3D7A4F003A3E5C /* FoaasColorPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1498A2FC1E3D7A4F003A3E5C /* FoaasColorPickerView.swift */; };
 		1498A3011E3E55E4003A3E5C /* Version.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1498A2FF1E3E55E4003A3E5C /* Version.swift */; };
@@ -58,8 +59,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1408CAA01E494B1100AFC1AA /* FoaasColorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FoaasColorView.swift; path = Views/FoaasColorView.swift; sourceTree = "<group>"; };
 		1430C7511E457393002D904A /* Profanity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Profanity.swift; path = Models/Profanity.swift; sourceTree = "<group>"; };
-		1498A2FC1E3D7A4F003A3E5C /* FoaasColorPickerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FoaasColorPickerView.swift; path = Views/FoaasColorPickerView.swift; sourceTree = "<group>"; };
+		1498A2FC1E3D7A4F003A3E5C /* FoaasColorPickerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.swift; name = FoaasColorPickerView.swift; path = Views/FoaasColorPickerView.swift; sourceTree = "<group>"; tabWidth = 4; };
 		1498A2FF1E3E55E4003A3E5C /* Version.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Version.swift; path = Models/Version.swift; sourceTree = "<group>"; };
 		1498A3021E3E55F0003A3E5C /* ColorManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ColorManager.swift; path = Managers/ColorManager.swift; sourceTree = "<group>"; };
 		1498A3041E3E5602003A3E5C /* FoaasSettingsMenuView.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.swift; name = FoaasSettingsMenuView.swift; path = Views/FoaasSettingsMenuView.swift; sourceTree = "<group>"; tabWidth = 4; };
@@ -172,6 +174,7 @@
 				14CFEC491E3708C300BD46CF /* FoaasTextField.swift */,
 				14CFEC4D1E37E86700BD46CF /* FoaasPreviewView.swift */,
 				1498A2FC1E3D7A4F003A3E5C /* FoaasColorPickerView.swift */,
+				1408CAA01E494B1100AFC1AA /* FoaasColorView.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -281,7 +284,6 @@
 				TargetAttributes = {
 					14CFEBE51E3430C600BD46CF = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = R7DWEPXN5Y;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -347,6 +349,7 @@
 				14CFEC1A1E34394D00BD46CF /* FoaasDataManager.swift in Sources */,
 				1498A2FD1E3D7A4F003A3E5C /* FoaasColorPickerView.swift in Sources */,
 				DE6658F71E3E805500513850 /* Extension + UIColor.swift in Sources */,
+				1408CAA11E494B1100AFC1AA /* FoaasColorView.swift in Sources */,
 				1498A3011E3E55E4003A3E5C /* Version.swift in Sources */,
 				DE6658FB1E3E8E6300513850 /* VersionManager.swift in Sources */,
 				14CFEC131E34363300BD46CF /* Foaas.swift in Sources */,
@@ -480,7 +483,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = R7DWEPXN5Y;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = "$(SRCROOT)/BYT/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -495,7 +498,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = R7DWEPXN5Y;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = "$(SRCROOT)/BYT/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

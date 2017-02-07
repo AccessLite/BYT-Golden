@@ -19,25 +19,46 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     ColorManager.shared.loadColorSchemes()
     VersionManager.shared.loadCurrentVersion()
     
-    FoaasDataManager.shared.requestOperations { (operations: [FoaasOperation]?) in
-      if operations != nil {
-        print("Loaded operations")
-        
-        for op in operations! {
-          let builder = FoaasPathBuilder(operation: op)
-          
-          builder.update(key: "from", value: "From Cat")
-          builder.update(key: "name", value: "Name Cat")
-          print(builder.build())
-        }
-      }
-    }
+    FoaasDataManager.shared.requestOperations()
+    requestColorSchemes()
+    requestVersionInfo()
     
     let navigationVC = FoaasNavigationController(rootViewController: FoaasViewController())
     self.window = UIWindow(frame: UIScreen.main.bounds)
     self.window?.rootViewController = navigationVC
     self.window?.makeKeyAndVisible()
     return true
+  }
+  
+  func requestColorSchemes() {
+    FoaasDataManager.shared.requestColorSchemeData(endpoint: FoaasAPIManager.colorSchemeURL) { (data: Data?) in
+      guard let validData = data else { return }
+      guard let colorSchemes = ColorScheme.parseColorSchemes(from: validData) else { return }
+      ColorManager.shared.colorSchemes = colorSchemes
+
+      var colorUpdateNotification = Notification(name: Notification.Name.init(rawValue: FoaasColorPickerView.colorViewsShouldUpdateNotification))
+      colorUpdateNotification.userInfo = [ FoaasColorPickerView.updatedColorsKey : ColorManager.shared.colorSchemes.map{ $0.primary }]
+      NotificationCenter.default.post(colorUpdateNotification)
+    }
+  }
+  
+  func requestVersionInfo() {
+    FoaasDataManager.shared.requestVersionData(endpoint: FoaasAPIManager.versionURL) { (data: Data?) in
+      guard let validData = data else { return }
+      guard let version = Version.parseVersion(from: validData) else { return }
+      
+      if version.number != VersionManager.shared.currentVersion.number {
+        VersionManager.shared.currentVersion = version
+        DispatchQueue.main.async {
+          
+          // TODO: fire notifications
+          
+          // update the version info in the settings menu view
+//          self.foaasSettingsMenuView.updateVersionLabels()
+        }
+      }
+    }
+
   }
   
 }

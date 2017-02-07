@@ -8,45 +8,13 @@
 
 import UIKit
 
-class FoaasColorView: UIView {
-    private var baseUnit: CGFloat = 0.0
-    internal private(set) var managedColor: UIColor = UIColor.white
-    
-    var colorViewWidth: CGFloat { return baseUnit }
-    var colorViewHeight: CGFloat { return baseUnit / 2.0 }
-    
-    convenience init(baseUnit: CGFloat, managedColor: UIColor) {
-        self.init(frame: CGRect.zero)
-        self.baseUnit = baseUnit
-        self.managedColor = managedColor
-        
-        self.backgroundColor = managedColor
-        
-        self.layer.cornerRadius = 3.0
-        configureConstraints()
-    }
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-    }
-    
-    private func configureConstraints() {
-        self.translatesAutoresizingMaskIntoConstraints = false
-        [ self.widthAnchor.constraint(equalToConstant: colorViewWidth),
-          self.heightAnchor.constraint(equalToConstant: colorViewHeight) ].activate()
-    }
-    
-}
-
 protocol FoaasColorPickerViewDelegate: class {
     func didChangeColorPickerIndex(to index: Int)
 }
 
 class FoaasColorPickerView: UIView, UIScrollViewDelegate {
+    internal static let colorViewsShouldUpdateNotification: String = "ColorViewsShouldUpdate"
+    internal static let updatedColorsKey: String = "UpdateColors"
     private var baseUnit: CGFloat = 80.0
     
     var containerWith: CGFloat { return baseUnit * 2.5 }
@@ -60,17 +28,18 @@ class FoaasColorPickerView: UIView, UIScrollViewDelegate {
     
     var foaasColorViews: [FoaasColorView] = []
     weak var delegate: FoaasColorPickerViewDelegate?
-    
+  
+  
+    // MARK: - Initializers
     convenience init(colors: [UIColor], baseUnit: CGFloat = 80.0) {
         self.init(frame: CGRect.zero)
+        registerForNotifications()
         
         foaasColorViews = colors.map { FoaasColorView(baseUnit: baseUnit, managedColor: $0) }
         self.baseUnit = baseUnit
         
         setupViewHierarchy()
         configureConstraints()
-        
-        applyGradient()
     }
     
     override private init(frame: CGRect) {
@@ -81,6 +50,23 @@ class FoaasColorPickerView: UIView, UIScrollViewDelegate {
         super.init(coder: aDecoder)
     }
     
+    
+    // MARK: - Notifications
+    private func registerForNotifications() {
+        let center = NotificationCenter.default
+        center.addObserver(self,
+                           selector: #selector(updateColors(from:)),
+                           name: NSNotification.Name(rawValue: FoaasColorPickerView.colorViewsShouldUpdateNotification),
+                           object: nil)
+    }
+    
+    deinit {
+        let center = NotificationCenter.default
+        center.removeObserver(self)
+    }
+    
+    
+    // MARK: - Setup
     private func configureConstraints() {
         // container
         [ containerView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
@@ -97,6 +83,25 @@ class FoaasColorPickerView: UIView, UIScrollViewDelegate {
             scrollView.heightAnchor.constraint(equalToConstant: scrollHeight),
             ].activate()
         
+        arrangeColorViews()
+    }
+    
+    private func setupViewHierarchy() {
+        self.addSubview(containerView)
+        self.containerView.addSubview(scrollView)
+        _ = self.foaasColorViews.map { self.scrollView.addSubview($0) }
+        
+        self.scrollView.translatesAutoresizingMaskIntoConstraints = false
+        self.containerView.translatesAutoresizingMaskIntoConstraints = false
+        self.scrollView.delegate = self
+        
+        // we need to extend the bounds of the scroll view, so we add its panGestureRecognizer to its container view
+        let panGesture = self.scrollView.panGestureRecognizer
+        self.containerView.addGestureRecognizer(panGesture)
+    }
+    
+    /// Specifically arranges color view contraints inside of self.scrollView. This function assumes that there are currently no subviews in self.scrollView
+    private func arrangeColorViews() {
         guard
             let firstColorView = foaasColorViews.first,
             let lastColorView = foaasColorViews.last
@@ -123,25 +128,10 @@ class FoaasColorPickerView: UIView, UIScrollViewDelegate {
             colorView.leadingAnchor.constraint(equalTo: priorColorView!.trailingAnchor, constant: interViewMargin).isActive = true
             priorColorView = colorView
         }
-        
     }
     
-    private func setupViewHierarchy() {
-        self.addSubview(containerView)
-        self.containerView.addSubview(scrollView)
-        _ = self.foaasColorViews.map {
-            self.scrollView.addSubview($0)
-        }
-        
-        self.scrollView.translatesAutoresizingMaskIntoConstraints = false
-        self.containerView.translatesAutoresizingMaskIntoConstraints = false
-        self.scrollView.delegate = self
-        
-        // we need to extend the bounds of the scroll view, so we add its panGestureRecognizer to its container view
-        let panGesture = self.scrollView.panGestureRecognizer
-        self.containerView.addGestureRecognizer(panGesture)
-    }
     
+    // MARK: - Drawing
     internal func applyGradient() {
         let fullGradient = CAGradientLayer()
         fullGradient.frame = self.containerView.bounds
@@ -162,7 +152,24 @@ class FoaasColorPickerView: UIView, UIScrollViewDelegate {
         fullGradient.locations = [0.0, 0.1, 0.9, 1.0]
         
         self.containerView.layer.mask = fullGradient
+        self.containerView.setNeedsDisplay()
     }
+    
+    internal func updateColors(from notification: Notification) {
+        guard
+            let userInfo = notification.userInfo,
+            let colors: [UIColor] = userInfo[FoaasColorPickerView.updatedColorsKey] as? [UIColor]
+        else { return }
+        
+        DispatchQueue.main.async { [unowned self] in
+            _ = self.foaasColorViews.map{ $0.removeFromSuperview() }
+            self.foaasColorViews = colors.map { FoaasColorView(baseUnit: self.baseUnit, managedColor: $0) }
+            _ = self.foaasColorViews.map{ self.scrollView.addSubview($0) }
+            self.arrangeColorViews()
+        }
+    }
+    
+    
     
     // MARK: - Adjusting Views
     func setCurrentIndex(_ index: Int) {
@@ -200,6 +207,7 @@ class FoaasColorPickerView: UIView, UIScrollViewDelegate {
         let scroll = UIScrollView()
         scroll.isPagingEnabled = true
         scroll.clipsToBounds = false
+        scroll.showsHorizontalScrollIndicator = false
         return scroll
     }()
     

@@ -41,6 +41,12 @@ internal class FoaasDataManager {
     }
   }
   
+  internal func requestOperations() {
+    FoaasDataManager.shared.requestOperations { (operations) in
+      print("Operations loaded. Ignoring results")
+    }
+  }
+  
   
   // MARK: - Save/Load
   // TODO: Improve logging print statements

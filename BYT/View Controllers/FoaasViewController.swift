@@ -148,9 +148,7 @@ class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenu
     
     
     // MARK: - Updating Foaas
-    // TODO: replace this
     internal func makeRequest() {
-        
         FoaasDataManager.shared.requestFoaas(url: FoaasDataManager.foaasURL!) { (foaas: Foaas?) in
             if let validFoaas = foaas {
                 self.foaas = validFoaas
@@ -158,33 +156,6 @@ class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenu
                 DispatchQueue.main.async {
                     self.foaasView.mainTextLabel.text = validFoaas.message.filterBadLanguage()
                     self.foaasView.subtitleTextLabel.text = validFoaas.subtitle.filterBadLanguage()
-                }
-            }
-            
-            // Make the following API Call if the version has been updated...
-            
-            FoaasDataManager.shared.requestColorSchemeData(endpoint: FoaasAPIManager.colorSchemeURL) { (data: Data?) in
-                guard let validData = data else { return }
-                guard let colorSchemes = ColorScheme.parseColorSchemes(from: validData) else { return }
-                ColorManager.shared.colorSchemes = colorSchemes
-                DispatchQueue.main.async {
-                    
-                    // This is where the call to update the color picker needs to happen
-//                    self.foaasSettingsMenuView.reloadColorPicker()
-                    
-                }
-            }
-            
-            FoaasDataManager.shared.requestVersionData(endpoint: FoaasAPIManager.versionURL) { (data: Data?) in
-                guard let validData = data else { return }
-                guard let version = Version.parseVersion(from: validData) else { return }
-                
-                if version.number != VersionManager.shared.currentVersion.number {
-                    VersionManager.shared.currentVersion = version
-                    DispatchQueue.main.async {
-                        // update the version info in the settings menu view
-                        self.foaasSettingsMenuView.updateVersionLabels()
-                    }
                 }
             }
         }
