@@ -41,7 +41,10 @@ class FoaasNavigationController: UINavigationController, UINavigationControllerD
   }
   
   func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
-    addFloatingButtons()
+    // TODO: add implementation for floating buttons in V2 here
+    // the current implementation works for positioning, but the buttons need actions, methods to update images & actions
+    // and shadows
+//    addFloatingButtons()
   }
   
   internal lazy var leftFloatingButton: UIButton = {
