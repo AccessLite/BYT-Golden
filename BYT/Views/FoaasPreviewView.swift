@@ -67,16 +67,18 @@ class FoaasPreviewView: UIView, UIGestureRecognizerDelegate {
       previewTextView.widthAnchor.constraint(equalTo: self.widthAnchor, constant: -32.0),
       previewTextViewHeightConstraint!,
       
-      //buttons
-      backButton.topAnchor.constraint(equalTo: contentContainerView.bottomAnchor, constant: 24),
-      backButton.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 48),
-      backButton.heightAnchor.constraint(equalToConstant: 54),
-      backButton.widthAnchor.constraint(equalToConstant: 54),
-      
-      doneButton.topAnchor.constraint(equalTo: contentContainerView.bottomAnchor, constant: 24),
-      doneButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -48),
-      doneButton.heightAnchor.constraint(equalToConstant: 54),
-      doneButton.widthAnchor.constraint(equalToConstant: 54)
+
+    //buttons
+      backButton.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -48),
+        backButton.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 48),
+        backButton.heightAnchor.constraint(equalToConstant: 54),
+        backButton.widthAnchor.constraint(equalToConstant: 54),
+        
+        doneButton.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -48),
+        doneButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -48),
+        doneButton.heightAnchor.constraint(equalToConstant: 54),
+        doneButton.widthAnchor.constraint(equalToConstant: 54)
+
       ].activate()
   }
   
@@ -222,37 +224,38 @@ class FoaasPreviewView: UIView, UIGestureRecognizerDelegate {
     return view
   }()
   
-  internal lazy var doneButton: UIButton = {
-    let button = UIButton(type: .custom)
-    button.addTarget(self, action: #selector(doneButtonClicked(sender:)), for: UIControlEvents.touchUpInside)
-    button.setImage(UIImage(named: "done_button")!, for: .normal)
-    button.imageView?.layer.shadowColor = UIColor.black.cgColor
-    button.imageView?.layer.shadowOpacity = 0.8
-    button.imageView?.layer.shadowOffset = CGSize(width: 0, height: 5)
-    button.imageView?.layer.shadowRadius = 5
-    button.imageView?.clipsToBounds = false
+    internal lazy var doneButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.addTarget(self, action: #selector(doneButtonClicked(sender:)), for: UIControlEvents.touchUpInside)
+        button.setImage(UIImage(named: "checkmark_symbol")!, for: .normal)
+        button.backgroundColor = ColorManager.shared.currentColorScheme.accent
+        button.layer.cornerRadius = 26
+        button.layer.shadowColor = UIColor.black.cgColor
+        button.layer.shadowOpacity = 0.8
+        button.layer.shadowOffset = CGSize(width: 0, height: 5)
+        button.layer.shadowRadius = 5
+        button.clipsToBounds = false
+        return button
+    }()
     
-    return button
-  }()
+    internal lazy var backButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.addTarget(self, action: #selector(backButtonClicked(sender:)), for: UIControlEvents.touchUpInside)
+        button.setImage(UIImage(named: "arrow_symbol")!, for: .normal)
+        button.backgroundColor = ColorManager.shared.currentColorScheme.accent
+        button.layer.cornerRadius = 26
+        button.layer.shadowColor = UIColor.black.cgColor
+        button.layer.shadowOpacity = 0.8
+        button.layer.shadowOffset = CGSize(width: 0, height: 5)
+        button.layer.shadowRadius = 5
+        button.clipsToBounds = false
+        return button
+    }()
   
-  internal lazy var backButton: UIButton = {
-    let button = UIButton(type: .custom)
-    button.addTarget(self, action: #selector(backButtonClicked(sender:)), for: UIControlEvents.touchUpInside)
-    button.setImage(UIImage(named: "back_button")!, for: .normal)
-    button.imageView?.layer.shadowColor = UIColor.black.cgColor
-    button.imageView?.layer.shadowOpacity = 0.8
-    button.imageView?.layer.shadowOffset = CGSize(width: 0, height: 5)
-    button.imageView?.layer.shadowRadius = 5
-    button.imageView?.clipsToBounds = false
     
-    return button
-  }()
-  
-  
   //MARK: Button Actions
   internal func backButtonClicked(sender: UIButton) {
     let originalTransform = sender.imageView!.transform
-    
     UIView.animate(withDuration: 0.1, animations: {
       sender.layer.transform = CATransform3DMakeAffineTransform(self.newTransform)
     }, completion: { (complete) in

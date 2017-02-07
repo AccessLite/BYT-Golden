@@ -41,13 +41,13 @@ class FoaasSettingsMenuView: UIView, UIScrollViewDelegate, FoaasColorPickerViewD
     override init(frame: CGRect) {
         super.init(frame: frame)
         if let view = Bundle.main.loadNibNamed("FoaasSettingsMenuView", owner: self, options: nil)?.first as? UIView {
-            //add a view to the subview
             self.addSubview(view)
             view.frame = self.bounds
             
             setupViewHierarchy()
             configureConstraints()
             updateSwitch()
+            updateButtonColors()
         }
     }
     
@@ -57,7 +57,7 @@ class FoaasSettingsMenuView: UIView, UIScrollViewDelegate, FoaasColorPickerViewD
     
     func updateVersionLabels() {
         self.versionNumberLabel.text = "V\(VersionManager.shared.currentVersion.number)"
-        self.versionMessageLabel.text = "\(VersionManager.shared.currentVersion.message.uppercased()) BYT@BOARDINGPASS.COM"
+        self.versionMessageLabel.text = "\(VersionManager.shared.currentVersion.message.uppercased())  GITHUB.COM/ACCESSLITE/BYT-GOLDEN"
     }
     
     private func configureConstraints() {
@@ -83,7 +83,6 @@ class FoaasSettingsMenuView: UIView, UIScrollViewDelegate, FoaasColorPickerViewD
         ColorManager.shared.currentColorScheme = ColorManager.shared.colorSchemes[index]
         self.profanitySwitch.tintColor = ColorManager.shared.currentColorScheme.accent
         self.profanitySwitch.onTintColor = ColorManager.shared.currentColorScheme.accent
-        
         self.delegate?.colorSwitcherScrollViewScrolled()
     }
     
@@ -119,6 +118,20 @@ class FoaasSettingsMenuView: UIView, UIScrollViewDelegate, FoaasColorPickerViewD
         self.profanitySwitch.isOn = LanguageFilter.profanityAllowed
         self.profanitySwitch.onTintColor = ColorManager.shared.currentColorScheme.accent
         self.profanitySwitch.tintColor = ColorManager.shared.currentColorScheme.accent
+    }
+    
+    func updateButtonColors() {
+        updateButtonIcon(button: facebookButton, imageName: "facebook_icon_inverted")
+        updateButtonIcon(button: twitterButton, imageName: "twitter_icon_inverted")
+        updateButtonIcon(button: cameraRollButton, imageName: "camera_icon_inverted")
+        updateButtonIcon(button: shareImageButton, imageName: "upload_icon_inverted")
+    }
+    
+    func updateButtonIcon(button: UIButton, imageName: String) {
+        let image = UIImage(named: imageName)
+        let tintedImage = image?.withRenderingMode(.alwaysTemplate)
+        button.setImage(tintedImage, for: .normal)
+        button.tintColor = ColorManager.shared.currentColorScheme.accent
     }
     
 }

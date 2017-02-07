@@ -55,6 +55,7 @@ class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenu
     // this must be called after the views have been laid out and drawn to the screen. 
     // otherwise this gradient wont work
     self.foaasSettingsMenuView.foaasColorPickerView?.applyGradient()
+    self.foaasSettingsMenuView.foaasColorPickerView?.setCurrentIndex(ColorManager.shared.colorSchemeIndex())
   }
   
   
@@ -119,9 +120,21 @@ class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenu
     private func registerForNotifications() {
         let notificationCenter = NotificationCenter.default
         notificationCenter.addObserver(self, selector: #selector(updateFoaas(sender:)), name: Notification.Name(rawValue: "FoaasObjectDidUpdate"), object: nil)
+        notificationCenter.addObserver(self, selector: #selector(updateSettingsLabel(from:)), name: Notification.Name(rawValue: VersionManager.versionDidUpdateNotification), object: nil)
     }
     
-    
+    internal func updateSettingsLabel(from notification: Notification) {
+        guard
+            let userInfo = notification.userInfo,
+            let _ = userInfo[VersionManager.versionUpdatedKey]
+        else {
+            return
+        }
+        
+        DispatchQueue.main.async { [unowned self] in
+            self.foaasSettingsMenuView.updateVersionLabels()
+        }
+    }
     
     internal func updateFoaas(sender: Notification) {
         guard let validFoaas = sender.object as? Foaas else {
@@ -151,9 +164,7 @@ class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenu
     
     
     // MARK: - Updating Foaas
-    // TODO: replace this
     internal func makeRequest() {
-        
         FoaasDataManager.shared.requestFoaas(url: FoaasDataManager.foaasURL!) { (foaas: Foaas?) in
             if let validFoaas = foaas {
                 self.foaas = validFoaas
@@ -161,34 +172,6 @@ class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenu
                 DispatchQueue.main.async {
                     self.foaasView.mainTextLabel.text = validFoaas.message.filterBadLanguage()
                     self.foaasView.subtitleTextLabel.text = validFoaas.subtitle.filterBadLanguage()
-                }
-            }
-            
-            // Make the following API Call if the version has been updated...
-            
-            FoaasDataManager.shared.requestColorSchemeData(endpoint: FoaasAPIManager.colorSchemeURL) { (data: Data?) in
-                guard let validData = data else { return }
-                guard let colorSchemes = ColorScheme.parseColorSchemes(from: validData) else { return }
-                ColorManager.shared.colorSchemes = colorSchemes
-                DispatchQueue.main.async {
-                  
-                  // TODO
-//                    self.foaasSettingsMenuView.view1.backgroundColor = colorSchemes[0].primary
-//                    self.foaasSettingsMenuView.view2.backgroundColor = colorSchemes[1].primary
-//                    self.foaasSettingsMenuView.view3.backgroundColor = colorSchemes[2].primary
-                }
-            }
-            
-            FoaasDataManager.shared.requestVersionData(endpoint: FoaasAPIManager.versionURL) { (data: Data?) in
-                guard let validData = data else { return }
-                guard let version = Version.parseVersion(from: validData) else { return }
-                
-                if version.number != VersionManager.shared.currentVersion.number {
-                    VersionManager.shared.currentVersion = version
-                    DispatchQueue.main.async {
-                        // update the version info in the settings menu view
-                        self.foaasSettingsMenuView.updateVersionLabels()
-                    }
                 }
             }
         }
@@ -235,9 +218,16 @@ class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenu
     
     // MARK: - FoaasSettingMenuDelegate Method
     func colorSwitcherScrollViewScrolled() {
-        self.foaasView.backgroundColor = ColorManager.shared.currentColorScheme.primary
+        UIView.animate(withDuration: 0.3) {
+            self.foaasView.backgroundColor = ColorManager.shared.currentColorScheme.primary
+            self.foaasView.addButton.backgroundColor = ColorManager.shared.currentColorScheme.accent
+            self.foaasView.settingsMenuButton.tintColor = ColorManager.shared.currentColorScheme.accent
+            self.foaasSettingsMenuView.updateButtonColors()
+            self.view.layoutIfNeeded()
+        }
     }
     
+
     func profanitfySwitchToggled(on: Bool) {
         guard let validFoaas = self.foaas else { return }
         
@@ -258,7 +248,10 @@ class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenu
     
     func sharePostTo(serviceType: String!) {
         if let vc = SLComposeViewController(forServiceType: serviceType) {
-            vc.setInitialText(self.foaas!.description)
+            guard let validImage = getScreenShotImage(view: self.view) else { return }
+//            vc.setInitialText(self.foaas!.description)
+            vc.add(validImage)
+            vc.add(URL(string: "https://github.com/AccessLite/BYT-Golden")!)
             present(vc, animated: true, completion: nil)
         }
     }

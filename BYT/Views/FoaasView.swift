@@ -160,7 +160,9 @@ class FoaasView: UIView {
     
     internal lazy var addButton: UIButton = {
         let button: UIButton = UIButton(type: .custom)
-        button.setBackgroundImage(UIImage(named: "add_button")!, for: .normal)
+        button.setImage(UIImage(named: "plus_symbol")!, for: .normal)
+        button.backgroundColor = ColorManager.shared.currentColorScheme.accent
+        button.layer.cornerRadius = 26
         button.layer.shadowColor = UIColor.black.cgColor
         button.layer.shadowOpacity = 0.8
         button.layer.shadowOffset = CGSize(width: 0, height: 5)
@@ -170,7 +172,10 @@ class FoaasView: UIView {
     
     internal lazy var settingsMenuButton: UIButton = {
         let button = UIButton()
-        button.setBackgroundImage(#imageLiteral(resourceName: "disclosure_up"), for: .normal)
+        let origImage = UIImage(named: "disclosure_up")
+        let tintedImage = origImage?.withRenderingMode(.alwaysTemplate)
+        button.setImage(tintedImage, for: .normal)
+        button.tintColor = ColorManager.shared.currentColorScheme.accent
         return button
     }()
 }
