@@ -12,6 +12,7 @@ class FoaasNavigationController: UINavigationController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    UIApplication.shared.statusBarStyle = .lightContent
   }
   
   override func viewWillAppear(_ animated: Bool) {
