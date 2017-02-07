@@ -1,4 +1,4 @@
-    //
+//
 //  AppDelegate.swift
 //  BYT
 //
@@ -35,7 +35,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
       guard let validData = data else { return }
       guard let colorSchemes = ColorScheme.parseColorSchemes(from: validData) else { return }
       ColorManager.shared.colorSchemes = colorSchemes
-
+      
       var colorUpdateNotification = Notification(name: Notification.Name.init(rawValue: FoaasColorPickerView.colorViewsShouldUpdateNotification))
       colorUpdateNotification.userInfo = [ FoaasColorPickerView.updatedColorsKey : ColorManager.shared.colorSchemes.map{ $0.primary }]
       NotificationCenter.default.post(colorUpdateNotification)
@@ -49,16 +49,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
       
       if version.number != VersionManager.shared.currentVersion.number {
         VersionManager.shared.currentVersion = version
-        DispatchQueue.main.async {
-          
-          // TODO: fire notifications
-          
-          // update the version info in the settings menu view
-//          self.foaasSettingsMenuView.updateVersionLabels()
-        }
+        
+        var versionUpdateNotification: Notification = Notification(name: Notification.Name.init(rawValue: VersionManager.versionDidUpdateNotification))
+        versionUpdateNotification.userInfo = [VersionManager.versionUpdatedKey : VersionManager.shared.currentVersion]
+        NotificationCenter.default.post(versionUpdateNotification)
       }
     }
-
+  }
+  
+  func applicationDidBecomeActive(_ application: UIApplication) {
+    requestColorSchemes()
+    requestVersionInfo()
   }
   
 }

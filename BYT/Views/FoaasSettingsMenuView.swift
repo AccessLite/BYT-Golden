@@ -41,7 +41,6 @@ class FoaasSettingsMenuView: UIView, UIScrollViewDelegate, FoaasColorPickerViewD
     override init(frame: CGRect) {
         super.init(frame: frame)
         if let view = Bundle.main.loadNibNamed("FoaasSettingsMenuView", owner: self, options: nil)?.first as? UIView {
-            //add a view to the subview
             self.addSubview(view)
             view.frame = self.bounds
             
@@ -74,17 +73,6 @@ class FoaasSettingsMenuView: UIView, UIScrollViewDelegate, FoaasColorPickerViewD
         
         self.addSubview(foaasColorPickerView!)
     }
-    
-    
-    // TODO, LOUIS.
-    // trying here to re initialize the colorPicker but not working properly
-    
-//    func reloadColorPicker() {
-//        self.foaasColorPickerView?.removeFromSuperview()
-//        self.setupViewHierarchy()
-//        self.configureConstraints()
-//        self.foaasColorPickerView?.applyGradient()
-//    }
     
     
     // MARK: - Color Picker Functions
