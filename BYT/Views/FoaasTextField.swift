@@ -17,7 +17,9 @@ enum Underlined {
 }
 
 protocol FoaasTextFieldDelegate: class {
-  func foaasTextField(_ textField: FoaasTextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool
+    func foaasTextField(_ textField: FoaasTextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool
+    func foaasTextFieldShouldReturn(_ textField: FoaasTextField) -> Bool
+    func foaasTextFieldDidEndEditing(_ textField: FoaasTextField)
 }
 
 
@@ -115,7 +117,7 @@ class FoaasTextField: UIView, UITextFieldDelegate {
     animatedTextFieldLine.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 8.0).isActive = true
     animatedTextFieldLine.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
     animatedTextFieldLine.heightAnchor.constraint(equalToConstant: 3.0).isActive = true
-    self.animatedTextFieldLineTrailingConstraint = animatedTextFieldLine.trailingAnchor.constraint(equalTo: self.leadingAnchor)
+    self.animatedTextFieldLineTrailingConstraint = animatedTextFieldLine.trailingAnchor.constraint(equalTo: self.leadingAnchor, constant: 8.0)
     self.animatedTextFieldLineTrailingConstraint.isActive = true
   }
   
@@ -171,7 +173,15 @@ class FoaasTextField: UIView, UITextFieldDelegate {
   func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
     return self.foaasTextFieldDelegate?.foaasTextField(self, shouldChangeCharactersIn: range, replacementString: string) ?? true
   }
-  
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool{
+        return self.foaasTextFieldDelegate?.foaasTextFieldShouldReturn(self) ?? true
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        self.foaasTextFieldDelegate?.foaasTextFieldDidEndEditing(self)
+    }
+
   
   // MARK: - Helpers
   private func slideLabel(direction: SlideDirection) {
@@ -208,7 +218,7 @@ class FoaasTextField: UIView, UITextFieldDelegate {
       
     case .no:
       self.removeConstraint(self.animatedTextFieldLineTrailingConstraint)
-      self.animatedTextFieldLineTrailingConstraint = animatedTextFieldLine.trailingAnchor.constraint(equalTo: self.leadingAnchor)
+      self.animatedTextFieldLineTrailingConstraint = animatedTextFieldLine.trailingAnchor.constraint(equalTo: self.leadingAnchor, constant: 8.0)
       self.animatedTextFieldLineTrailingConstraint.isActive = true
       UIViewPropertyAnimator.runningPropertyAnimator(withDuration: 0.175, delay: 0.0, options: [], animations: {
         self.layoutIfNeeded()

@@ -41,13 +41,15 @@ class FoaasView: UIView {
         mainTextLabel.accessibilityIdentifier = "mainTextLabel"
         subtitleTextLabel.accessibilityIdentifier = "subtitleTextLabel"
         
-        stripAutoResizingMasks(self, resizingView, mainTextLabel, subtitleTextLabel , addButton, settingsMenuButton)
+      
         self.backgroundColor = .purple
         self.settingsMenuButton.addTarget(self, action: #selector(didTapSettingsButton), for: .touchUpInside)
         self.addButton.addTarget(self, action: #selector(didTapButton(sender:)), for: .touchDown)
     }
     
     internal func configureConstraints() {
+      stripAutoResizingMasks(self, resizingView, mainTextLabel, subtitleTextLabel , addButton, settingsMenuButton)
+      
         let resizingViewConstraints = [
             resizingView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             resizingView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
