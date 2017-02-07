@@ -170,7 +170,6 @@ class FoaasView: UIView {
     
     internal lazy var settingsMenuButton: UIButton = {
         let button = UIButton()
-//        button.setBackgroundImage(#imageLiteral(resourceName: "disclosure_up"), for: .normal)
         let origImage = UIImage(named: "disclosure_up")
         let tintedImage = origImage?.withRenderingMode(.alwaysTemplate)
         button.setImage(tintedImage, for: .normal)

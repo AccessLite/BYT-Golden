@@ -206,6 +206,7 @@ class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenu
             self.foaasView.backgroundColor = ColorManager.shared.currentColorScheme.primary
             self.foaasView.addButton.backgroundColor = ColorManager.shared.currentColorScheme.accent
             self.foaasView.settingsMenuButton.tintColor = ColorManager.shared.currentColorScheme.accent
+            self.foaasSettingsMenuView.updateButtonColors()
             self.view.layoutIfNeeded()
         }
     }

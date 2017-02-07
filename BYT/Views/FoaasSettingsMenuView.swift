@@ -48,6 +48,7 @@ class FoaasSettingsMenuView: UIView, UIScrollViewDelegate, FoaasColorPickerViewD
             setupViewHierarchy()
             configureConstraints()
             updateSwitch()
+            updateButtonColors()
         }
     }
     
@@ -74,17 +75,6 @@ class FoaasSettingsMenuView: UIView, UIScrollViewDelegate, FoaasColorPickerViewD
         
         self.addSubview(foaasColorPickerView!)
     }
-    
-    
-    // TODO, LOUIS.
-    // trying here to re initialize the colorPicker but not working properly
-    
-//    func reloadColorPicker() {
-//        self.foaasColorPickerView?.removeFromSuperview()
-//        self.setupViewHierarchy()
-//        self.configureConstraints()
-//        self.foaasColorPickerView?.applyGradient()
-//    }
     
     
     // MARK: - Color Picker Functions
@@ -129,6 +119,20 @@ class FoaasSettingsMenuView: UIView, UIScrollViewDelegate, FoaasColorPickerViewD
         self.profanitySwitch.isOn = LanguageFilter.profanityAllowed
         self.profanitySwitch.onTintColor = ColorManager.shared.currentColorScheme.accent
         self.profanitySwitch.tintColor = ColorManager.shared.currentColorScheme.accent
+    }
+    
+    func updateButtonColors() {
+        updateButtonIcon(button: facebookButton, imageName: "facebook_icon_inverted")
+        updateButtonIcon(button: twitterButton, imageName: "twitter_icon_inverted")
+        updateButtonIcon(button: cameraRollButton, imageName: "camera_icon_inverted")
+        updateButtonIcon(button: shareImageButton, imageName: "upload_icon_inverted")
+    }
+    
+    func updateButtonIcon(button: UIButton, imageName: String) {
+        let image = UIImage(named: imageName)
+        let tintedImage = image?.withRenderingMode(.alwaysTemplate)
+        button.setImage(tintedImage, for: .normal)
+        button.tintColor = ColorManager.shared.currentColorScheme.accent
     }
     
 }
