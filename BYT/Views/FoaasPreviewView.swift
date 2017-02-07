@@ -212,8 +212,7 @@ class FoaasPreviewView: UIView, UIGestureRecognizerDelegate {
   
   internal lazy var scrollView: UIScrollView = {
     let scroll: UIScrollView = UIScrollView()
-    scroll.keyboardDismissMode = .interactive
-    //scroll.keyboardDismissMode = .onDrag
+    scroll.keyboardDismissMode = .none
     scroll.alwaysBounceVertical = true
     return scroll
   }()

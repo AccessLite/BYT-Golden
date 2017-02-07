@@ -117,7 +117,7 @@ class FoaasTextField: UIView, UITextFieldDelegate {
     animatedTextFieldLine.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 8.0).isActive = true
     animatedTextFieldLine.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
     animatedTextFieldLine.heightAnchor.constraint(equalToConstant: 3.0).isActive = true
-    self.animatedTextFieldLineTrailingConstraint = animatedTextFieldLine.trailingAnchor.constraint(equalTo: self.leadingAnchor)
+    self.animatedTextFieldLineTrailingConstraint = animatedTextFieldLine.trailingAnchor.constraint(equalTo: self.leadingAnchor, constant: 8.0)
     self.animatedTextFieldLineTrailingConstraint.isActive = true
   }
   
@@ -218,7 +218,7 @@ class FoaasTextField: UIView, UITextFieldDelegate {
       
     case .no:
       self.removeConstraint(self.animatedTextFieldLineTrailingConstraint)
-      self.animatedTextFieldLineTrailingConstraint = animatedTextFieldLine.trailingAnchor.constraint(equalTo: self.leadingAnchor)
+      self.animatedTextFieldLineTrailingConstraint = animatedTextFieldLine.trailingAnchor.constraint(equalTo: self.leadingAnchor, constant: 8.0)
       self.animatedTextFieldLineTrailingConstraint.isActive = true
       UIViewPropertyAnimator.runningPropertyAnimator(withDuration: 0.175, delay: 0.0, options: [], animations: {
         self.layoutIfNeeded()
