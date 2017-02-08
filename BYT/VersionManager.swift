@@ -9,7 +9,8 @@
 import Foundation
 
 class VersionManager {
-    
+    static let versionUpdatedKey: String = "VersionUpdated"
+    static let versionDidUpdateNotification: String = "VersionDidUpdate" 
     static let shared: VersionManager = VersionManager()
     
     private init() {}
