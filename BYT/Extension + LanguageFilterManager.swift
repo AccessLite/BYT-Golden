@@ -7,6 +7,12 @@
 //
 import Foundation
 
+//TODO List:
+
+//About View Controller
+//Fixing the bug on constraint breaking after transition to view
+//madison enter on both fields bug
+
 typealias LanguageFilterClosure = (String) -> String
 class LanguageFilter {
     

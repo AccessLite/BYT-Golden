@@ -52,6 +52,10 @@
 		473EA5D51E3E7E6100DD35C9 /* RobotoCondensed-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 473EA5C31E3E7E6100DD35C9 /* RobotoCondensed-Regular.ttf */; };
 		4786344D1E3E513600287661 /* FoaasFontManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4786344C1E3E513600287661 /* FoaasFontManager.swift */; };
 		812EAE871E42312D003CAE18 /* Extension + LanguageFilterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812EAE861E42312D003CAE18 /* Extension + LanguageFilterManager.swift */; };
+		81661B431E4960660044756A /* FoaasTeamMemberView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81661B421E4960660044756A /* FoaasTeamMemberView.swift */; };
+		81661B451E49608A0044756A /* FoaasAboutPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81661B441E49608A0044756A /* FoaasAboutPage.swift */; };
+		81661B471E49F6C10044756A /* FoaasMember.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81661B461E49F6C10044756A /* FoaasMember.swift */; };
+		81661B491E4A15310044756A /* members.json in Resources */ = {isa = PBXBuildFile; fileRef = 81661B481E4A15310044756A /* members.json */; };
 		DE6658F71E3E805500513850 /* Extension + UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE6658F61E3E805500513850 /* Extension + UIColor.swift */; };
 		DE6658F91E3E884800513850 /* ColorScheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE6658F81E3E884800513850 /* ColorScheme.swift */; };
 		DE6658FB1E3E8E6300513850 /* VersionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE6658FA1E3E8E6300513850 /* VersionManager.swift */; };
@@ -105,6 +109,10 @@
 		473EA5C31E3E7E6100DD35C9 /* RobotoCondensed-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "RobotoCondensed-Regular.ttf"; sourceTree = "<group>"; };
 		4786344C1E3E513600287661 /* FoaasFontManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FoaasFontManager.swift; sourceTree = "<group>"; };
 		812EAE861E42312D003CAE18 /* Extension + LanguageFilterManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = "Extension + LanguageFilterManager.swift"; sourceTree = "<group>"; tabWidth = 4; };
+		81661B421E4960660044756A /* FoaasTeamMemberView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FoaasTeamMemberView.swift; sourceTree = "<group>"; };
+		81661B441E49608A0044756A /* FoaasAboutPage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FoaasAboutPage.swift; sourceTree = "<group>"; };
+		81661B461E49F6C10044756A /* FoaasMember.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FoaasMember.swift; sourceTree = "<group>"; };
+		81661B481E4A15310044756A /* members.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = members.json; sourceTree = "<group>"; };
 		DE6658F61E3E805500513850 /* Extension + UIColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Extension + UIColor.swift"; path = "Models/Extension + UIColor.swift"; sourceTree = "<group>"; };
 		DE6658F81E3E884800513850 /* ColorScheme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ColorScheme.swift; path = Models/ColorScheme.swift; sourceTree = "<group>"; };
 		DE6658FA1E3E8E6300513850 /* VersionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VersionManager.swift; sourceTree = "<group>"; };
@@ -154,6 +162,7 @@
 		14CFEBFB1E34311000BD46CF /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				81661B481E4A15310044756A /* members.json */,
 				14CFEBFC1E3431F700BD46CF /* AppDelegate.swift */,
 				14CFEBFD1E3431F700BD46CF /* Assets.xcassets */,
 				14CFEBFE1E3431F700BD46CF /* Info.plist */,
@@ -168,6 +177,7 @@
 				1498A3041E3E5602003A3E5C /* FoaasSettingsMenuView.swift */,
 				1498A3051E3E5602003A3E5C /* FoaasSettingsMenuView.xib */,
 				14CFEC411E3705E800BD46CF /* FoaasView.swift */,
+				81661B421E4960660044756A /* FoaasTeamMemberView.swift */,
 				14CFEC451E37083400BD46CF /* FoaasOperationTableViewCell.swift */,
 				14CFEC491E3708C300BD46CF /* FoaasTextField.swift */,
 				14CFEC4D1E37E86700BD46CF /* FoaasPreviewView.swift */,
@@ -182,6 +192,7 @@
 				DE6658F81E3E884800513850 /* ColorScheme.swift */,
 				DE6658F61E3E805500513850 /* Extension + UIColor.swift */,
 				1498A2FF1E3E55E4003A3E5C /* Version.swift */,
+				81661B461E49F6C10044756A /* FoaasMember.swift */,
 				14CFEC0F1E34363300BD46CF /* Foaas.swift */,
 				14CFEC101E34363300BD46CF /* FoaasField.swift */,
 				14CFEC111E34363300BD46CF /* FoaasOperation.swift */,
@@ -211,6 +222,7 @@
 				14CFEC431E3707C600BD46CF /* FoaasOperationsTableViewController.swift */,
 				14CFEC471E37088A00BD46CF /* FoaasPreviewViewController.swift */,
 				14CFEC4B1E3709A700BD46CF /* FoaasNavigationController.swift */,
+				81661B441E49608A0044756A /* FoaasAboutPage.swift */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -330,6 +342,7 @@
 				473EA5CD1E3E7E6100DD35C9 /* Roboto-Regular.ttf in Resources */,
 				473EA5C41E3E7E6100DD35C9 /* Roboto-Black.ttf in Resources */,
 				473EA5C91E3E7E6100DD35C9 /* Roboto-Light.ttf in Resources */,
+				81661B491E4A15310044756A /* members.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -348,6 +361,7 @@
 				1498A2FD1E3D7A4F003A3E5C /* FoaasColorPickerView.swift in Sources */,
 				DE6658F71E3E805500513850 /* Extension + UIColor.swift in Sources */,
 				1498A3011E3E55E4003A3E5C /* Version.swift in Sources */,
+				81661B471E49F6C10044756A /* FoaasMember.swift in Sources */,
 				DE6658FB1E3E8E6300513850 /* VersionManager.swift in Sources */,
 				14CFEC131E34363300BD46CF /* Foaas.swift in Sources */,
 				14CFEC141E34363300BD46CF /* FoaasField.swift in Sources */,
@@ -360,9 +374,11 @@
 				14CFEC441E3707C600BD46CF /* FoaasOperationsTableViewController.swift in Sources */,
 				1498A3031E3E55F0003A3E5C /* ColorManager.swift in Sources */,
 				14CFEC401E3705AC00BD46CF /* FoaasViewController.swift in Sources */,
+				81661B431E4960660044756A /* FoaasTeamMemberView.swift in Sources */,
 				14CFEC4A1E3708C300BD46CF /* FoaasTextField.swift in Sources */,
 				1498A3061E3E5602003A3E5C /* FoaasSettingsMenuView.swift in Sources */,
 				812EAE871E42312D003CAE18 /* Extension + LanguageFilterManager.swift in Sources */,
+				81661B451E49608A0044756A /* FoaasAboutPage.swift in Sources */,
 				14CFEBFF1E3431F700BD46CF /* AppDelegate.swift in Sources */,
 				14CFEC481E37088A00BD46CF /* FoaasPreviewViewController.swift in Sources */,
 				14CFEC4E1E37E86700BD46CF /* FoaasPreviewView.swift in Sources */,
