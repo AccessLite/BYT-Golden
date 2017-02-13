@@ -27,7 +27,15 @@ class FoaasTeamMemberView: UIView {
 
     //MARK: - Configure Constraints and View Hierarchy
     
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setUpViewHierarchy()
+        configureConstraints()
+    }
     
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
     
     func configureConstraints() {
         _ = [
@@ -36,11 +44,26 @@ class FoaasTeamMemberView: UIView {
             profileImageView.heightAnchor.constraint(equalToConstant: 80),
             profileImageView.widthAnchor.constraint(equalToConstant: 80),
             
+            nameLabel.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: 4),
+            nameLabel.centerXAnchor.constraint(equalTo: profileImageView.centerXAnchor),
+            nameLabel.trailingAnchor.constraint(greaterThanOrEqualTo: self.trailingAnchor),
+            nameLabel.leadingAnchor.constraint(greaterThanOrEqualTo: self.leadingAnchor),
             
+            jobLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 2),
+            jobLabel.centerXAnchor.constraint(equalTo: profileImageView.centerXAnchor),
+            jobLabel.trailingAnchor.constraint(greaterThanOrEqualTo: self.trailingAnchor),
+            jobLabel.leadingAnchor.constraint(greaterThanOrEqualTo: self.leadingAnchor),
             
-        
-        
-        ]
+            twitterButton.topAnchor.constraint(equalTo: jobLabel.bottomAnchor, constant: 2),
+            twitterButton.centerXAnchor.constraint(equalTo: profileImageView.centerXAnchor),
+            twitterButton.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+            
+            gitHubButton.centerYAnchor.constraint(equalTo: twitterButton.centerYAnchor),
+            gitHubButton.trailingAnchor.constraint(equalTo: twitterButton.leadingAnchor, constant: -16),
+            
+            linkedInButton.centerYAnchor.constraint(equalTo: twitterButton.centerYAnchor),
+            linkedInButton.leadingAnchor.constraint(equalTo: twitterButton.trailingAnchor, constant: 16)
+            ].map { $0.isActive = true }
     }
     
     func setUpViewHierarchy () {
@@ -49,17 +72,31 @@ class FoaasTeamMemberView: UIView {
         stripAutoResizingMasks([self] + views)
         
         gitHubButton.addTarget(self, action: #selector(gitHubButtonPressed), for: .touchUpInside)
-        twitterButton.addTarget(self, action: #selector(twitterButtonPressed), for: .touchUpInside)
+        twitterButton.addTarget(self, action: #selector(self.twitterButtonPressed), for: .touchUpInside)
         linkedInButton.addTarget(self, action: #selector(linkedInButtonPressed), for: .touchUpInside)
+    }
+    
+    func inputMember() {
+        if let currentMember = self.member {
+            //self.profileImageView.image = UIImage(named: currentMember.imageName)
+            self.profileImageView.image = UIImage(named: "Material_Octo_No_Eyes")
+            self.nameLabel.text = currentMember.name
+            self.jobLabel.text = currentMember.job
+        }
     }
     
     //MARK: - Subviews
     var profileImageView: UIImageView = {
         let view = UIImageView()
+        view.contentMode = .scaleAspectFit
         view.layer.shadowColor = UIColor.black.cgColor
         view.layer.shadowOpacity = 0.8
         view.layer.shadowOffset = CGSize(width: 0, height: 5)
         view.layer.shadowRadius = 4
+        view.layer.cornerRadius = 40
+        view.layer.borderWidth = 1.0
+        view.layer.borderColor = ColorManager.shared.currentColorScheme.accent.cgColor
+        view.clipsToBounds = true
         return view
     }()
     
@@ -67,6 +104,7 @@ class FoaasTeamMemberView: UIView {
         let view = UILabel()
         view.font = UIFont.Roboto.medium(size: 16)
         view.alpha = 0.87
+        view.textAlignment = .center
         return view
     }()
     
@@ -74,18 +112,34 @@ class FoaasTeamMemberView: UIView {
         let view = UILabel()
         view.font = UIFont.Roboto.light(size: 14)
         view.alpha = 0.5
+        view.textAlignment = .center
         return view
     }()
     
     var gitHubButton: UIButton = {
         let view = UIButton(type: .system)
         //TODO Get a Github Button Image
+        let buttonImage = #imageLiteral(resourceName: "twitter_icon_inverted")
+        let tintedImage = buttonImage.withRenderingMode(.alwaysTemplate)
+        view.setImage(tintedImage, for: .normal)
+        view.tintColor = .white
+        view.setImage(buttonImage, for: .normal)
+        view.backgroundColor = ColorManager.shared.currentColorScheme.accent
+        view.imageView?.contentMode = .scaleAspectFit
         return view
     }()
     
     var twitterButton: UIButton = {
         let view = UIButton(type: .system)
-        view.setImage(#imageLiteral(resourceName: "icon_twitter"), for: .normal)
+        
+        //Becasue the image is inverted, this was my work around?
+        
+        let buttonImage = #imageLiteral(resourceName: "twitter_icon_inverted")
+        let tintedImage = buttonImage.withRenderingMode(.alwaysTemplate)
+        view.setImage(tintedImage, for: .normal)
+        view.tintColor = .white
+        view.setImage(buttonImage, for: .normal)
+        view.backgroundColor = ColorManager.shared.currentColorScheme.accent
         view.imageView?.contentMode = .scaleAspectFit
         return view
     }()
@@ -93,21 +147,28 @@ class FoaasTeamMemberView: UIView {
     var linkedInButton: UIButton = {
         let view = UIButton(type: .system)
         //TODO Get a linkedIn Button
+        let buttonImage = #imageLiteral(resourceName: "twitter_icon_inverted")
+        let tintedImage = buttonImage.withRenderingMode(.alwaysTemplate)
+        view.setImage(tintedImage, for: .normal)
+        view.tintColor = .white
+        view.setImage(buttonImage, for: .normal)
+        view.backgroundColor = ColorManager.shared.currentColorScheme.accent
         view.imageView?.contentMode = .scaleAspectFit
         return view
     }()
     
     //MARK: - Actions
     func gitHubButtonPressed () {
-        self.delegate?.gitHubButtonPressed(member!.gitHubURL)
+        self.delegate!.gitHubButtonPressed(member!.gitHubURL)
     }
     
     func twitterButtonPressed () {
-        self.delegate?.twitterButtonPressed(member!.twitterURL)
+        print("pressed")
+        self.delegate!.twitterButtonPressed(member!.twitterURL)
     }
     
     func linkedInButtonPressed () {
-        self.delegate?.linkedInButtonPressed(member!.linkedInURL)
+        self.delegate!.linkedInButtonPressed(member!.linkedInURL)
     }
     
 }

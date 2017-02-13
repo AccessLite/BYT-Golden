@@ -17,6 +17,7 @@ protocol FoaasSettingMenuDelegate {
     func camerarollButtonTapped()
     func shareButtonTapped()
     func uploadData()
+    func aboutButtonTapped()
 }
 
 class FoaasSettingsMenuView: UIView, UIScrollViewDelegate, FoaasColorPickerViewDelegate {
@@ -88,6 +89,10 @@ class FoaasSettingsMenuView: UIView, UIScrollViewDelegate, FoaasColorPickerViewD
     
     
     // MARK: - Actions
+    @IBAction func aboutButtonPressed(_ sender: UIButton) {
+        self.delegate?.aboutButtonTapped()
+    }
+    
     @IBAction func profanitySwitchDidChange(_ sender: UISwitch) {
         self.delegate?.profanitfySwitchToggled(on: sender.isOn)
         print("Profanity Switch Did Change")
