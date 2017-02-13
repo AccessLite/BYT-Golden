@@ -292,16 +292,39 @@ class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenu
         //shortly before the graphics context for the view is determined, the settings menu will animate down (show: false)
         animateSettingsMenu(show: false, duration: 0.1)
         
-        //removing visibility for the add button shortly before the screenshot is rendered
+        //removing visibility for the add and settings menu button shortly before the screenshot is rendered
         self.foaasView.addButton.isHidden = true
+        self.foaasView.settingsMenuButton.isHidden = true
         
-        //adding the watermark as a subview
+        //initializing and adding the watermark label as a subview
+        let label: UILabel = UILabel()
+        label.text = "GITHUB: ACCESSLITE/BYT"
+        label.textColor = UIColor.white
+        label.alpha = 0.50
+        
+        self.foaasView.addSubview(label)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        let _ = [
+            label.centerXAnchor.constraint(equalTo: self.foaasView.centerXAnchor),
+            label.bottomAnchor.constraint(equalTo: self.foaasView.bottomAnchor, constant: -30.0)
+            ].map { $0.isActive = true }
+        
+        //initializing and adding the watermark as a subview
         let octopusImage = UIImage(named: "Octopus")
         let imageView = UIImageView(image: octopusImage)
+        imageView.contentMode = .scaleAspectFit
         imageView.tag = 100
         imageView.alpha = 0.50
-        imageView.frame = self.foaasView.addButton.frame
+
         self.foaasView.addSubview(imageView)
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        let _ = [
+            imageView.centerXAnchor.constraint(equalTo: self.foaasView.centerXAnchor),
+            imageView.bottomAnchor.constraint(equalTo: label.topAnchor, constant: -10.0),
+            imageView.heightAnchor.constraint(equalToConstant: 120.0),
+            imageView.widthAnchor.constraint(equalToConstant: 120.0)
+            ].map { $0.isActive = true }
+
         
         //screenshot being taken
         UIGraphicsBeginImageContextWithOptions(view.bounds.size, true, view.layer.contentsScale)
@@ -314,9 +337,13 @@ class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenu
         
         //returning visibility to the add Button and remove octopus watermark
         self.foaasView.addButton.isHidden = false
+        self.foaasView.settingsMenuButton.isHidden = false
         if let octopusView = self.foaasView.viewWithTag(100) {
             octopusView.removeFromSuperview()
         }
+        
+        //couldnt remove the label from the superview using the tag, as above, so I'm setting the text to ""
+        label.text = ""
         
         return image
     }
