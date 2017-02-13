@@ -299,7 +299,7 @@ class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenu
         let octopusImage = UIImage(named: "Octopus")
         let imageView = UIImageView(image: octopusImage)
         imageView.tag = 100
-        imageView.alpha = 0.22
+        imageView.alpha = 0.50
         imageView.frame = self.foaasView.addButton.frame
         self.foaasView.addSubview(imageView)
         
