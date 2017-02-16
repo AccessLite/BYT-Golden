@@ -14,6 +14,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   var window: UIWindow?
   
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+    self.window = UIWindow(frame: UIScreen.main.bounds)
+    self.window?.makeKey()
     
     ColorManager.shared.loadCurrentColorScheme()
     ColorManager.shared.loadColorSchemes()
@@ -24,7 +26,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     requestVersionInfo()
     
     let navigationVC = FoaasNavigationController(rootViewController: FoaasViewController())
-    self.window = UIWindow(frame: UIScreen.main.bounds)
     self.window?.rootViewController = navigationVC
     self.window?.makeKeyAndVisible()
     return true
