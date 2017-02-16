@@ -39,6 +39,12 @@ class FoaasTeamMemberView: UIView {
     
     func configureConstraints() {
         _ = [
+            
+            profileImageContainerView.topAnchor.constraint(equalTo: self.topAnchor),
+            profileImageContainerView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+            profileImageContainerView.heightAnchor.constraint(equalToConstant: 80),
+            profileImageContainerView.widthAnchor.constraint(equalToConstant: 80),
+
             profileImageView.topAnchor.constraint(equalTo: self.topAnchor),
             profileImageView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             profileImageView.heightAnchor.constraint(equalToConstant: 80),
@@ -67,9 +73,10 @@ class FoaasTeamMemberView: UIView {
     }
     
     func setUpViewHierarchy () {
-        let views: [UIView] = [profileImageView, nameLabel, jobLabel, gitHubButton, twitterButton, linkedInButton]
+        profileImageContainerView.addSubview(profileImageView)
+        let views: [UIView] = [profileImageContainerView, nameLabel, jobLabel, gitHubButton, twitterButton, linkedInButton]
         _ = views.map{ self.addSubview($0) }
-        stripAutoResizingMasks([self] + views)
+        stripAutoResizingMasks([self, profileImageView] + views)
         
         gitHubButton.addTarget(self, action: #selector(gitHubButtonPressed), for: .touchUpInside)
         twitterButton.addTarget(self, action: #selector(self.twitterButtonPressed), for: .touchUpInside)
@@ -86,15 +93,21 @@ class FoaasTeamMemberView: UIView {
     }
     
     //MARK: - Subviews
-    var profileImageView: UIImageView = {
-        let view = UIImageView()
-        view.contentMode = .scaleAspectFit
+    var profileImageContainerView: UIView = {
+        let view = UIView()
         view.layer.shadowColor = UIColor.black.cgColor
         view.layer.shadowOpacity = 0.8
         view.layer.shadowOffset = CGSize(width: 0, height: 5)
         view.layer.shadowRadius = 4
         view.layer.cornerRadius = 40
-        view.layer.borderWidth = 1.0
+        return view
+    }()
+    
+    var profileImageView: UIImageView = {
+        let view = UIImageView()
+        view.contentMode = .scaleAspectFit
+        view.layer.cornerRadius = 40
+        view.layer.borderWidth = 2.0
         view.layer.borderColor = ColorManager.shared.currentColorScheme.accent.cgColor
         view.clipsToBounds = true
         return view
@@ -118,42 +131,27 @@ class FoaasTeamMemberView: UIView {
     
     var gitHubButton: UIButton = {
         let view = UIButton(type: .system)
-        //TODO Get a Github Button Image
-        let buttonImage = #imageLiteral(resourceName: "twitter_icon_inverted")
-        let tintedImage = buttonImage.withRenderingMode(.alwaysTemplate)
-        view.setImage(tintedImage, for: .normal)
-        view.tintColor = .white
+        let buttonImage = #imageLiteral(resourceName: "github_grayscale")
+        view.tintColor = ColorManager.shared.currentColorScheme.accent
         view.setImage(buttonImage, for: .normal)
-        view.backgroundColor = ColorManager.shared.currentColorScheme.accent
-        view.imageView?.contentMode = .scaleAspectFit
         return view
     }()
     
     var twitterButton: UIButton = {
         let view = UIButton(type: .system)
-        
-        //Becasue the image is inverted, this was my work around?
-        
         let buttonImage = #imageLiteral(resourceName: "twitter_icon_inverted")
-        let tintedImage = buttonImage.withRenderingMode(.alwaysTemplate)
-        view.setImage(tintedImage, for: .normal)
-        view.tintColor = .white
+        view.tintColor = ColorManager.shared.currentColorScheme.accent
         view.setImage(buttonImage, for: .normal)
-        view.backgroundColor = ColorManager.shared.currentColorScheme.accent
-        view.imageView?.contentMode = .scaleAspectFit
+        //view.backgroundColor = ColorManager.shared.currentColorScheme.accent
         return view
     }()
     
     var linkedInButton: UIButton = {
         let view = UIButton(type: .system)
-        //TODO Get a linkedIn Button
-        let buttonImage = #imageLiteral(resourceName: "twitter_icon_inverted")
+        let buttonImage = #imageLiteral(resourceName: "linkedIn_grayscale")
         let tintedImage = buttonImage.withRenderingMode(.alwaysTemplate)
         view.setImage(tintedImage, for: .normal)
-        view.tintColor = .white
-        view.setImage(buttonImage, for: .normal)
-        view.backgroundColor = ColorManager.shared.currentColorScheme.accent
-        view.imageView?.contentMode = .scaleAspectFit
+        view.tintColor = ColorManager.shared.currentColorScheme.accent
         return view
     }()
     

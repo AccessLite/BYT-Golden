@@ -21,14 +21,24 @@ class FoaasAboutViewController: UIViewController, FoaasTeamMemberViewDelegate {
         configureConstraints()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        setUpOctoView()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.octoImageView.removeFromSuperview()
+    }
+    
     func setUpViewHierarchy() {
-        self.view.addSubview(closeButton)
         self.view.addSubview(primaryColourStatusBar)
+        self.view.addSubview(closeButton)
         self.setUpMemberViews()
     }
     
     func configureConstraints() {
-        stripAutoResizingMasks([closeButton, primaryColourStatusBar])
+        stripAutoResizingMasks([closeButton, primaryColourStatusBar, octoImageView])
         
         _ = [
             closeButton.heightAnchor.constraint(equalToConstant: 54),
@@ -41,6 +51,16 @@ class FoaasAboutViewController: UIViewController, FoaasTeamMemberViewDelegate {
             primaryColourStatusBar.topAnchor.constraint(equalTo: self.view.topAnchor)
             ].map { $0.isActive = true }
         
+    }
+    
+    func setUpOctoView () {
+        self.view.addSubview(octoImageView)
+        self.view.sendSubview(toBack: octoImageView)
+        _ = [ octoImageView.topAnchor.constraint(equalTo: primaryColourStatusBar.bottomAnchor),
+              octoImageView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor, constant: -self.view.frame.width * 0.25),
+              octoImageView.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.9),
+              octoImageView.widthAnchor.constraint(equalTo: self.octoImageView.heightAnchor)
+            ].map { $0.isActive = true }
     }
     
     func setUpMemberViews () {
@@ -111,10 +131,20 @@ class FoaasAboutViewController: UIViewController, FoaasTeamMemberViewDelegate {
         button.clipsToBounds = false
         return button
     }()
-
+    
     var primaryColourStatusBar: UIView =  {
         let view = UIView()
         view.backgroundColor = ColorManager.shared.currentColorScheme.primary
+        return view
+    }()
+    
+    var octoImageView: UIImageView = {
+        let view = UIImageView()
+        let image = #imageLiteral(resourceName: "octopus_grayscale")
+        let tintedImage = image.withRenderingMode(.alwaysTemplate)
+        view.tintColor = ColorManager.shared.currentColorScheme.primaryLight.withAlphaComponent(0.6)
+        view.image = tintedImage
+        view.contentMode = .scaleAspectFill
         return view
     }()
     
