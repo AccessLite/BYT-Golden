@@ -37,11 +37,25 @@
     - Week 2: [General Info](https://github.com/AccessLite/BoardingPass/tree/master/Week%202%20-%20MVP)
     - Week 2: [Tech Lead Notes](https://github.com/AccessLite/BoardingPass/blob/master/Week%202%20-%20MVP/Week2MVP_TechLeadInstructions.md)
     - Week 2: [PM Notes](https://github.com/AccessLite/BoardingPass/blob/master/Week%202%20-%20MVP/Week2MVP_PMInstructions.md)
-  - Week 3 & Beyond: TODO 
-    - Link to Week 3 Lead and PM readme
+  - Week 3 & Beyond: After having developed the core functionality of the app, it was time to update the UI and refine the user experience. The design was overhauled to use many of Google's Material Design principles including font styles, color schemes, and depth of layers. New app icon and launch screen assets were designed and added. Additionally, dynamic resizing and repositioning to a number of text elements was added, along with a pared-down, gesture and button-based navigation. Animations were added to provide clear visual feedback in response to user action. Week 3 introduced the API "backend" of the app which would be used to update the color schemes available to the app, along with a brief message to the user regarding the version of the API in use. 
+  - Week 3+: Week 3 shifted away from individual projects into a single, shared repo for the remaining 4 students and myself. This was agreed upon for a few reasons: 
+    1. The number of participants remaining was a small enough group that I'd be able to manage as an actual development team. 
+    2. The participants themselves at this point had demonstrated their coding skills and ability to work independently, requiring far less direct oversight.  
+    3. I wanted to implement some moderately ambitious features that would take far to long if each developer was writing the entirety of the code base
+    4. Development is commonly done with at least one other person, so it would be a far more enriching experience. In this manner we could incorporate common industry practices such as comprehensive peer reviews, a light version of `git flow`, and some aspects of agile development. 
+    - Week 3: [General Info](https://github.com/AccessLite/BoardingPass/tree/master/Week%203%20-%20MVP)
+    - Week 3: [Tech Lead Notes](https://github.com/AccessLite/BoardingPass/tree/master/Week%203%20-%20MVP/TechNotes)
+    - Week 3: [PM Notes](https://github.com/AccessLite/BoardingPass/blob/master/Week%203%20-%20MVP/PM_Notes/README.md)
 - Lessons Learned (experiences learned as a Lead/PM, individual observations from liam, ana, tom, hari)
+  - Louis: 
+  - Ana: 
+  - Tom: 
+  - Hari:
+  - Liam:
+- Version 2.0
+  - Features: ??
 - Future Work
-  - Another project
-  - Further expanding of current
+  - It is planned to conduct another of these optional projects in the following weeks. Now with the class completing their studies, it is possible to plan out a more interesting and ambitious project. The overall structure will however, remain the same (Week-long sprints with participant dropoff, four weeks maximum, final project team of < 5)
 - Contact Info (for each of the final members)
 - Final Thanks (acknowledgement of all participants)
+  - Thank you to everyone who has participated (list names & github links)
