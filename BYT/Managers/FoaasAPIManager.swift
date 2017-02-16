@@ -96,8 +96,7 @@ internal class FoaasAPIManager {
             guard let foaasOp = FoaasOperation(json: operation) else { continue }
             operations?.append(foaasOp)
           }
-          
-          completion(operations)
+            completion(operations?.sorted{ $0.name < $1.name })
         }
         catch {
           print("Error attempting to deserialize operations json: \(error)")
