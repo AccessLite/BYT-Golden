@@ -69,7 +69,7 @@ class FoaasOperationsTableViewController: UITableViewController {
             cell.textLabel?.text = "INVALID"
             return cell
         }
-        
+                
         operationCell.operationNameLabel.text = operations?[indexPath.row].name.filterBadLanguage()
         operationCell.backgroundColor = ColorManager.shared.currentColorScheme.colorArray[indexPath.row % ColorManager.shared.currentColorScheme.colorArray.count]
         return operationCell

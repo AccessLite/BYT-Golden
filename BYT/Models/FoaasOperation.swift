@@ -20,8 +20,22 @@ internal struct FoaasOperation: JSONConvertible, DataConvertible {
       let jUrl = json["url"] as? String,
       let jFields = json["fields"] as? [[String : AnyObject]]
     else { return nil }
+        
+    switch jName {
+    case "Who the fuck are you anyway":
+        self.name = "Anyway"
+    case "This Thing In Particular":
+        self.name = "Particular"
+    case "Fuck You And The Horse You Rode In On" :
+        self.name = "Horse"
+    case "{Name} You Are Being The Usual Slimy Hypocritical Asshole... You May Have Had Value Ten Years Ago, But People Will See That You Don't Anymore.":
+        self.name = "Hypocritical"
+    case "That's Fucking Ridiculous":
+        self.name = "Ridiculous"
+    default:
+        self.name = jName.capitalized
+    }
     
-    self.name = jName
     self.url = jUrl
     self.fields = jFields.flatMap { FoaasField(json: $0) }
   }
