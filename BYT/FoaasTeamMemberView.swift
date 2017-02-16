@@ -17,13 +17,6 @@ protocol FoaasTeamMemberViewDelegate {
 class FoaasTeamMemberView: UIView {
     var delegate: FoaasTeamMemberViewDelegate?
     var member: FoaasMember?
-    /*
-    // Only override draw() if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
-    override func draw(_ rect: CGRect) {
-        // Drawing code
-    }
-    */
 
     //MARK: - Configure Constraints and View Hierarchy
     

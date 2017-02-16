@@ -61,6 +61,12 @@ class FoaasAboutViewController: UIViewController, FoaasTeamMemberViewDelegate {
               octoImageView.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.9),
               octoImageView.widthAnchor.constraint(equalTo: self.octoImageView.heightAnchor)
             ].map { $0.isActive = true }
+        octoImageView.alpha = 0.2
+        let animation = UIViewPropertyAnimator(duration: 0.75, curve: .easeOut) {
+            self.octoImageView.alpha = 1.0
+            self.octoImageView.setNeedsDisplay()
+        }
+        animation.startAnimation()
     }
     
     func setUpMemberViews () {
