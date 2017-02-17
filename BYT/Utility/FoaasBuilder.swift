@@ -145,5 +145,18 @@ class FoaasPathBuilder {
   func allKeys() -> [String] {
     return self.operation.fields.map { $0.field }
   }
+    
+    /**
+     Check if the `FoaasOpertion`'s `field` keys are same as the `FoaasOperation`'s `field`'s values
+     - returns true if any key or value pais are the same, else returns false
+     */
+    func isKeysSameAsValues() -> Bool {
+        for (key,value) in operationFields {
+            if key == value {
+                return true
+            }
+        }
+        return false
+    }
   
 }
