@@ -8,52 +8,76 @@
 
 import UIKit
 
+struct FoaasNavImages {
+  static let addButton: UIImage = UIImage(named: "add_button_grayscale")!
+  static let backButton: UIImage = UIImage(named: "back_button_grayscale")!
+  static let closeButton: UIImage = UIImage(named: "close_button_grayscale")!
+  static let doneButton: UIImage = UIImage(named: "done_button_grayscale")!
+}
+
+enum FoaasNavType {
+  case add, back, close, done, none
+}
+
+protocol FoaasNavigationActionDelegate {
+  func leftAction()
+  func rightAction()
+}
+
 class FoaasNavigationController: UINavigationController, UINavigationControllerDelegate {
-  struct FoaasNavImages {
-    let addButton: UIImage = UIImage(named: "add_button_grayscale")!
-    let backButton: UIImage = UIImage(named: "add_button_grayscale")!
-    let closeButton: UIImage = UIImage(named: "add_button_grayscale")!
-    let doneButton: UIImage = UIImage(named: "add_button_grayscale")!
-  }
-  
   let buttonDiameter: CGFloat = 54.0
   let buttonMargin: CGFloat = 48.0
+  var navigationActionDelegate: FoaasNavigationActionDelegate?
   
+  
+  // MARK: - View Lifecycle
   override func viewDidLoad() {
     super.viewDidLoad()
     
     self.delegate = self
     UIApplication.shared.statusBarStyle = .lightContent
-    self.addFloatingButtons()
+    
+    setupViewHierarchy()
+    configureConstraints()
   }
   
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
+    
     self.setNavigationBarHidden(true, animated: false)
-
+    self.bringFloatingButtonsToTop()
   }
   
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
-    guard let mainWindow = UIApplication.shared.keyWindow else { return }
-    mainWindow.bringSubview(toFront: leftFloatingButton)
-    mainWindow.bringSubview(toFront: rightFloatingButton)
-    //    FoaasNavigationController.keyWindowCheck(at: "viewDiDAppear")
-  }
-  
-  class func keyWindowCheck(at point: String = "") {
-    guard UIApplication.shared.keyWindow != nil else {
-      print("\n\nNO MAIN WINDOW EXISTS at \(point)\n\n")
-      return }
     
-    print("\n\n~~~~~ YES WINDOW EXISTS at \(point) ~~~~~~~~\n\n")
+    self.bringFloatingButtonsToTop()
   }
   
-  private func addFloatingButtons() {
-    FoaasNavigationController.keyWindowCheck()
+  
+  // MARK: - Setup
+  private func setupViewHierarchy() {
     guard let mainWindow = UIApplication.shared.keyWindow else { return }
     mainWindow.addSubview(leftFloatingButton)
     mainWindow.addSubview(rightFloatingButton)
+    
+    let leftTapGesture: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(runLeftAction))
+    leftFloatingButton.addGestureRecognizer(leftTapGesture)
+    
+    let rightTapGesture: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(runRightAction))
+    rightFloatingButton.addGestureRecognizer(rightTapGesture)
+  }
+  
+  @objc private func runLeftAction() {
+    navigationActionDelegate?.leftAction()
+  }
+  
+  @objc private func runRightAction() {
+    navigationActionDelegate?.rightAction()
+  }
+  
+  private func configureConstraints() {
+    guard let mainWindow = UIApplication.shared.keyWindow else { return }
     stripAutoResizingMasks(leftFloatingButton, rightFloatingButton)
     
     [ leftFloatingButton.leadingAnchor.constraint(equalTo: mainWindow.leadingAnchor, constant: buttonMargin),
@@ -68,44 +92,52 @@ class FoaasNavigationController: UINavigationController, UINavigationControllerD
       ].activate()
   }
   
-  private func updateFloatingButtonImages(left: UIImage? = nil, right: UIImage? = nil) {
+  /// Called just before viewWillAppear in order to place the buttons over all other views
+  private func bringFloatingButtonsToTop() {
+    guard
+      let mainWindow = UIApplication.shared.keyWindow,
+      mainWindow.subviews.contains(leftFloatingButton),
+      mainWindow.subviews.contains(rightFloatingButton)
+    else { return }
     
+    mainWindow.bringSubview(toFront: leftFloatingButton)
+    mainWindow.bringSubview(toFront: rightFloatingButton)
+  }
+  
+  
+  // MARK: - Navigation Changes
+  private func updateNavigation(left: FoaasNavType, right: FoaasNavType) {
+    switch left {
+    case FoaasNavType.add: leftFloatingButton.setImage(FoaasNavImages.addButton, for: .normal)
+    case FoaasNavType.back: leftFloatingButton.setImage(FoaasNavImages.backButton, for: .normal)
+    case FoaasNavType.close: leftFloatingButton.setImage(FoaasNavImages.closeButton, for: .normal)
+    case FoaasNavType.done: leftFloatingButton.setImage(FoaasNavImages.doneButton, for: .normal)
+    case FoaasNavType.none: leftFloatingButton.setImage(nil, for: .normal)
+    }
+    
+    switch right {
+    case FoaasNavType.add: rightFloatingButton.setImage(FoaasNavImages.addButton, for: .normal)
+    case FoaasNavType.back: rightFloatingButton.setImage(FoaasNavImages.backButton, for: .normal)
+    case FoaasNavType.close: rightFloatingButton.setImage(FoaasNavImages.closeButton, for: .normal)
+    case FoaasNavType.done: rightFloatingButton.setImage(FoaasNavImages.doneButton, for: .normal)
+    case FoaasNavType.none: rightFloatingButton.setImage(nil, for: .normal)
+    }
   }
   
   func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
     
     switch viewController {
-    case is FoaasViewController:
-      print("main foaas view controller")
-      
-    case is FoaasOperationsTableViewController:
-      print("operations table vc")
-      
-    case is FoaasPrevewViewController:
-      print("Foaas preview vc")
-      
-    default:
-      print("Nope")
+    case is FoaasViewController: updateNavigation(left: .none, right: .add)
+    case is FoaasOperationsTableViewController: updateNavigation(left: .none, right: .close)
+    case is FoaasPrevewViewController: updateNavigation(left: .back, right: .done)
+    default: print("Unhandled view controller type")
     }
     
-    // TODO: add implementation for floating buttons in V2 here
-    // the current implementation works for positioning, but the buttons need actions, methods to update images & actions
-    // and shadows
-    //    addFloatingButtons()
+    // TODO: the current implementation works for positioning, but the buttons need actions, methods to update images & actions and shadows
   }
   
   
-  
   // MARK: Lazy Inits
-  internal lazy var leftFloatingButton: UIButton = {
-    let button: UIButton = UIButton()
-//    button.setImage(UIImage(named: "back_button"), for: .normal)
-    return button
-  }()
-  
-  internal lazy var rightFloatingButton: UIButton = {
-    let button: UIButton = UIButton()
-//    button.setImage(UIImage(named: "done_button"), for: .normal)
-    return button
-  }()
+  internal lazy var leftFloatingButton: UIButton = UIButton()
+  internal lazy var rightFloatingButton: UIButton =  UIButton()
 }
