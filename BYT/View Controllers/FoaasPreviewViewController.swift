@@ -77,11 +77,18 @@ class FoaasPrevewViewController: UIViewController, FoaasTextFieldDelegate, Foaas
     }
     
     internal func doneButtonPressed() {
-        let messageAndSubtitle = self.foaasPreviewView.previewTextView.text.components(separatedBy: "\n")
-        let notificationCenter = NotificationCenter.default
-        notificationCenter.post(name: Notification.Name(rawValue: "FoaasObjectDidUpdate"), object: Foaas(message: messageAndSubtitle[0], subtitle: messageAndSubtitle[1..<messageAndSubtitle.count].joined(separator: "\n")))
-        _ = navigationController?.popToRootViewController(animated: true)
-        
+        guard let validPath = self.pathBuilder else { return }
+        if !validPath.entryIsValid() {
+            let alertController = UIAlertController(title: "Oops!", message: "Please fill out all fields", preferredStyle: UIAlertControllerStyle.alert)
+            let okayAlertAction = UIAlertAction(title: "Okay", style: UIAlertActionStyle.cancel, handler: nil)
+            alertController.addAction(okayAlertAction)
+            self.present(alertController, animated: true, completion: nil)
+        } else {
+            let messageAndSubtitle = self.foaasPreviewView.previewTextView.text.components(separatedBy: "\n")
+            let notificationCenter = NotificationCenter.default
+            notificationCenter.post(name: Notification.Name(rawValue: "FoaasObjectDidUpdate"), object: Foaas(message: messageAndSubtitle[0], subtitle: messageAndSubtitle[1..<messageAndSubtitle.count].joined(separator: "\n")))
+            _ = navigationController?.popToRootViewController(animated: true)
+        }
     }
     
     // MARK: - Other
