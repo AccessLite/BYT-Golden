@@ -25,7 +25,7 @@ class FoaasAboutViewController: UIViewController, FoaasTeamMemberViewDelegate {
         super.viewDidAppear(animated)
         setUpOctoView()
     }
-    
+  
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         self.octoImageView.removeFromSuperview()
@@ -62,9 +62,8 @@ class FoaasAboutViewController: UIViewController, FoaasTeamMemberViewDelegate {
               octoImageView.widthAnchor.constraint(equalTo: self.octoImageView.heightAnchor)
             ].map { $0.isActive = true }
         octoImageView.alpha = 0.2
-        let animation = UIViewPropertyAnimator(duration: 0.75, curve: .easeOut) {
+        let animation = UIViewPropertyAnimator(duration: 0.25, curve: .linear) {
             self.octoImageView.alpha = 1.0
-            self.octoImageView.setNeedsDisplay()
         }
         animation.startAnimation()
     }
@@ -73,8 +72,7 @@ class FoaasAboutViewController: UIViewController, FoaasTeamMemberViewDelegate {
         var previousView: FoaasTeamMemberView?
         var leftView: FoaasTeamMemberView?
         for (index, member) in teamMembers.enumerated() {
-            if index == 0 {
-            }
+
             let newView = FoaasTeamMemberView()
             newView.member = member
             newView.delegate = self
@@ -148,7 +146,7 @@ class FoaasAboutViewController: UIViewController, FoaasTeamMemberViewDelegate {
         let view = UIImageView()
         let image = #imageLiteral(resourceName: "octopus_grayscale")
         let tintedImage = image.withRenderingMode(.alwaysTemplate)
-        view.tintColor = ColorManager.shared.currentColorScheme.primaryLight.withAlphaComponent(0.6)
+        view.tintColor = ColorManager.shared.currentColorScheme.primaryLight//.withAlphaComponent(0.6)
         view.image = tintedImage
         view.contentMode = .scaleAspectFill
         return view
