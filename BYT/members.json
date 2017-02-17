@@ -1,0 +1,36 @@
+ [
+  { "name" : "Louis Tur",
+  "job" : "Lead Developer/Designer",
+  "imageName" : "louis",
+  "twitterURL" : "https://twitter.com/louistur",
+  "gitHubURL" : "https://github.com/spacedrabbit",
+  "linkedInURL" : "https://www.linkedin.com/in/louistur/" },
+  
+  { "name" : "Ana Ma",
+  "job" : "Developer/BAMF",
+  "imageName" : "ana",
+  "twitterURL" : "https://twitter.com/An_Na118118",
+  "gitHubURL" : "https://github.com/anama118118",
+  "linkedInURL" : "https://www.linkedin.com/in/anama118118" },
+  
+  { "name" : "Tom Seymour",
+  "imageName" : "tom",
+  "job" : "Developer/Comic Relief",
+  "twitterURL" : "https://twitter.com/seymotom",
+  "gitHubURL" : "https://github.com/seymotom",
+  "linkedInURL" : "https://www.linkedin.com/in/tom-seymour-2b1170101" },
+  
+  { "name" : "Harichandan Singh",
+  "job" : "Developer/Wave-maker",
+  "imageName" : "hari",
+  "twitterURL" : "https://twitter.com/iamHariPotter",
+  "gitHubURL" : "https://github.com/harichandansingh",
+  "linkedInURL" : "https://www.linkedin.com/in/singhhari" },
+  
+  { "name" : "Liam Kane",
+  "job" : "Developer/DJ",
+  "imageName" : "liam",
+  "twitterURL" : "https://twitter.com/alad__insane",
+  "gitHubURL" : "https://github.com/liamdkane",
+  "linkedInURL" : "https://www.linkedin.com/in/liam-kane" }
+]
