@@ -136,14 +136,12 @@ class FoaasNavigationController: UINavigationController, UINavigationControllerD
   }
   
   func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
-    
     switch viewController {
     case is FoaasViewController: updateNavigation(left: .none, right: .add)
     case is FoaasOperationsTableViewController: updateNavigation(left: .none, right: .close)
     case is FoaasPrevewViewController: updateNavigation(left: .back, right: .done)
     default: print("Unhandled view controller type")
     }
-    
     // TODO: the current implementation works for positioning, but the buttons need actions, methods to update images & actions and shadows
   }
   

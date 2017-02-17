@@ -244,6 +244,13 @@ class FoaasViewController: UIViewController, FoaasViewDelegate, FoaasSettingMenu
         sharePostTo(serviceType: SLServiceTypeFacebook)
     }
     
+    func aboutButtonTapped() {
+        guard let navVC = self.navigationController else { return }
+        
+        let dtvc = FoaasAboutViewController()
+        navVC.pushViewController(dtvc, animated: true)
+    }
+    
     // this function shares the current foaas message to twitter or facebook. Will need to add to the message with a BYT tag and also will need to be filtered if the filter is on. Will also need to be the string that gets passed back from operations VC
     
     func sharePostTo(serviceType: String!) {

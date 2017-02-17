@@ -17,6 +17,7 @@ protocol FoaasSettingMenuDelegate {
     func camerarollButtonTapped()
     func shareButtonTapped()
     func uploadData()
+    func aboutButtonTapped()
 }
 
 class FoaasSettingsMenuView: UIView, UIScrollViewDelegate, FoaasColorPickerViewDelegate {
@@ -57,7 +58,7 @@ class FoaasSettingsMenuView: UIView, UIScrollViewDelegate, FoaasColorPickerViewD
     
     func updateVersionLabels() {
         self.versionNumberLabel.text = "V\(VersionManager.shared.currentVersion.number)"
-        self.versionMessageLabel.text = "\(VersionManager.shared.currentVersion.message.uppercased())  GITHUB.COM/ACCESSLITE/BYT-GOLDEN"
+        self.versionMessageLabel.text = "\(VersionManager.shared.currentVersion.message.uppercased())"
     }
     
     private func configureConstraints() {
@@ -68,6 +69,9 @@ class FoaasSettingsMenuView: UIView, UIScrollViewDelegate, FoaasColorPickerViewD
     }
     
     private func setupViewHierarchy() {
+        self.versionNumberLabel.textColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1).withAlphaComponent(87.0) // literals. ¯\_(ツ)_/¯
+        self.versionMessageLabel.textColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1).withAlphaComponent(87.0)
+        
         let colorManagerColors = ColorManager.shared.colorSchemes.map { $0.primary }
         foaasColorPickerView = FoaasColorPickerView(colors: colorManagerColors, baseUnit: 60.0)
         foaasColorPickerView?.delegate = self
@@ -88,6 +92,10 @@ class FoaasSettingsMenuView: UIView, UIScrollViewDelegate, FoaasColorPickerViewD
     
     
     // MARK: - Actions
+    @IBAction func aboutButtonPressed(_ sender: UIButton) {
+        self.delegate?.aboutButtonTapped()
+    }
+    
     @IBAction func profanitySwitchDidChange(_ sender: UISwitch) {
         self.delegate?.profanitfySwitchToggled(on: sender.isOn)
         print("Profanity Switch Did Change")

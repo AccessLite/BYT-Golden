@@ -141,8 +141,8 @@ class FoaasPrevewViewController: UIViewController, FoaasTextFieldDelegate, Foaas
             }
         })
     }
-    
-    // TODO: needs live updating
+  
+  
     // MARK: - UITextField Delegate
     func foaasTextField(_ textField: FoaasTextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         
@@ -166,12 +166,14 @@ class FoaasPrevewViewController: UIViewController, FoaasTextFieldDelegate, Foaas
     func foaasTextFieldDidEndEditing(_ textField: FoaasTextField) {
         self.view.endEditing(true)
     }
+  
     
     // MARK: - TapGestureRecognizer Function
     func tapGestureDismissKeyboard(_ sender: UITapGestureRecognizer) {
         self.view.endEditing(true)
     }
-    
+  
+  
     // -------------------------------------
     // MARK: - Keyboard Notification
     private func registerForNotifications() {
