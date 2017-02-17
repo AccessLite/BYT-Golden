@@ -78,7 +78,7 @@ class FoaasPrevewViewController: UIViewController, FoaasTextFieldDelegate, Foaas
     
     internal func doneButtonPressed() {
         guard let validPath = self.pathBuilder else { return }
-        if validPath.isKeysSameAsValues() {
+        if !validPath.entryIsValid() {
             let alertController = UIAlertController(title: "Oops!", message: "Please fill out all fields", preferredStyle: UIAlertControllerStyle.alert)
             let okayAlertAction = UIAlertAction(title: "Okay", style: UIAlertActionStyle.cancel, handler: nil)
             alertController.addAction(okayAlertAction)

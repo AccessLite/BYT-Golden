@@ -147,16 +147,17 @@ class FoaasPathBuilder {
   }
     
     /**
-     Check if the `FoaasOpertion`'s `field` keys are same as the `FoaasOperation`'s `field`'s values
-     - returns true if any key or value pais are the same, else returns false
+     Check if the `FoaasOpertion`'s `field` keys are same as the `FoaasOperation`'s `field`'s values, or if the `value` is an empty string
+     - returns: `true` if any key or value pais are the same, else returns false
      */
-    func isKeysSameAsValues() -> Bool {
+    func entryIsValid() -> Bool {
         for (key,value) in operationFields {
-            if key == value {
-                return true
+          let cleanedValueString: String = value.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+            if key == cleanedValueString || cleanedValueString == "" {
+                return false
             }
         }
-        return false
+        return true
     }
   
 }
