@@ -24,6 +24,17 @@ protocol FoaasNavigationActionDelegate {
   func rightAction()
 }
 
+// TODO: read me 👇
+/*
+ This navigation controller functionallity will be further implemented in v2. Currently, there are some dependancies on the
+ existing action buttons that will require a bit more work that desired. For example, sizing and layout is done relative to 
+ the "addButton" in the FoaasView.
+ 
+ When this is ready for testing/implementation, all that is needed to begin is: 
+ - uncomment setting delegation, setupViewHierarchy & configureConstraints in viewDidLoad
+ - conform all view controllers to FoaasNavigationActionDelegate. in each protocol function, implement the proper push/pops
+ */
+
 class FoaasNavigationController: UINavigationController, UINavigationControllerDelegate {
   let buttonDiameter: CGFloat = 54.0
   let buttonMargin: CGFloat = 48.0
@@ -34,23 +45,21 @@ class FoaasNavigationController: UINavigationController, UINavigationControllerD
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    self.delegate = self
     UIApplication.shared.statusBarStyle = .lightContent
     
-    setupViewHierarchy()
-    configureConstraints()
+    // uncomment below to start testing
+//    self.delegate = self
+//    setupViewHierarchy()
+//    configureConstraints()
   }
   
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
-    
     self.setNavigationBarHidden(true, animated: false)
-    self.bringFloatingButtonsToTop()
   }
   
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
-    
     self.bringFloatingButtonsToTop()
   }
   
@@ -66,14 +75,6 @@ class FoaasNavigationController: UINavigationController, UINavigationControllerD
     
     let rightTapGesture: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(runRightAction))
     rightFloatingButton.addGestureRecognizer(rightTapGesture)
-  }
-  
-  @objc private func runLeftAction() {
-    navigationActionDelegate?.leftAction()
-  }
-  
-  @objc private func runRightAction() {
-    navigationActionDelegate?.rightAction()
   }
   
   private func configureConstraints() {
@@ -102,6 +103,16 @@ class FoaasNavigationController: UINavigationController, UINavigationControllerD
     
     mainWindow.bringSubview(toFront: leftFloatingButton)
     mainWindow.bringSubview(toFront: rightFloatingButton)
+  }
+  
+  
+  // MARK: - Actions
+  @objc private func runLeftAction() {
+    navigationActionDelegate?.leftAction()
+  }
+  
+  @objc private func runRightAction() {
+    navigationActionDelegate?.rightAction()
   }
   
   
