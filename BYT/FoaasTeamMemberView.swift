@@ -59,9 +59,14 @@ class FoaasTeamMemberView: UIView {
             
             gitHubButton.centerYAnchor.constraint(equalTo: twitterButton.centerYAnchor),
             gitHubButton.trailingAnchor.constraint(equalTo: twitterButton.leadingAnchor, constant: -16),
+            gitHubButton.heightAnchor.constraint(equalTo: twitterButton.heightAnchor),
+            gitHubButton.widthAnchor.constraint(equalTo: twitterButton.widthAnchor),
             
             linkedInButton.centerYAnchor.constraint(equalTo: twitterButton.centerYAnchor),
-            linkedInButton.leadingAnchor.constraint(equalTo: twitterButton.trailingAnchor, constant: 16)
+            linkedInButton.leadingAnchor.constraint(equalTo: twitterButton.trailingAnchor, constant: 16),
+            linkedInButton.heightAnchor.constraint(equalTo: twitterButton.heightAnchor),
+            linkedInButton.widthAnchor.constraint(equalTo: twitterButton.widthAnchor)
+
             ].map { $0.isActive = true }
     }
     
@@ -78,8 +83,7 @@ class FoaasTeamMemberView: UIView {
     
     func inputMember() {
         if let currentMember = self.member {
-            //self.profileImageView.image = UIImage(named: currentMember.imageName)
-            self.profileImageView.image = UIImage(named: "Material_Octo_No_Eyes")
+            self.profileImageView.image = UIImage(named: currentMember.imageName)
             self.nameLabel.text = currentMember.name
             self.jobLabel.text = currentMember.job
         }
@@ -98,7 +102,7 @@ class FoaasTeamMemberView: UIView {
     
     var profileImageView: UIImageView = {
         let view = UIImageView()
-        view.contentMode = .scaleAspectFit
+        view.contentMode = .scaleAspectFill
         view.layer.cornerRadius = 40
         view.layer.borderWidth = 2.0
         view.layer.borderColor = ColorManager.shared.currentColorScheme.accent.cgColor
@@ -127,15 +131,16 @@ class FoaasTeamMemberView: UIView {
         let buttonImage = #imageLiteral(resourceName: "github_grayscale")
         view.tintColor = ColorManager.shared.currentColorScheme.accent
         view.setImage(buttonImage, for: .normal)
+        view.imageView?.contentMode = .scaleAspectFill
         return view
     }()
     
     var twitterButton: UIButton = {
         let view = UIButton(type: .system)
-        let buttonImage = #imageLiteral(resourceName: "twitter_icon_inverted")
+        let buttonImage = #imageLiteral(resourceName: "twitter_grayscale")
         view.tintColor = ColorManager.shared.currentColorScheme.accent
         view.setImage(buttonImage, for: .normal)
-        //view.backgroundColor = ColorManager.shared.currentColorScheme.accent
+        view.imageView?.contentMode = .scaleAspectFit
         return view
     }()
     
@@ -145,6 +150,7 @@ class FoaasTeamMemberView: UIView {
         let tintedImage = buttonImage.withRenderingMode(.alwaysTemplate)
         view.setImage(tintedImage, for: .normal)
         view.tintColor = ColorManager.shared.currentColorScheme.accent
+        view.imageView?.contentMode = .scaleAspectFill
         return view
     }()
     
