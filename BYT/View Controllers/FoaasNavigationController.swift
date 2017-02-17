@@ -51,13 +51,13 @@ class FoaasNavigationController: UINavigationController, UINavigationControllerD
   
   internal lazy var leftFloatingButton: UIButton = {
     let button: UIButton = UIButton()
-    button.setImage(UIImage(named: "back_button"), for: .normal)
+//    button.setImage(UIImage(named: "back_button"), for: .normal)
     return button
   }()
   
   internal lazy var rightFloatingButton: UIButton = {
     let button: UIButton = UIButton()
-    button.setImage(UIImage(named: "done_button"), for: .normal)
+//    button.setImage(UIImage(named: "done_button"), for: .normal)
     return button
   }()
 }
