@@ -46,7 +46,7 @@ class FoaasNavigationController: UINavigationController, UINavigationControllerD
     super.viewDidLoad()
     
     UIApplication.shared.statusBarStyle = .lightContent
-    
+    UIApplication.shared.isStatusBarHidden = true 
     // uncomment below to start testing
 //    self.delegate = self
 //    setupViewHierarchy()

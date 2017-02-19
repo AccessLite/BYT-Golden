@@ -9,17 +9,22 @@
 import Foundation
 import StoreKit
 
-internal class FoaasIAPManager: NSObject, SKProductsRequestDelegate {
+internal class FoaasIAPManager: NSObject, SKProductsRequestDelegate, SKRequestDelegate {
   
   static let shared: FoaasIAPManager = FoaasIAPManager()
-  private let iapIdentifier: Set<String> = ["com.accesslite.byt"]
+  private let iapIdentifier: Set<String> = ["com.accesslite.byt.devsupport"]
+//  private let iapIdentifier: Set<String> = []
   private let productsRequest: SKProductsRequest!
+  private let request: SKRequest!
   
   private override init() {
-    productsRequest = SKProductsRequest()
+    productsRequest = SKProductsRequest(productIdentifiers: iapIdentifier)
+    request = SKRequest()
     
     super.init()
     productsRequest.delegate = self
+    request.delegate = self
+    request.start()
     productsRequest.start()
   }
   
@@ -34,5 +39,14 @@ internal class FoaasIAPManager: NSObject, SKProductsRequestDelegate {
     for prod in response.products {
       print(prod.productIdentifier)
     }
+  }
+  
+  func request(_ request: SKRequest, didFailWithError error: Error) {
+    print("Request Did Fail")
+    print("Error: \(error)")
+  }
+  
+  func requestDidFinish(_ request: SKRequest) {
+    print("Request Did Finish")
   }
 }
