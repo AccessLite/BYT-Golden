@@ -14,6 +14,8 @@
 		1498A3031E3E55F0003A3E5C /* ColorManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1498A3021E3E55F0003A3E5C /* ColorManager.swift */; };
 		1498A3061E3E5602003A3E5C /* FoaasSettingsMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1498A3041E3E5602003A3E5C /* FoaasSettingsMenuView.swift */; };
 		1498A3071E3E5602003A3E5C /* FoaasSettingsMenuView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1498A3051E3E5602003A3E5C /* FoaasSettingsMenuView.xib */; };
+		14AF946E1E5932A500915D75 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14AF946D1E5932A500915D75 /* StoreKit.framework */; };
+		14AF94701E5933B600915D75 /* FoaasIAPManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14AF946F1E5933B600915D75 /* FoaasIAPManager.swift */; };
 		14CFEBF41E3430C600BD46CF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 14CFEBF21E3430C600BD46CF /* LaunchScreen.storyboard */; };
 		14CFEBFF1E3431F700BD46CF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14CFEBFC1E3431F700BD46CF /* AppDelegate.swift */; };
 		14CFEC001E3431F700BD46CF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 14CFEBFD1E3431F700BD46CF /* Assets.xcassets */; };
@@ -70,6 +72,8 @@
 		1498A3021E3E55F0003A3E5C /* ColorManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ColorManager.swift; path = Managers/ColorManager.swift; sourceTree = "<group>"; };
 		1498A3041E3E5602003A3E5C /* FoaasSettingsMenuView.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.swift; name = FoaasSettingsMenuView.swift; path = Views/FoaasSettingsMenuView.swift; sourceTree = "<group>"; tabWidth = 4; };
 		1498A3051E3E5602003A3E5C /* FoaasSettingsMenuView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FoaasSettingsMenuView.xib; path = Views/FoaasSettingsMenuView.xib; sourceTree = "<group>"; };
+		14AF946D1E5932A500915D75 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		14AF946F1E5933B600915D75 /* FoaasIAPManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FoaasIAPManager.swift; path = Managers/FoaasIAPManager.swift; sourceTree = "<group>"; };
 		14CFEBE61E3430C600BD46CF /* BYT.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BYT.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		14CFEBF31E3430C600BD46CF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		14CFEBFC1E3431F700BD46CF /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = "Supporting Files/AppDelegate.swift"; sourceTree = "<group>"; };
@@ -125,17 +129,27 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				14AF946E1E5932A500915D75 /* StoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		14AF946C1E5932A500915D75 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				14AF946D1E5932A500915D75 /* StoreKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		14CFEBDD1E3430C600BD46CF = {
 			isa = PBXGroup;
 			children = (
 				14CFEBE81E3430C600BD46CF /* BYT */,
 				14CFEBE71E3430C600BD46CF /* Products */,
+				14AF946C1E5932A500915D75 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -214,6 +228,7 @@
 				14CFEC181E34394D00BD46CF /* FoaasDataManager.swift */,
 				DE6658FA1E3E8E6300513850 /* VersionManager.swift */,
 				812EAE861E42312D003CAE18 /* Extension + LanguageFilterManager.swift */,
+				14AF946F1E5933B600915D75 /* FoaasIAPManager.swift */,
 			);
 			name = Managers;
 			sourceTree = "<group>";
@@ -297,7 +312,12 @@
 					14CFEBE51E3430C600BD46CF = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = 3457AE227Q;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
+						SystemCapabilities = {
+							com.apple.InAppPurchase = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -371,6 +391,7 @@
 				14CFEC131E34363300BD46CF /* Foaas.swift in Sources */,
 				14CFEC141E34363300BD46CF /* FoaasField.swift in Sources */,
 				14CFEC0E1E3435BE00BD46CF /* FoaasBuilder.swift in Sources */,
+				14AF94701E5933B600915D75 /* FoaasIAPManager.swift in Sources */,
 				1430C7521E457393002D904A /* Profanity.swift in Sources */,
 				14CFEC4C1E3709A700BD46CF /* FoaasNavigationController.swift in Sources */,
 				4786344D1E3E513600287661 /* FoaasFontManager.swift in Sources */,
@@ -504,8 +525,10 @@
 				INFOPLIST_FILE = "$(SRCROOT)/BYT/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = nyc.accessLite.BYT;
+				PRODUCT_BUNDLE_IDENTIFIER = com.accesslite.byt;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "9a016a77-578a-4269-aefa-f487027c8600";
+				PROVISIONING_PROFILE_SPECIFIER = "BYT Development Provisioning Profile";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -514,13 +537,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				DEVELOPMENT_TEAM = 3457AE227Q;
 				INFOPLIST_FILE = "$(SRCROOT)/BYT/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = nyc.accessLite.BYT;
+				PRODUCT_BUNDLE_IDENTIFIER = com.accesslite.byt;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "6e47405a-b312-4556-9bde-985463a63ff4";
+				PROVISIONING_PROFILE_SPECIFIER = "BYT Production Provisioning Profile";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
