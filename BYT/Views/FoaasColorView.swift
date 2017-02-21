@@ -40,4 +40,27 @@ class FoaasColorView: UIView {
       self.heightAnchor.constraint(equalToConstant: colorViewHeight) ].activate()
   }
   
+  internal func addLock() {
+    self.addSubview(lockSymbolView)
+    
+    lockSymbolView.translatesAutoresizingMaskIntoConstraints = false
+    [ lockSymbolView.widthAnchor.constraint(equalToConstant: colorViewWidth / 4.0),
+      lockSymbolView.heightAnchor.constraint(equalTo: lockSymbolView.widthAnchor),
+      lockSymbolView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+      lockSymbolView.centerYAnchor.constraint(equalTo: self.centerYAnchor)
+    ].activate()
+  }
+  
+  internal func removeLock() {
+    if self.subviews.contains(lockSymbolView) {
+      lockSymbolView.removeFromSuperview()
+    }
+  }
+  
+  internal lazy var lockSymbolView: UIImageView = {
+    let lockImage = UIImage(named: "lock_inverted")
+    let imageView = UIImageView(image: lockImage)
+    imageView.contentMode = .scaleAspectFit
+    return imageView
+  }()
 }

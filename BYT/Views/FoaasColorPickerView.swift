@@ -175,7 +175,7 @@ class FoaasColorPickerView: UIView, UIScrollViewDelegate {
     func setCurrentIndex(_ index: Int) {
         let offSetPoint = CGPoint(x: intervalOffsets * CGFloat(index), y: 0.0)
         self.scrollView.setContentOffset(offSetPoint, animated: true)
-        print("current offset\(offSetPoint)")
+//        print("current offset\(offSetPoint)")
     }
     
     func currentIndex() -> Int {
@@ -198,7 +198,6 @@ class FoaasColorPickerView: UIView, UIScrollViewDelegate {
         
         let currentVisibleViewIndex = finalCGPoint.x / intervalOffsets
         self.delegate?.didChangeColorPickerIndex(to: Int(currentVisibleViewIndex))
-        print("Current Index: \(currentVisibleViewIndex)      Current Offset: \(finalCGPoint)")
     }
     
     
