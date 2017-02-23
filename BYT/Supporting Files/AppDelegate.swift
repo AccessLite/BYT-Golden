@@ -25,7 +25,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     requestColorSchemes()
     requestVersionInfo()
     
-    FoaasIAPManager.shared
+//    FoaasIAPManager.shared
     
     let navigationVC = FoaasNavigationController(rootViewController: FoaasViewController())
     self.window?.rootViewController = navigationVC
