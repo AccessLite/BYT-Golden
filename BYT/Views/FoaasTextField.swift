@@ -12,17 +12,38 @@ enum SlideDirection {
   case up, down
 }
 
+enum Underlined {
+  case yes, no
+}
+
+protocol FoaasTextFieldDelegate: class {
+    func foaasTextField(_ textField: FoaasTextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool
+    func foaasTextFieldShouldReturn(_ textField: FoaasTextField) -> Bool
+    func foaasTextFieldDidEndEditing(_ textField: FoaasTextField)
+}
+
+
+// TODO: create helper function to locate textfield w/ identifier
 class FoaasTextField: UIView, UITextFieldDelegate {
 
   internal final var textField: UITextField!
   internal final var textLabel: UILabel!
   private var textLabelPlaceholder: String!
+  internal var identifier: String = ""
   
-  let largeLabelFont = UIFont.systemFont(ofSize: 24.0)
-  let smallLabelFont = UIFont.systemFont(ofSize: 12.0)
+  internal weak var foaasTextFieldDelegate: FoaasTextFieldDelegate?
+  
+  let largeLabelFont = UIFont.Roboto.medium(size: 18.0)
+  let smallLabelFont = UIFont.Roboto.medium(size: 14.0)
   
   private var labelEmptyConstraint: NSLayoutConstraint!
   private var labelFilledConstraint: NSLayoutConstraint!
+  private var animatedTextFieldLineTrailingConstraint: NSLayoutConstraint!
+  private var animatedTextFieldLine: UIView = {
+    let view = UIView()
+    view.backgroundColor = ColorManager.shared.currentColorScheme.accent
+    return view
+  }()
   
   // MARK: - Drawing
   override func draw(_ rect: CGRect) {
@@ -33,7 +54,10 @@ class FoaasTextField: UIView, UITextFieldDelegate {
     
     let context = UIGraphicsGetCurrentContext()
     context?.setLineWidth(2.0)
-    context?.setStrokeColor(UIColor.red.cgColor)
+    
+    //PM spec appears to show that the stroke color is white
+    context?.setStrokeColor(UIColor.white.cgColor)
+    
     context?.move(to: startPoint)
     context?.addLine(to: endPoint)
     
@@ -46,11 +70,12 @@ class FoaasTextField: UIView, UITextFieldDelegate {
     self.init(frame: CGRect.zero)
     self.backgroundColor = .clear
     self.clipsToBounds = false
-    
     self.textLabelPlaceholder = placeHolderText
+    
+    //PM spec appears to show the textField "line" with a brighter white. I am removing the alpha value from here and applying it only to the placeholderText
+    
     self.setupViewHierarchy()
     self.configureConstraints()
-    
   }
   
   override init(frame: CGRect) {
@@ -67,6 +92,7 @@ class FoaasTextField: UIView, UITextFieldDelegate {
     self.translatesAutoresizingMaskIntoConstraints = false
     textField.translatesAutoresizingMaskIntoConstraints = false
     textLabel.translatesAutoresizingMaskIntoConstraints = false
+    animatedTextFieldLine.translatesAutoresizingMaskIntoConstraints = false
     
     self.heightAnchor.constraint(equalToConstant: 60.0).isActive = true
     
@@ -86,11 +112,19 @@ class FoaasTextField: UIView, UITextFieldDelegate {
     textField.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 8.0).isActive = true
     textField.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -12.0).isActive = true
     textField.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -4.0).isActive = true
+    
+    // animated line 
+    animatedTextFieldLine.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 8.0).isActive = true
+    animatedTextFieldLine.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
+    animatedTextFieldLine.heightAnchor.constraint(equalToConstant: 3.0).isActive = true
+    self.animatedTextFieldLineTrailingConstraint = animatedTextFieldLine.trailingAnchor.constraint(equalTo: self.leadingAnchor, constant: 8.0)
+    self.animatedTextFieldLineTrailingConstraint.isActive = true
   }
   
   private func setupViewHierarchy() {
     textLabel = UILabel()
     textLabel.text = textLabelPlaceholder
+    textLabel.textColor = UIColor.white
     textLabel.font = largeLabelFont
     textLabel.textAlignment = .left
     
@@ -100,10 +134,12 @@ class FoaasTextField: UIView, UITextFieldDelegate {
     textField.delegate = self
     textField.autocorrectionType = .no
     textField.autocapitalizationType = .words
+    textField.textColor = UIColor.white
+    textField.font = UIFont.Roboto.medium(size: 18.0)
     
     self.addSubview(textLabel)
     self.addSubview(textField)
-    
+    self.addSubview(animatedTextFieldLine)
   }
   
   private func textFieldHasText() -> Bool {
@@ -120,10 +156,12 @@ class FoaasTextField: UIView, UITextFieldDelegate {
   // MARK: - TextField Delegate
   func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
     slideLabel(direction: .up)
+    animateUnderline(.yes)
     return true
   }
   
   func textFieldDidEndEditing(_ textField: UITextField, reason: UITextFieldDidEndEditingReason) {
+    animateUnderline(.no)
     guard textFieldHasText() else {
       slideLabel(direction: .down)
       return
@@ -132,6 +170,18 @@ class FoaasTextField: UIView, UITextFieldDelegate {
     slideLabel(direction: .up)
   }
   
+  func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+    return self.foaasTextFieldDelegate?.foaasTextField(self, shouldChangeCharactersIn: range, replacementString: string) ?? true
+  }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool{
+        return self.foaasTextFieldDelegate?.foaasTextFieldShouldReturn(self) ?? true
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        self.foaasTextFieldDelegate?.foaasTextFieldDidEndEditing(self)
+    }
+
   
   // MARK: - Helpers
   private func slideLabel(direction: SlideDirection) {
@@ -155,6 +205,27 @@ class FoaasTextField: UIView, UITextFieldDelegate {
     
   }
   
+  // MARK: - Line Animations
+  private func animateUnderline(_ underlined: Underlined) {
+    switch underlined {
+    case .yes:
+      self.removeConstraint(self.animatedTextFieldLineTrailingConstraint)
+      self.animatedTextFieldLineTrailingConstraint = animatedTextFieldLine.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -8.0)
+      self.animatedTextFieldLineTrailingConstraint.isActive = true
+      UIViewPropertyAnimator.runningPropertyAnimator(withDuration: 0.25, delay: 0.0, options: [], animations: {
+        self.layoutIfNeeded()
+      }, completion: nil)
+      
+    case .no:
+      self.removeConstraint(self.animatedTextFieldLineTrailingConstraint)
+      self.animatedTextFieldLineTrailingConstraint = animatedTextFieldLine.trailingAnchor.constraint(equalTo: self.leadingAnchor, constant: 8.0)
+      self.animatedTextFieldLineTrailingConstraint.isActive = true
+      UIViewPropertyAnimator.runningPropertyAnimator(withDuration: 0.175, delay: 0.0, options: [], animations: {
+        self.layoutIfNeeded()
+      }, completion: nil)
+      
+    }
+  }
   
 }
 

@@ -20,6 +20,8 @@ internal class FoaasAPIManager {
   private static let extendedDebugURL = URL(string: "https://www.foaas.com/greed/cat/louis")!
   private static let extendedTwoDebugURL = URL(string: "https://www.foaas.com/madison/louis/paul")!
   private static let operationsURL = URL(string: "https://www.foaas.com/operations")!
+    static let colorSchemeURL = "https://api.fieldbook.com/v1/5873aaf1bc9912030079d388/color_schemes"
+    static let versionURL = "https://api.fieldbook.com/v1/5873aaf1bc9912030079d388/version"
   
   private static let defaultSession = URLSession(configuration: .default)
   internal private(set) weak static var delegate: FoaasAPIManagerDelegate?
@@ -94,8 +96,7 @@ internal class FoaasAPIManager {
             guard let foaasOp = FoaasOperation(json: operation) else { continue }
             operations?.append(foaasOp)
           }
-          
-          completion(operations)
+            completion(operations?.sorted{ $0.name < $1.name })
         }
         catch {
           print("Error attempting to deserialize operations json: \(error)")
@@ -118,5 +119,17 @@ internal class FoaasAPIManager {
       print(httpReponse.statusCode)
     }
   }
+    
+    static func getData(endpoint: String, complete: @escaping (Data?) -> Void){
+        guard let url = URL(string: endpoint) else { return }
+        defaultSession.dataTask(with: url) { (data: Data?, response: URLResponse?, error: Error?) in
+            if error != nil {
+                print(error!)
+            }
+            if data != nil {
+                complete(data)
+            }
+            }.resume()
+    }
 
 }

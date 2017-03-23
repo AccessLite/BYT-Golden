@@ -19,6 +19,10 @@ protocol DataConvertible {
   func toData() throws -> Data
 }
 
+protocol ColorSchemeDelegate {
+    func colorSchemeDidChange()
+}
+
 func stripAutoResizingMasks(_ views: [UIView]) {
   let _ = views.map{ $0.translatesAutoresizingMaskIntoConstraints = false }
 }
@@ -38,3 +42,4 @@ extension UIView {
     views.forEach{ self.addSubview($0) }
   }
 }
+

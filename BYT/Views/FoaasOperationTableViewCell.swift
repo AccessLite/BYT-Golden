@@ -12,7 +12,6 @@ class FoaasOperationsTableViewCell: UITableViewCell {
   
   override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
     super.init(style: style, reuseIdentifier: reuseIdentifier)
-    
     setupViewHierarchy()
     configureConstraints()
   }
@@ -24,13 +23,11 @@ class FoaasOperationsTableViewCell: UITableViewCell {
   
   // MARK: - Setup
   private func configureConstraints() {
-    let _ = [ operationNameLabel ].map{ $0.translatesAutoresizingMaskIntoConstraints = false }
+    stripAutoResizingMasks(operationNameLabel)
     
-    var _ = [
-      self.contentView.heightAnchor.constraint(equalToConstant: 64.0),
+    [ self.contentView.heightAnchor.constraint(greaterThanOrEqualToConstant: 64.0),
       self.operationNameLabel.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 16.0),
-      self.operationNameLabel.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor),
-      ].map{ $0.isActive = true }
+      self.operationNameLabel.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor) ].activate()
   }
   
   private func setupViewHierarchy() {
@@ -41,8 +38,12 @@ class FoaasOperationsTableViewCell: UITableViewCell {
   // MARK: Lazy Inits
   internal lazy var operationNameLabel: UILabel = {
     let label: UILabel = UILabel()
-    label.textColor = .black
-    label.font = UIFont.systemFont(ofSize: 28.0)
+    
+    //once the color gradient appears on the tableView this white will be visible
+    label.font = UIFont.Roboto.regular(size: 34.0)
+    label.textColor = .white
+    label.alpha = 1.0
+    
     return label
   }()
   

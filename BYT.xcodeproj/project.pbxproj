@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1408CAA11E494B1100AFC1AA /* FoaasColorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1408CAA01E494B1100AFC1AA /* FoaasColorView.swift */; };
+		1430C7521E457393002D904A /* Profanity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1430C7511E457393002D904A /* Profanity.swift */; };
+		1498A2FD1E3D7A4F003A3E5C /* FoaasColorPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1498A2FC1E3D7A4F003A3E5C /* FoaasColorPickerView.swift */; };
+		1498A3011E3E55E4003A3E5C /* Version.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1498A2FF1E3E55E4003A3E5C /* Version.swift */; };
+		1498A3031E3E55F0003A3E5C /* ColorManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1498A3021E3E55F0003A3E5C /* ColorManager.swift */; };
+		1498A3061E3E5602003A3E5C /* FoaasSettingsMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1498A3041E3E5602003A3E5C /* FoaasSettingsMenuView.swift */; };
+		1498A3071E3E5602003A3E5C /* FoaasSettingsMenuView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1498A3051E3E5602003A3E5C /* FoaasSettingsMenuView.xib */; };
 		14CFEBF41E3430C600BD46CF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 14CFEBF21E3430C600BD46CF /* LaunchScreen.storyboard */; };
 		14CFEBFF1E3431F700BD46CF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14CFEBFC1E3431F700BD46CF /* AppDelegate.swift */; };
 		14CFEC001E3431F700BD46CF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 14CFEBFD1E3431F700BD46CF /* Assets.xcassets */; };
@@ -25,9 +32,44 @@
 		14CFEC481E37088A00BD46CF /* FoaasPreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14CFEC471E37088A00BD46CF /* FoaasPreviewViewController.swift */; };
 		14CFEC4A1E3708C300BD46CF /* FoaasTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14CFEC491E3708C300BD46CF /* FoaasTextField.swift */; };
 		14CFEC4C1E3709A700BD46CF /* FoaasNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14CFEC4B1E3709A700BD46CF /* FoaasNavigationController.swift */; };
+		14CFEC4E1E37E86700BD46CF /* FoaasPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14CFEC4D1E37E86700BD46CF /* FoaasPreviewView.swift */; };
+		473EA5C41E3E7E6100DD35C9 /* Roboto-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 473EA5B21E3E7E6100DD35C9 /* Roboto-Black.ttf */; };
+		473EA5C51E3E7E6100DD35C9 /* Roboto-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 473EA5B31E3E7E6100DD35C9 /* Roboto-BlackItalic.ttf */; };
+		473EA5C61E3E7E6100DD35C9 /* Roboto-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 473EA5B41E3E7E6100DD35C9 /* Roboto-Bold.ttf */; };
+		473EA5C71E3E7E6100DD35C9 /* Roboto-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 473EA5B51E3E7E6100DD35C9 /* Roboto-BoldItalic.ttf */; };
+		473EA5C81E3E7E6100DD35C9 /* Roboto-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 473EA5B61E3E7E6100DD35C9 /* Roboto-Italic.ttf */; };
+		473EA5C91E3E7E6100DD35C9 /* Roboto-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 473EA5B71E3E7E6100DD35C9 /* Roboto-Light.ttf */; };
+		473EA5CA1E3E7E6100DD35C9 /* Roboto-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 473EA5B81E3E7E6100DD35C9 /* Roboto-LightItalic.ttf */; };
+		473EA5CB1E3E7E6100DD35C9 /* Roboto-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 473EA5B91E3E7E6100DD35C9 /* Roboto-Medium.ttf */; };
+		473EA5CC1E3E7E6100DD35C9 /* Roboto-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 473EA5BA1E3E7E6100DD35C9 /* Roboto-MediumItalic.ttf */; };
+		473EA5CD1E3E7E6100DD35C9 /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 473EA5BB1E3E7E6100DD35C9 /* Roboto-Regular.ttf */; };
+		473EA5CE1E3E7E6100DD35C9 /* Roboto-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 473EA5BC1E3E7E6100DD35C9 /* Roboto-Thin.ttf */; };
+		473EA5CF1E3E7E6100DD35C9 /* Roboto-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 473EA5BD1E3E7E6100DD35C9 /* Roboto-ThinItalic.ttf */; };
+		473EA5D01E3E7E6100DD35C9 /* RobotoCondensed-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 473EA5BE1E3E7E6100DD35C9 /* RobotoCondensed-Bold.ttf */; };
+		473EA5D11E3E7E6100DD35C9 /* RobotoCondensed-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 473EA5BF1E3E7E6100DD35C9 /* RobotoCondensed-BoldItalic.ttf */; };
+		473EA5D21E3E7E6100DD35C9 /* RobotoCondensed-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 473EA5C01E3E7E6100DD35C9 /* RobotoCondensed-Italic.ttf */; };
+		473EA5D31E3E7E6100DD35C9 /* RobotoCondensed-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 473EA5C11E3E7E6100DD35C9 /* RobotoCondensed-Light.ttf */; };
+		473EA5D41E3E7E6100DD35C9 /* RobotoCondensed-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 473EA5C21E3E7E6100DD35C9 /* RobotoCondensed-LightItalic.ttf */; };
+		473EA5D51E3E7E6100DD35C9 /* RobotoCondensed-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 473EA5C31E3E7E6100DD35C9 /* RobotoCondensed-Regular.ttf */; };
+		4786344D1E3E513600287661 /* FoaasFontManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4786344C1E3E513600287661 /* FoaasFontManager.swift */; };
+		812EAE871E42312D003CAE18 /* Extension + LanguageFilterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812EAE861E42312D003CAE18 /* Extension + LanguageFilterManager.swift */; };
+		81661B431E4960660044756A /* FoaasTeamMemberView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81661B421E4960660044756A /* FoaasTeamMemberView.swift */; };
+		81661B471E49F6C10044756A /* FoaasMember.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81661B461E49F6C10044756A /* FoaasMember.swift */; };
+		81661B491E4A15310044756A /* members.json in Resources */ = {isa = PBXBuildFile; fileRef = 81661B481E4A15310044756A /* members.json */; };
+		81DBD7651E4B390200BCF0CC /* FoaasAboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DBD7641E4B390200BCF0CC /* FoaasAboutViewController.swift */; };
+		DE6658F71E3E805500513850 /* Extension + UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE6658F61E3E805500513850 /* Extension + UIColor.swift */; };
+		DE6658F91E3E884800513850 /* ColorScheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE6658F81E3E884800513850 /* ColorScheme.swift */; };
+		DE6658FB1E3E8E6300513850 /* VersionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE6658FA1E3E8E6300513850 /* VersionManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1408CAA01E494B1100AFC1AA /* FoaasColorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FoaasColorView.swift; path = Views/FoaasColorView.swift; sourceTree = "<group>"; };
+		1430C7511E457393002D904A /* Profanity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Profanity.swift; path = Models/Profanity.swift; sourceTree = "<group>"; };
+		1498A2FC1E3D7A4F003A3E5C /* FoaasColorPickerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.swift; name = FoaasColorPickerView.swift; path = Views/FoaasColorPickerView.swift; sourceTree = "<group>"; tabWidth = 4; };
+		1498A2FF1E3E55E4003A3E5C /* Version.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Version.swift; path = Models/Version.swift; sourceTree = "<group>"; };
+		1498A3021E3E55F0003A3E5C /* ColorManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ColorManager.swift; path = Managers/ColorManager.swift; sourceTree = "<group>"; };
+		1498A3041E3E5602003A3E5C /* FoaasSettingsMenuView.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.swift; name = FoaasSettingsMenuView.swift; path = Views/FoaasSettingsMenuView.swift; sourceTree = "<group>"; tabWidth = 4; };
+		1498A3051E3E5602003A3E5C /* FoaasSettingsMenuView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FoaasSettingsMenuView.xib; path = Views/FoaasSettingsMenuView.xib; sourceTree = "<group>"; };
 		14CFEBE61E3430C600BD46CF /* BYT.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BYT.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		14CFEBF31E3430C600BD46CF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		14CFEBFC1E3431F700BD46CF /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = "Supporting Files/AppDelegate.swift"; sourceTree = "<group>"; };
@@ -41,13 +83,41 @@
 		14CFEC121E34363300BD46CF /* FoaasTemplate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FoaasTemplate.swift; path = Models/FoaasTemplate.swift; sourceTree = "<group>"; };
 		14CFEC171E34394D00BD46CF /* FoaasAPIManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FoaasAPIManager.swift; path = Managers/FoaasAPIManager.swift; sourceTree = "<group>"; };
 		14CFEC181E34394D00BD46CF /* FoaasDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FoaasDataManager.swift; path = Managers/FoaasDataManager.swift; sourceTree = "<group>"; };
-		14CFEC3F1E3705AC00BD46CF /* FoaasViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FoaasViewController.swift; path = "View Controllers/FoaasViewController.swift"; sourceTree = "<group>"; };
+		14CFEC3F1E3705AC00BD46CF /* FoaasViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.swift; name = FoaasViewController.swift; path = "View Controllers/FoaasViewController.swift"; sourceTree = "<group>"; tabWidth = 4; };
 		14CFEC411E3705E800BD46CF /* FoaasView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FoaasView.swift; path = Views/FoaasView.swift; sourceTree = "<group>"; };
 		14CFEC431E3707C600BD46CF /* FoaasOperationsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FoaasOperationsTableViewController.swift; path = "View Controllers/FoaasOperationsTableViewController.swift"; sourceTree = "<group>"; };
 		14CFEC451E37083400BD46CF /* FoaasOperationTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FoaasOperationTableViewCell.swift; path = Views/FoaasOperationTableViewCell.swift; sourceTree = "<group>"; };
 		14CFEC471E37088A00BD46CF /* FoaasPreviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FoaasPreviewViewController.swift; path = "View Controllers/FoaasPreviewViewController.swift"; sourceTree = "<group>"; };
 		14CFEC491E3708C300BD46CF /* FoaasTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FoaasTextField.swift; path = Views/FoaasTextField.swift; sourceTree = "<group>"; };
 		14CFEC4B1E3709A700BD46CF /* FoaasNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FoaasNavigationController.swift; path = "View Controllers/FoaasNavigationController.swift"; sourceTree = "<group>"; };
+		14CFEC4D1E37E86700BD46CF /* FoaasPreviewView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FoaasPreviewView.swift; path = Views/FoaasPreviewView.swift; sourceTree = "<group>"; };
+		473EA5B21E3E7E6100DD35C9 /* Roboto-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Black.ttf"; sourceTree = "<group>"; };
+		473EA5B31E3E7E6100DD35C9 /* Roboto-BlackItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-BlackItalic.ttf"; sourceTree = "<group>"; };
+		473EA5B41E3E7E6100DD35C9 /* Roboto-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Bold.ttf"; sourceTree = "<group>"; };
+		473EA5B51E3E7E6100DD35C9 /* Roboto-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-BoldItalic.ttf"; sourceTree = "<group>"; };
+		473EA5B61E3E7E6100DD35C9 /* Roboto-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Italic.ttf"; sourceTree = "<group>"; };
+		473EA5B71E3E7E6100DD35C9 /* Roboto-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Light.ttf"; sourceTree = "<group>"; };
+		473EA5B81E3E7E6100DD35C9 /* Roboto-LightItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-LightItalic.ttf"; sourceTree = "<group>"; };
+		473EA5B91E3E7E6100DD35C9 /* Roboto-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Medium.ttf"; sourceTree = "<group>"; };
+		473EA5BA1E3E7E6100DD35C9 /* Roboto-MediumItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-MediumItalic.ttf"; sourceTree = "<group>"; };
+		473EA5BB1E3E7E6100DD35C9 /* Roboto-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Regular.ttf"; sourceTree = "<group>"; };
+		473EA5BC1E3E7E6100DD35C9 /* Roboto-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Thin.ttf"; sourceTree = "<group>"; };
+		473EA5BD1E3E7E6100DD35C9 /* Roboto-ThinItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-ThinItalic.ttf"; sourceTree = "<group>"; };
+		473EA5BE1E3E7E6100DD35C9 /* RobotoCondensed-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "RobotoCondensed-Bold.ttf"; sourceTree = "<group>"; };
+		473EA5BF1E3E7E6100DD35C9 /* RobotoCondensed-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "RobotoCondensed-BoldItalic.ttf"; sourceTree = "<group>"; };
+		473EA5C01E3E7E6100DD35C9 /* RobotoCondensed-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "RobotoCondensed-Italic.ttf"; sourceTree = "<group>"; };
+		473EA5C11E3E7E6100DD35C9 /* RobotoCondensed-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "RobotoCondensed-Light.ttf"; sourceTree = "<group>"; };
+		473EA5C21E3E7E6100DD35C9 /* RobotoCondensed-LightItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "RobotoCondensed-LightItalic.ttf"; sourceTree = "<group>"; };
+		473EA5C31E3E7E6100DD35C9 /* RobotoCondensed-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "RobotoCondensed-Regular.ttf"; sourceTree = "<group>"; };
+		4786344C1E3E513600287661 /* FoaasFontManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FoaasFontManager.swift; sourceTree = "<group>"; };
+		812EAE861E42312D003CAE18 /* Extension + LanguageFilterManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = "Extension + LanguageFilterManager.swift"; sourceTree = "<group>"; tabWidth = 4; };
+		81661B421E4960660044756A /* FoaasTeamMemberView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FoaasTeamMemberView.swift; sourceTree = "<group>"; };
+		81661B461E49F6C10044756A /* FoaasMember.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FoaasMember.swift; sourceTree = "<group>"; };
+		81661B481E4A15310044756A /* members.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = members.json; sourceTree = "<group>"; };
+		81DBD7641E4B390200BCF0CC /* FoaasAboutViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FoaasAboutViewController.swift; sourceTree = "<group>"; };
+		DE6658F61E3E805500513850 /* Extension + UIColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Extension + UIColor.swift"; path = "Models/Extension + UIColor.swift"; sourceTree = "<group>"; };
+		DE6658F81E3E884800513850 /* ColorScheme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ColorScheme.swift; path = Models/ColorScheme.swift; sourceTree = "<group>"; };
+		DE6658FA1E3E8E6300513850 /* VersionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VersionManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,6 +155,7 @@
 				14CFEC061E3432E300BD46CF /* Utility */,
 				14CFEC021E3432B000BD46CF /* Views */,
 				14CFEC051E3432D100BD46CF /* View Controllers */,
+				473EA5B11E3E7E6100DD35C9 /* Resources */,
 				14CFEBFB1E34311000BD46CF /* Supporting Files */,
 			);
 			path = BYT;
@@ -93,6 +164,7 @@
 		14CFEBFB1E34311000BD46CF /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				81661B481E4A15310044756A /* members.json */,
 				14CFEBFC1E3431F700BD46CF /* AppDelegate.swift */,
 				14CFEBFD1E3431F700BD46CF /* Assets.xcassets */,
 				14CFEBFE1E3431F700BD46CF /* Info.plist */,
@@ -104,9 +176,15 @@
 		14CFEC021E3432B000BD46CF /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				1498A3041E3E5602003A3E5C /* FoaasSettingsMenuView.swift */,
+				1498A3051E3E5602003A3E5C /* FoaasSettingsMenuView.xib */,
 				14CFEC411E3705E800BD46CF /* FoaasView.swift */,
+				81661B421E4960660044756A /* FoaasTeamMemberView.swift */,
 				14CFEC451E37083400BD46CF /* FoaasOperationTableViewCell.swift */,
 				14CFEC491E3708C300BD46CF /* FoaasTextField.swift */,
+				14CFEC4D1E37E86700BD46CF /* FoaasPreviewView.swift */,
+				1498A2FC1E3D7A4F003A3E5C /* FoaasColorPickerView.swift */,
+				1408CAA01E494B1100AFC1AA /* FoaasColorView.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -114,10 +192,15 @@
 		14CFEC031E3432BF00BD46CF /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				DE6658F81E3E884800513850 /* ColorScheme.swift */,
+				DE6658F61E3E805500513850 /* Extension + UIColor.swift */,
+				1498A2FF1E3E55E4003A3E5C /* Version.swift */,
+				81661B461E49F6C10044756A /* FoaasMember.swift */,
 				14CFEC0F1E34363300BD46CF /* Foaas.swift */,
 				14CFEC101E34363300BD46CF /* FoaasField.swift */,
 				14CFEC111E34363300BD46CF /* FoaasOperation.swift */,
 				14CFEC121E34363300BD46CF /* FoaasTemplate.swift */,
+				1430C7511E457393002D904A /* Profanity.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -125,8 +208,12 @@
 		14CFEC041E3432C700BD46CF /* Managers */ = {
 			isa = PBXGroup;
 			children = (
+				1498A3021E3E55F0003A3E5C /* ColorManager.swift */,
 				14CFEC171E34394D00BD46CF /* FoaasAPIManager.swift */,
+				4786344C1E3E513600287661 /* FoaasFontManager.swift */,
 				14CFEC181E34394D00BD46CF /* FoaasDataManager.swift */,
+				DE6658FA1E3E8E6300513850 /* VersionManager.swift */,
+				812EAE861E42312D003CAE18 /* Extension + LanguageFilterManager.swift */,
 			);
 			name = Managers;
 			sourceTree = "<group>";
@@ -134,6 +221,7 @@
 		14CFEC051E3432D100BD46CF /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				81DBD7641E4B390200BCF0CC /* FoaasAboutViewController.swift */,
 				14CFEC3F1E3705AC00BD46CF /* FoaasViewController.swift */,
 				14CFEC431E3707C600BD46CF /* FoaasOperationsTableViewController.swift */,
 				14CFEC471E37088A00BD46CF /* FoaasPreviewViewController.swift */,
@@ -149,6 +237,31 @@
 				14CFEC091E34346F00BD46CF /* FoaasProtocols.swift */,
 			);
 			name = Utility;
+			sourceTree = "<group>";
+		};
+		473EA5B11E3E7E6100DD35C9 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				473EA5B21E3E7E6100DD35C9 /* Roboto-Black.ttf */,
+				473EA5B31E3E7E6100DD35C9 /* Roboto-BlackItalic.ttf */,
+				473EA5B41E3E7E6100DD35C9 /* Roboto-Bold.ttf */,
+				473EA5B51E3E7E6100DD35C9 /* Roboto-BoldItalic.ttf */,
+				473EA5B61E3E7E6100DD35C9 /* Roboto-Italic.ttf */,
+				473EA5B71E3E7E6100DD35C9 /* Roboto-Light.ttf */,
+				473EA5B81E3E7E6100DD35C9 /* Roboto-LightItalic.ttf */,
+				473EA5B91E3E7E6100DD35C9 /* Roboto-Medium.ttf */,
+				473EA5BA1E3E7E6100DD35C9 /* Roboto-MediumItalic.ttf */,
+				473EA5BB1E3E7E6100DD35C9 /* Roboto-Regular.ttf */,
+				473EA5BC1E3E7E6100DD35C9 /* Roboto-Thin.ttf */,
+				473EA5BD1E3E7E6100DD35C9 /* Roboto-ThinItalic.ttf */,
+				473EA5BE1E3E7E6100DD35C9 /* RobotoCondensed-Bold.ttf */,
+				473EA5BF1E3E7E6100DD35C9 /* RobotoCondensed-BoldItalic.ttf */,
+				473EA5C01E3E7E6100DD35C9 /* RobotoCondensed-Italic.ttf */,
+				473EA5C11E3E7E6100DD35C9 /* RobotoCondensed-Light.ttf */,
+				473EA5C21E3E7E6100DD35C9 /* RobotoCondensed-LightItalic.ttf */,
+				473EA5C31E3E7E6100DD35C9 /* RobotoCondensed-Regular.ttf */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -183,6 +296,7 @@
 				TargetAttributes = {
 					14CFEBE51E3430C600BD46CF = {
 						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = 3457AE227Q;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -210,8 +324,28 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				473EA5CF1E3E7E6100DD35C9 /* Roboto-ThinItalic.ttf in Resources */,
+				473EA5CE1E3E7E6100DD35C9 /* Roboto-Thin.ttf in Resources */,
+				473EA5D41E3E7E6100DD35C9 /* RobotoCondensed-LightItalic.ttf in Resources */,
 				14CFEBF41E3430C600BD46CF /* LaunchScreen.storyboard in Resources */,
+				1498A3071E3E5602003A3E5C /* FoaasSettingsMenuView.xib in Resources */,
 				14CFEC001E3431F700BD46CF /* Assets.xcassets in Resources */,
+				473EA5D11E3E7E6100DD35C9 /* RobotoCondensed-BoldItalic.ttf in Resources */,
+				473EA5D21E3E7E6100DD35C9 /* RobotoCondensed-Italic.ttf in Resources */,
+				473EA5CA1E3E7E6100DD35C9 /* Roboto-LightItalic.ttf in Resources */,
+				473EA5C61E3E7E6100DD35C9 /* Roboto-Bold.ttf in Resources */,
+				473EA5D51E3E7E6100DD35C9 /* RobotoCondensed-Regular.ttf in Resources */,
+				473EA5D31E3E7E6100DD35C9 /* RobotoCondensed-Light.ttf in Resources */,
+				473EA5CC1E3E7E6100DD35C9 /* Roboto-MediumItalic.ttf in Resources */,
+				473EA5C51E3E7E6100DD35C9 /* Roboto-BlackItalic.ttf in Resources */,
+				473EA5C81E3E7E6100DD35C9 /* Roboto-Italic.ttf in Resources */,
+				473EA5D01E3E7E6100DD35C9 /* RobotoCondensed-Bold.ttf in Resources */,
+				473EA5C71E3E7E6100DD35C9 /* Roboto-BoldItalic.ttf in Resources */,
+				473EA5CB1E3E7E6100DD35C9 /* Roboto-Medium.ttf in Resources */,
+				473EA5CD1E3E7E6100DD35C9 /* Roboto-Regular.ttf in Resources */,
+				473EA5C41E3E7E6100DD35C9 /* Roboto-Black.ttf in Resources */,
+				473EA5C91E3E7E6100DD35C9 /* Roboto-Light.ttf in Resources */,
+				81661B491E4A15310044756A /* members.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -226,17 +360,32 @@
 				14CFEC421E3705E800BD46CF /* FoaasView.swift in Sources */,
 				14CFEC461E37083400BD46CF /* FoaasOperationTableViewCell.swift in Sources */,
 				14CFEC161E34363300BD46CF /* FoaasTemplate.swift in Sources */,
+				81DBD7651E4B390200BCF0CC /* FoaasAboutViewController.swift in Sources */,
 				14CFEC1A1E34394D00BD46CF /* FoaasDataManager.swift in Sources */,
+				1498A2FD1E3D7A4F003A3E5C /* FoaasColorPickerView.swift in Sources */,
+				DE6658F71E3E805500513850 /* Extension + UIColor.swift in Sources */,
+				1408CAA11E494B1100AFC1AA /* FoaasColorView.swift in Sources */,
+				1498A3011E3E55E4003A3E5C /* Version.swift in Sources */,
+				81661B471E49F6C10044756A /* FoaasMember.swift in Sources */,
+				DE6658FB1E3E8E6300513850 /* VersionManager.swift in Sources */,
 				14CFEC131E34363300BD46CF /* Foaas.swift in Sources */,
 				14CFEC141E34363300BD46CF /* FoaasField.swift in Sources */,
 				14CFEC0E1E3435BE00BD46CF /* FoaasBuilder.swift in Sources */,
+				1430C7521E457393002D904A /* Profanity.swift in Sources */,
 				14CFEC4C1E3709A700BD46CF /* FoaasNavigationController.swift in Sources */,
+				4786344D1E3E513600287661 /* FoaasFontManager.swift in Sources */,
 				14CFEC0A1E34346F00BD46CF /* FoaasProtocols.swift in Sources */,
+				DE6658F91E3E884800513850 /* ColorScheme.swift in Sources */,
 				14CFEC441E3707C600BD46CF /* FoaasOperationsTableViewController.swift in Sources */,
+				1498A3031E3E55F0003A3E5C /* ColorManager.swift in Sources */,
 				14CFEC401E3705AC00BD46CF /* FoaasViewController.swift in Sources */,
+				81661B431E4960660044756A /* FoaasTeamMemberView.swift in Sources */,
 				14CFEC4A1E3708C300BD46CF /* FoaasTextField.swift in Sources */,
+				1498A3061E3E5602003A3E5C /* FoaasSettingsMenuView.swift in Sources */,
+				812EAE871E42312D003CAE18 /* Extension + LanguageFilterManager.swift in Sources */,
 				14CFEBFF1E3431F700BD46CF /* AppDelegate.swift in Sources */,
 				14CFEC481E37088A00BD46CF /* FoaasPreviewViewController.swift in Sources */,
+				14CFEC4E1E37E86700BD46CF /* FoaasPreviewView.swift in Sources */,
 				14CFEC191E34394D00BD46CF /* FoaasAPIManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -351,7 +500,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 3457AE227Q;
 				INFOPLIST_FILE = "$(SRCROOT)/BYT/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -366,7 +515,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 3457AE227Q;
 				INFOPLIST_FILE = "$(SRCROOT)/BYT/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
