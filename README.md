@@ -3,10 +3,18 @@
 ---
 
 ### Contents:
-[1. Intro](https://github.com/AccessLite/BYT-Golden#intro)
-[2. Motivation](https://github.com/AccessLite/BYT-Golden#motivation)
-[3. Techincal Considerations](https://github.com/AccessLite/BYT-Golden#technical-considerations)
-
+  1. [Intro](https://github.com/AccessLite/BYT-Golden#1-intro)
+  2. [Motivation](https://github.com/AccessLite/BYT-Golden#2-motivation)
+  3. [Techincal Considerations](https://github.com/AccessLite/BYT-Golden#3-technical-considerations)
+  4. [Coding Goals, Principles, Technologies](https://github.com/AccessLite/BYT-Golden#4-coding-goals-principles--technologies)
+  5. [Methodology](https://github.com/AccessLite/BYT-Golden#5-methodology)
+  6. [Project Overview](https://github.com/AccessLite/BYT-Golden#6-project-overview)
+  7. [Lessons Learned](https://github.com/AccessLite/BYT-Golden#7-lessons-learned)
+  8. [Version 2.0](https://github.com/AccessLite/BYT-Golden#8-version-2)
+  9. [Future Projects](https://github.com/AccessLite/BYT-Golden#9-future-projects)
+  10. [Contact Us](https://github.com/AccessLite/BYT-Golden#10-contact-us)
+  11. [Final Thanks](https://github.com/AccessLite/BYT-Golden#11-final-thanks)
+  
 ---
 
 ## 1. Intro
