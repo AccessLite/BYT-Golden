@@ -140,21 +140,13 @@ Add Thoughts here.
 Add Thoughts here.
 
 #### 7.3) Tom (Developer)
-
-The first couple months of the Access Code course were mostly about learning the fundamentals of coding, swift and Xcode, and we had just gotten to grips with making API requests. I was doing well with the course and wanted a project to work on in my own time to help sharpen the skills I had learned in class. Our instructor Louis announced that he was putting together an extra-curricular project that simulated real-world development, designed to push us further as developers, I volunteered to be a part of it.
-
-Working in week long sprints, I learned to use Trello and how to break up a project into small tasks, helping me not to get overwhelmed by the thought of the whole project looming.
-A lot of the tasks we were given had not been covered in the class so I had to become adept at googling for blogs, tutorials and stack overflow posts to find answers… I learned how to use simple animations, import a fonts into a project,  using attributed text and sharing to Facebook and Twitter.
-
-At first we were working individually but as the the group became smaller we started working together and eventually merged our projects into one and started working on separate features. At this point we switched the project from using storybook layout to programmatic. I preferred working on one project as a team as it allowed us to implement more features and exposed us to working with each other’s code.
-
-Moving forward with the app, I’d like to enable the user to create their own insult templates, share them with friends and to include more popular ones in newer versions of the app.
+Add Thoughts here.
 
 #### 7.4) Hari (Developer)
 Add Thoughts here.
 
 #### 7.5) Liam (Developer)
-Add Thoughts here.
+We started this project at the same time that Louis was teaching our class about APIs and JSON reading. Louis pushed us beyond what he was teaching us in class, forcing me to dive directly into the Apple documentation and Google for answers to questions that we hadn't covered. Due to the cutoff nature of the project, I had to wade through the discomfort of no longer being guided through coding and teach myself how to read documentation and search through open source code on Stack OverFlow and Github for examples when I got stuck. As the weeks moved on and more people were cut form the project, we shifted gears from an individual project done in tendem to a more traditional team structure where we were all responsible for our own share. I learned how to communicate as a part of a tech team using tools such as Slack and Trello. This gave me a solid foundation when we later moved into our capstone projects and one of our highlights was our simple and clear communication. 
 
 --- 
 ## 8. Version 2
