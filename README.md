@@ -140,7 +140,15 @@ Add Thoughts here.
 Add Thoughts here.
 
 #### 7.3) Tom (Developer)
-Add Thoughts here.
+
+The first couple months of the Access Code course were mostly about learning the fundamentals of coding, swift and Xcode, and we had just gotten to grips with making API requests. I was doing well with the course and wanted a project to work on in my own time to help sharpen the skills I had learned in class. Our instructor Louis announced that he was putting together an extra-curricular project that simulated real-world development, designed to push us further as developers, I volunteered to be a part of it.
+
+Working in week long sprints, I learned to use Trello and how to break up a project into small tasks, helping me not to get overwhelmed by the thought of the whole project looming.
+A lot of the tasks we were given had not been covered in the class so I had to become adept at googling for blogs, tutorials and stack overflow posts to find answers… I learned how to use simple animations, import a fonts into a project,  using attributed text and sharing to Facebook and Twitter.
+
+At first we were working individually but as the the group became smaller we started working together and eventually merged our projects into one and started working on separate features. At this point we switched the project from using storybook layout to programmatic. I preferred working on one project as a team as it allowed us to implement more features and exposed us to working with each other’s code.
+
+Moving forward with the app, I’d like to enable the user to create their own insult templates, share them with friends and to include more popular ones in newer versions of the app.
 
 #### 7.4) Hari (Developer)
 Add Thoughts here.
