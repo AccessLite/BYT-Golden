@@ -137,7 +137,12 @@ Week 3.2 shifted from individual projects into a single, shared repo for the rem
 Add Thoughts here.
 
 #### 7.2) Ana (Developer)
-Add Thoughts here.
+
+When I heard our instructor Louis was working on a side-project, I did not hesitate much and signed up to work on it. One reason was the lack of challenging projects during class. 
+
+Passing the weekly evaluations while taking fulltime coding classes and working part-time was not easy because of the strict specs and timeline. I have gained valuable constructive feedback from Louis that gave me an opportunity to improve.
+
+Building this app also encouraged me to think outside of the box and use unfamiliar frameworks. Overall, this project was well managed by Louis, and it gave me a great insight for future projects. 
 
 #### 7.3) Tom (Developer)
 
