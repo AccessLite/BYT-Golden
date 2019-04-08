@@ -121,7 +121,7 @@ Week 3.2 shifted from individual projects into a single, shared repo for the rem
 
 #### 6.5) Week 3.3: Final Touches
 
-<< TO DO >>
+*<This section is omitted by accident: I forgot to return to this and now I don't remember what should go here!!>*
 
 **Week 3 Links**
 - [General Info](https://github.com/AccessLite/BoardingPass/tree/master/Week%203%20-%20MVP)
@@ -130,11 +130,9 @@ Week 3.2 shifted from individual projects into a single, shared repo for the rem
 
 ---
 ## 7. Lessons Learned 
-<< TO DO >> 
-(experiences learned as a Lead/PM, individual observations from liam, ana, tom, hari)
 
 #### 7.1) Louis (Lead, PM)
-Add Thoughts here.
+<*Carelessly forgets to add his own lessons learned*. There were many, you'll have to trust me!>
 
 #### 7.2) Ana (Developer)
 
@@ -156,9 +154,11 @@ At first we were working individually but as the the group became smaller we sta
 Moving forward with the app, I’d like to enable the user to create their own insult templates, share them with friends and to include more popular ones in newer versions of the app.
 
 #### 7.4) Hari (Developer)
+
 Working on Bite Your Thumb was truly my first taste of collaborative programming with a team of other developers. Despite being relatively new to iOS Development when this project started, BYT allowed me to feel fully immersed in a setting which mimicked many mobile engineering teams. The progression of our weekly sprints not only challenged us to continue to improve but also genuinely highlighted the concept of continuously learning. What originally started off as a challenge, eventually became a pivotal experience in the team practices of software development and as a result strengthened my ability to be a better project manager. I hope you all enjoy using the app as much as we did when putting it together!
 
 #### 7.5) Liam (Developer)
+
 We started this project at the same time that Louis was teaching our class about APIs and JSON reading. Louis pushed us beyond what he was teaching us in class, forcing me to dive directly into the Apple documentation and Google for answers to questions that we hadn't covered. Due to the cutoff nature of the project, I had to wade through the discomfort of no longer being guided through coding and teach myself how to read documentation and search through open source code on Stack OverFlow and Github for examples when I got stuck. As the weeks moved on and more people were cut form the project, we shifted gears from an individual project done in tendem to a more traditional team structure where we were all responsible for our own share. I learned how to communicate as a part of a tech team using tools such as Slack and Trello. This gave me a solid foundation when we later moved into our capstone projects and one of our highlights was our simple and clear communication. 
 
 --- 
@@ -175,10 +175,10 @@ Currently, I am planning to conduct another project in the coming weeks. With th
 
 ## 10. Contact Us
 
-(for remaining participants
+*(See contributor for project to contact us)*
 
 ---
 
 ## 11. Final Thanks 
-(acknowledgement of all participants)
-Thank you to everyone who has participated (list names & github links)
+
+Thank you to everyone who has participated!!
